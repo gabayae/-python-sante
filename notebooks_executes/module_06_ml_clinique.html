@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../notes/notes_6h.pdf" rel="next">
+<link href="../ecosysteme.html" rel="next">
 <link href="../notebooks_executes/module_05_regression.html" rel="prev">
 <link href="../favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -344,6 +344,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="../ecosysteme.html"> 
+<span class="menu-text">Boîte à outils</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../notes/notes_6h.pdf"> 
 <span class="menu-text">Notes (PDF)</span></a>
   </li>  
@@ -444,6 +448,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ecosysteme.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boîte à outils Python</span></a>
+  </div>
+</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notes/notes_6h.pdf" class="sidebar-item-text sidebar-link">
@@ -573,7 +583,7 @@ JEU DE DONNÉES
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, roc_auc_score</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <p>La structure est <code>sklearn.&lt;catégorie&gt;.&lt;classe_ou_fonction&gt;</code>.</p>
 </blockquote>
-<div id="655fa86e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:14.568673Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:14.568186Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:17.414625Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:17.413845Z&quot;}}" data-execution_count="1">
+<div id="9f49936f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:15.115330Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:15.114956Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:18.038446Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:18.037707Z&quot;}}" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -655,7 +665,7 @@ JEU DE DONNÉES
 </tr>
 </tbody>
 </table>
-<div id="ec403357" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:17.418367Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:17.417940Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:17.448378Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:17.447382Z&quot;}}" data-execution_count="2">
+<div id="e4f6860e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:18.041969Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:18.041577Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:18.086311Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:18.085645Z&quot;}}" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -831,7 +841,7 @@ Prevalence : 54.5%</code></pre>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    stratify<span class="op">=</span>y,             <span class="co"># conserve la prévalence dans les 2 splits</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </blockquote>
-<div id="2da8ed48" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:17.451870Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:17.451506Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:17.460470Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:17.459685Z&quot;}}" data-execution_count="3">
+<div id="9f711808" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:18.089576Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:18.088932Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:18.098882Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:18.098151Z&quot;}}" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La liste des predicteurs (toutes les colonnes sauf 'target')</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [<span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"cp"</span>, <span class="st">"trestbps"</span>, <span class="st">"chol"</span>, <span class="st">"fbs"</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"restecg"</span>, <span class="st">"thalach"</span>, <span class="st">"exang"</span>, <span class="st">"oldpeak"</span>,</span>
@@ -866,7 +876,7 @@ Test  : 91 patients (prévalence 54.9%)</code></pre>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># cv=5 : 5-fold CV</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># scoring : 'accuracy', 'roc_auc', 'f1', 'precision', ...</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </blockquote>
-<div id="6ff0b383" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:17.463602Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:17.463007Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:18.531503Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:18.530743Z&quot;}}" data-execution_count="4">
+<div id="c67508eb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:18.102381Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:18.101753Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:19.176516Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:19.175109Z&quot;}}" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modele baseline</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># max_iter=1000 pour éviter un warning de non-convergence sur petits jeux</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>lr <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
@@ -897,7 +907,7 @@ Par pli     : [0.803, 0.869, 0.852, 0.867, 0.75]</code></pre>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>dt.score(X_te, y_te)           <span class="co"># accuracy sur le test</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plot_tree(dt, feature_names<span class="op">=</span>..., class_names<span class="op">=</span>..., filled<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </blockquote>
-<div id="b526f981" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:18.535367Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:18.534994Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:18.552336Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:18.551547Z&quot;}}" data-execution_count="5">
+<div id="56da5d9b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:19.181566Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:19.181182Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:19.211339Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:19.210425Z&quot;}}" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Arbre de profondeur max 4</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>dt <span class="op">=</span> DecisionTreeClassifier(max_depth<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -924,7 +934,7 @@ weighted avg       0.78      0.78      0.78        91
 </code></pre>
 </div>
 </div>
-<div id="383a59f5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:18.555593Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:18.555210Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:19.415882Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:19.414859Z&quot;}}" data-execution_count="6">
+<div id="d2173189" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:19.214889Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:19.214580Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:20.120735Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:20.119567Z&quot;}}" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualisation de l'arbre</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">18</span>, <span class="dv">9</span>))</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>plot_tree(</span>
@@ -964,7 +974,7 @@ weighted avg       0.78      0.78      0.78        91
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>rf.fit(X_tr, y_tr)</span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>rf.feature_importances_       <span class="co"># importance par variable</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </blockquote>
-<div id="3547c753" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:19.419669Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:19.419365Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:19.831529Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:19.830707Z&quot;}}" data-execution_count="7">
+<div id="72084190" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:20.124261Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:20.123938Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:20.541677Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:20.540802Z&quot;}}" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 200 arbres, profondeur 6, parallelise (n_jobs=-1)</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestClassifier(n_estimators<span class="op">=</span><span class="dv">200</span>, max_depth<span class="op">=</span><span class="dv">6</span>,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                            random_state<span class="op">=</span><span class="dv">42</span>, n_jobs<span class="op">=-</span><span class="dv">1</span>)</span>
@@ -986,7 +996,7 @@ weighted avg       0.80      0.79      0.79        91
 </code></pre>
 </div>
 </div>
-<div id="13f2f4de" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:19.834455Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:19.834165Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:22.931639Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:22.930984Z&quot;}}" data-execution_count="8">
+<div id="61a5bb60" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:20.544918Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:20.544624Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:23.656505Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:23.655873Z&quot;}}" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparaison côte a côte en validation croisee</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Dictionnaire : nom -&gt; objet modèle</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>modeles <span class="op">=</span> {</span>
@@ -1029,7 +1039,7 @@ weighted avg       0.80      0.79      0.79        91
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>fpr, tpr, seuils <span class="op">=</span> roc_curve(y_te, probs)   <span class="co"># FPR, TPR, seuils correspondants</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>auc <span class="op">=</span> roc_auc_score(y_te, probs)            <span class="co"># AUC en un nombre</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </blockquote>
-<div id="e5153f25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:22.934562Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:22.934308Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:23.412325Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:23.411538Z&quot;}}" data-execution_count="9">
+<div id="43040557" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:23.659609Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:23.659329Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:24.126475Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:24.125660Z&quot;}}" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reentrainement des modèles sur le train</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>lr.fit(X_tr, y_tr)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1071,7 +1081,7 @@ weighted avg       0.80      0.79      0.79        91
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>rf.feature_importances_       <span class="co"># tableau, même longueur que features</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Le <code>_</code> final indique un attribut <strong>calcule pendant <code>.fit()</code></strong> (convention sklearn).</p>
 </blockquote>
-<div id="75148aaa" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:23.415499Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:23.415187Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:23.650365Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:23.649524Z&quot;}}" data-execution_count="10">
+<div id="9a09dda6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:24.129632Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:24.129335Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:24.369884Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:24.369196Z&quot;}}" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construction d'un DataFrame nom_feature / importance</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>imp <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Feature"</span>:    features,</span>
@@ -1123,7 +1133,7 @@ weighted avg       0.80      0.79      0.79        91
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>obs, mean_pred <span class="op">=</span> calibration_curve(y_te, probs, n_bins<span class="op">=</span><span class="dv">8</span>, strategy<span class="op">=</span><span class="st">"quantile"</span>)</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>brier <span class="op">=</span> brier_score_loss(y_te, probs)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </blockquote>
-<div id="12d9fe5f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:23.653692Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:23.653398Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:23.846958Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:23.846235Z&quot;}}" data-execution_count="11">
+<div id="80b6a9fc" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:24.372666Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:24.372421Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:24.552376Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:24.551383Z&quot;}}" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># n_bins=8 : on segmente l'échelle des probas en 8 paniers</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># strategy='quantile' : chaque panier contient ~ le même nombre de patients</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>obs_lr, mean_lr <span class="op">=</span> calibration_curve(y_te, p_lr, n_bins<span class="op">=</span><span class="dv">8</span>, strategy<span class="op">=</span><span class="st">"quantile"</span>)</span>
@@ -1159,7 +1169,7 @@ Score de Brier (Foret aléatoire): 0.1424</code></pre>
 <h2 class="anchored" data-anchor-id="audit-déquité-par-sexe">9. Audit d’équité par sexe</h2>
 <p>On vérifie que le modèle performe <strong>de manière comparable</strong> entre hommes et femmes — un contrôle minimal avant tout deploiement.</p>
 <p>Un écart de plusieurs points d’AUC entre groupes est un signal d’alerte qui justifie un re-entrainement, une re-collecte de données, ou un seuil différent par groupe.</p>
-<div id="5ae45966" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:23.849851Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:23.849583Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:24.000600Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:23.999870Z&quot;}}" data-execution_count="12">
+<div id="4c3295ec" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:24.555811Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:24.555539Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:24.677252Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:24.676502Z&quot;}}" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On boucle sur les deux sexes (1 = homme, 0 = femme dans ce dataset)</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> []</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sex_val, lbl <span class="kw">in</span> [(<span class="dv">1</span>, <span class="st">"Homme"</span>), (<span class="dv">0</span>, <span class="st">"Femme"</span>)]:</span>
@@ -1232,10 +1242,10 @@ Score de Brier (Foret aléatoire): 0.1424</code></pre>
 <h2 class="anchored" data-anchor-id="exercices-avec-corriges">10. Exercices (avec corriges)</h2>
 <section id="exercice-1-comparer-lauc-entre-logistique-et-forêt-aléatoire-en-cv" class="level3">
 <h3 class="anchored" data-anchor-id="exercice-1-comparer-lauc-entre-logistique-et-forêt-aléatoire-en-cv">Exercice 1 — Comparer l’AUC entre logistique et forêt aléatoire en CV</h3>
-<div id="413e22a1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:24.003502Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:24.003244Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:24.007299Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:24.006622Z&quot;}}" data-execution_count="13">
+<div id="2f990e06" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:24.680608Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:24.680299Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:24.684088Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:24.683424Z&quot;}}" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre essai ici</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="fa047c70" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:24.010003Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:24.009744Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:27.135649Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:27.134891Z&quot;}}" data-execution_count="14">
+<div id="643cd7fd" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:24.686949Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:24.686675Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:27.795637Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:27.794865Z&quot;}}" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># scoring='roc_auc' : la métrique de CV devient l'AUC</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>auc_lr_cv <span class="op">=</span> cross_val_score(LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>, random_state<span class="op">=</span><span class="dv">42</span>),</span>
@@ -1257,10 +1267,10 @@ Gain           : +0.003</code></pre>
 </section>
 <section id="exercice-2-sensibilite-et-spécificité-vs-seuil" class="level3">
 <h3 class="anchored" data-anchor-id="exercice-2-sensibilite-et-spécificité-vs-seuil">Exercice 2 — Sensibilite et spécificité vs seuil</h3>
-<div id="c89c5265" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:27.138925Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:27.138606Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:27.142363Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:27.141578Z&quot;}}" data-execution_count="15">
+<div id="68a04395" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:27.798780Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:27.798496Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:27.803471Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:27.802400Z&quot;}}" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre essai ici</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="6379bee0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:27.145756Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:27.145400Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:27.389793Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:27.389079Z&quot;}}" data-execution_count="16">
+<div id="39749b74" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:27.806447Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:27.806160Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:28.048462Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:28.047598Z&quot;}}" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Probas predites par la forêt sur le test</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> rf.predict_proba(X_te)[:, <span class="dv">1</span>]</span>
@@ -1296,10 +1306,10 @@ Gain           : +0.003</code></pre>
 </section>
 <section id="exercice-3-top-5-features-uniquement-la-performance-baisse-t-elle" class="level3">
 <h3 class="anchored" data-anchor-id="exercice-3-top-5-features-uniquement-la-performance-baisse-t-elle">Exercice 3 — Top 5 features uniquement — la performance baisse-t-elle ?</h3>
-<div id="ed9e7461" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:27.393028Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:27.392544Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:27.396146Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:27.395351Z&quot;}}" data-execution_count="17">
+<div id="46118f7a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:28.051969Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:28.051663Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:28.055104Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:28.054428Z&quot;}}" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre essai ici</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="9f01b6cf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:52:27.399426Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:52:27.399070Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:52:29.986465Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:52:29.985480Z&quot;}}" data-execution_count="18">
+<div id="eae13774" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:51:28.057861Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:51:28.057515Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:51:30.153346Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:51:30.151977Z&quot;}}" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Series : feature -&gt; importance</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>top5 <span class="op">=</span> (pd.Series(rf.feature_importances_, index<span class="op">=</span>features)</span>
@@ -1833,8 +1843,8 @@ Plus technique ; libre en PDF.</li>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../notes/notes_6h.pdf" class="pagination-link" aria-label="Notes de cours (PDF)">
-        <span class="nav-page-text">Notes de cours (PDF)</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../ecosysteme.html" class="pagination-link" aria-label="Boîte à outils Python">
+        <span class="nav-page-text">Boîte à outils Python</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -528,6 +528,158 @@
     ]
   },
   {
+    "objectID": "ecosysteme.html",
+    "href": "ecosysteme.html",
+    "title": "L’écosystème Python scientifique",
+    "section": "",
+    "text": "Ce cours s’appuie sur huit bibliothèques open source, gratuites, et qui ensemble couvrent à peu près toute l’analyse de données scientifique en Python. Cette page les présente une par une : à quoi elles servent, qui les maintient, et où aller pour en apprendre davantage.",
+    "crumbs": [
+      "Accueil",
+      "Ressources",
+      "Boîte à outils Python"
+    ]
+  },
+  {
+    "objectID": "ecosysteme.html#le-socle-scientifique",
+    "href": "ecosysteme.html#le-socle-scientifique",
+    "title": "L’écosystème Python scientifique",
+    "section": "Le socle scientifique",
+    "text": "Le socle scientifique\nTrois bibliothèques constituent le socle sur lequel tout le reste est construit. Apprendre Python pour la science, c’est d’abord apprendre ces trois-là.\n\n\n\n SOCLE\n\nNumPy\nNumPy (Numerical Python) fournit les tableaux multidimensionnels performants (ndarray) sur lesquels tout le reste de l’écosystème scientifique est construit. C’est l’équivalent en Python d’un MATLAB ou d’un R sur le plan numérique brut.\n Utilisé dans : tous les modules (en arrière-plan de pandas) Docs : numpy.org/doc Tutoriel débutant : NumPy Quickstart Mainteneur : NumFOCUS, sponsorisé par CZI, Tidelift, Quansight \n\n\n\n\n\n SOCLE\n\npandas\npandas est la bibliothèque de manipulation de tables (DataFrame, Series) en Python. Pensez « Excel programmable et 1000× plus puissant ». C’est avec elle que vous chargerez, filtrerez, grouperez et nettoierez vos données cliniques tout au long du cours.\n Utilisé dans : tous les modules Docs : pandas.pydata.org Tutoriel : 10 minutes to pandas · Cours intensif Kaggle Mainteneur : Wes McKinney + NumFOCUS \n\n\n\n\n\n SOCLE\n\nMatplotlib\nMatplotlib est la bibliothèque de visualisation fondamentale de Python. Toute autre lib de plot (seaborn, plotly, pandas.plot) en dépend ou s’en inspire. API verbose mais maximale flexibilité — quand vous voulez exactement le graphique de votre publication.\n Utilisé dans : tous les modules Docs : matplotlib.org Tutoriel : Gallery officielle · Cheat sheets Mainteneur : John Hunter (†) + NumFOCUS",
+    "crumbs": [
+      "Accueil",
+      "Ressources",
+      "Boîte à outils Python"
+    ]
+  },
+  {
+    "objectID": "ecosysteme.html#statistique-et-visualisation-avancée",
+    "href": "ecosysteme.html#statistique-et-visualisation-avancée",
+    "title": "L’écosystème Python scientifique",
+    "section": "Statistique et visualisation avancée",
+    "text": "Statistique et visualisation avancée\nTrois bibliothèques par-dessus le socle pour la statistique inférentielle et la visualisation statistique haut-niveau.\n\n\n\n VIZ\n\nseaborn\nseaborn est une couche statistique au-dessus de matplotlib. Quand vous voulez « le boxplot par groupe en une ligne », c’est elle. Inspirée de ggplot2 (R), avec des thèmes propres et une intégration native pandas.\n Utilisé dans : Modules 3, 4, 5, 6 Docs : seaborn.pydata.org Tutoriel : Tutorial officiel · Gallery Mainteneur : Michael Waskom \n\n\n\n\n\n STATS\n\nSciPy\nSciPy rassemble la boîte à outils scientifique générale : tests statistiques (scipy.stats), optimisation, traitement du signal, algèbre linéaire de plus haut niveau, etc. Vous utiliserez surtout scipy.stats pour les t-test, χ², Mann-Whitney et lois de probabilité.\n Utilisé dans : Modules 2, 3, 4, 5, 6 Docs : docs.scipy.org Tutoriel : Statistics tutorial Mainteneur : NumFOCUS \n\n\n\n\n\n STATS\n\nstatsmodels\nstatsmodels est la bibliothèque de modèles statistiques inférentiels en Python — analogue à R en termes de richesse. Régression OLS, GLM (dont logistique), modèles mixtes, série temporelle, tests de Wald. Sortie en tableau de résultats à la summary() familier aux utilisateurs R.\n Utilisé dans : Modules 4, 5, 6 Docs : statsmodels.org Tutoriel : User Guide · Notebooks d’exemples Mainteneur : NumFOCUS Compatibilité : exige &gt;= 0.14.6 avec scipy &gt;= 1.17",
+    "crumbs": [
+      "Accueil",
+      "Ressources",
+      "Boîte à outils Python"
+    ]
+  },
+  {
+    "objectID": "ecosysteme.html#machine-learning-et-analyse-de-survie",
+    "href": "ecosysteme.html#machine-learning-et-analyse-de-survie",
+    "title": "L’écosystème Python scientifique",
+    "section": "Machine learning et analyse de survie",
+    "text": "Machine learning et analyse de survie\n\n\n\n ML\n\nscikit-learn\nscikit-learn est la bibliothèque de machine learning « classique » de Python. API uniforme (fit, predict, score, transform), des dizaines d’algorithmes (régression, classification, clustering, réduction de dimension), pipelines, validation croisée, métriques. Vous l’utiliserez pour les forêts aléatoires et l’évaluation ROC/calibration.\n Utilisé dans : Modules 5, 6 Docs : scikit-learn.org Tutoriel : User Guide · Glossary Livre gratuit : Introduction to Statistical Learning (édition Python) Mainteneur : INRIA + NumFOCUS \n\n\n\n\n\n SURVIE\n\nlifelines\nlifelines est la bibliothèque dédiée à l’analyse de survie en Python — Kaplan-Meier, Cox PH, modèles paramétriques (Weibull, log-logistique, etc.), tests log-rank. Indispensable pour les essais cliniques, les cohortes longitudinales et toute analyse « temps avant événement ».\n Utilisé dans : Module 5 (intro Cox) Docs : lifelines.readthedocs.io Tutoriel : Survival analysis intro Mainteneur : Cameron Davidson-Pilon",
+    "crumbs": [
+      "Accueil",
+      "Ressources",
+      "Boîte à outils Python"
+    ]
+  },
+  {
+    "objectID": "ecosysteme.html#lenvironnement-de-travail",
+    "href": "ecosysteme.html#lenvironnement-de-travail",
+    "title": "L’écosystème Python scientifique",
+    "section": "L’environnement de travail",
+    "text": "L’environnement de travail\nDeux outils qui ne sont pas des bibliothèques mais qui font la différence.\n\n\n\n ENV\n\nJupyter / JupyterLab\nL’environnement de notebook interactif standard. Mélange texte (Markdown), code, sorties (tableaux, figures, animations) dans un même document exécutable. C’est le format de la science computationnelle moderne.\n Docs : jupyter.org/documentation Mode d’emploi : Notebook Basics Mainteneur : Projet Jupyter (Fernando Pérez et al.) + NumFOCUS \n\n\n\n\n\n ENV\n\nGoogle Colab\nPlateforme cloud qui exécute des notebooks Jupyter gratuitement avec toutes les bibliothèques scientifiques préinstallées. Aucune installation, GPU gratuit pour les tâches modérées. C’est la façon recommandée de suivre ce cours.\n Lancer un module : badges Open In Colab sur la page d’accueil ou en haut de chaque notebook Tutoriel : Notebook d’intro Colab Mainteneur : Google",
+    "crumbs": [
+      "Accueil",
+      "Ressources",
+      "Boîte à outils Python"
+    ]
+  },
+  {
+    "objectID": "ecosysteme.html#pour-aller-plus-loin",
+    "href": "ecosysteme.html#pour-aller-plus-loin",
+    "title": "L’écosystème Python scientifique",
+    "section": "Pour aller plus loin",
+    "text": "Pour aller plus loin\n\nManuels gratuits en ligne\n\nPython Data Science Handbook par Jake VanderPlas — le manuel de référence, gratuit, couvre NumPy, pandas, matplotlib, scikit-learn.\nPython for Data Analysis, 3e par Wes McKinney (créateur de pandas) — focalisé pandas, gratuit en ligne.\nAn Introduction to Statistical Learning par James, Witten, Hastie & Tibshirani — édition Python 2023, gratuite — pour le ML statistique.\n\n\n\nCheat sheets imprimables\n\npandas · matplotlib · NumPy · scikit-learn (arbre de décision pour choisir l’algorithme)\n\n\n\nCommunauté francophone\n\nPyData France — conférences annuelles, talks rejouables.\nCalcMonAge — biostats francophone sur GitHub.\n\n\n\nNumFOCUS\nLa plupart des bibliothèques de cette page sont sponsorisées par NumFOCUS, une fondation à but non lucratif qui garantit la durabilité de l’écosystème scientifique open source. Soutenir NumFOCUS = soutenir Python pour la recherche.",
+    "crumbs": [
+      "Accueil",
+      "Ressources",
+      "Boîte à outils Python"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Analyse de Données avec Python",
+    "section": "",
+    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans pré-requis en programmation.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#pour-professionnels-de-la-santé",
+    "href": "index.html#pour-professionnels-de-la-santé",
+    "title": "Analyse de Données avec Python",
+    "section": "",
+    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans pré-requis en programmation.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#à-propos-du-cours",
+    "href": "index.html#à-propos-du-cours",
+    "title": "Analyse de Données avec Python",
+    "section": "À propos du cours",
+    "text": "À propos du cours\nCe cours s’adresse aux professionnels de santé qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nQue vous travailliez sur la surveillance épidémiologique (VIH, paludisme, tuberculose, choléra), la santé environnementale (pollution de l’air, qualité de l’eau, exposition au climat), l’évaluation des risques sanitaires, les programmes d’élimination de maladies, la recherche clinique, ou la santé publique programmatique au sens large — les outils analytiques sont les mêmes : Python, pandas, matplotlib, scipy, scikit-learn, statsmodels.\nAucune expérience de programmation n’est requise pour démarrer le Module 1. Des notions de base en statistique (moyenne, intervalle de confiance) aident pour les Modules 4 à 6 mais ne sont pas obligatoires.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#en-un-coup-dœil",
+    "href": "index.html#en-un-coup-dœil",
+    "title": "Analyse de Données avec Python",
+    "section": "En un coup d’œil",
+    "text": "En un coup d’œil\n\n\nNiveau\nDébutant complet. Aucune ligne de Python requise au démarrage.\n\n\nDurée\nSix heures réparties en six modules d’une heure (atelier d’une journée, trois demi-journées, ou rythme libre).\n\n\nOutils\nPython 3.10+ · Jupyter · Google Colab · notebooks bilingues code + commentaires en français.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#les-six-modules",
+    "href": "index.html#les-six-modules",
+    "title": "Analyse de Données avec Python",
+    "section": "Les six modules",
+    "text": "Les six modules\n\n\n\n MODULE 1\n\n Python et Pandas\nVariables, listes, dictionnaires, fonctions, boucles. Charger un CSV public, l’inspecter. Filtrer, trier, grouper avec pandas.\nDonnées : Gapminder · Prérequis : aucun\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 2\n\n Nettoyage et descriptif\nValeurs manquantes (MCAR/MAR/MNAR), pipeline de nettoyage réutilisable, mesures épidémiologiques : prévalence, incidence, RR, OR avec IC.\nDonnées : Gapminder · Prérequis : Module 1\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 3\n\n Visualisation\nHistogramme, boîte à moustaches, barres, ligne, scatter, heatmap. Palette accessible aux daltoniens. Tableau de bord 4 panneaux.\nDonnées : Gapminder + simulations · Prérequis : Module 1\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 4\n\n Tests d’hypothèses\nt-test (un / deux échantillons / apparié), χ², Mann-Whitney U. Taille d’effet, IC, correction pour tests multiples (Bonferroni, FDR).\nDonnées : Framingham · Prérequis : Modules 1, 2\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 5\n\n Régression\nRégression linéaire simple et multiple. Confounding, ajustement. Régression logistique et odds ratios. Sensibilité, spécificité, VPP, VPN.\nDonnées : Pima Indians Diabetes · Prérequis : Modules 1, 2, 4\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 6\n\n Machine learning clinique\nTrain/test stratifié, CV 5-folds. Arbres et forêts aléatoires. ROC + AUC, calibration, audit d’équité par sexe.\nDonnées : UCI Heart Disease · Prérequis : Modules 1, 2, 5\n\n\n\nOpen In Colab",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#démarrage-rapide",
+    "href": "index.html#démarrage-rapide",
+    "title": "Analyse de Données avec Python",
+    "section": "Démarrage rapide",
+    "text": "Démarrage rapide\n\nOption A — Google ColabOption B — Jupyter en local\n\n\nAucune installation. Cliquez sur un badge Open In Colab ci-dessus (ou ouvrez d’abord le sommaire interactif) puis exécutez cellule par cellule avec Maj + Entrée.\nLes données se chargent depuis l’URL publique automatiquement — aucune configuration locale.\n\n\ngit clone https://github.com/gabayae/-python-sante.git python-sante\ncd python-sante\npip install -r requirements.txt\njupyter notebook\nLe navigateur ouvre une interface — naviguez dans notebooks_vierges/ et double-cliquez sur le module à étudier.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#notes-de-cours-en-pdf",
+    "href": "index.html#notes-de-cours-en-pdf",
+    "title": "Analyse de Données avec Python",
+    "section": "Notes de cours en PDF",
+    "text": "Notes de cours en PDF\nLes notes de cours en PDF (26 pages) développent la matière théorique et méthodologique de chaque module, avec des extraits de code illustratifs et des références bibliographiques. À utiliser en parallèle des notebooks pour le fond conceptuel.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#pour-aller-plus-loin",
+    "href": "index.html#pour-aller-plus-loin",
+    "title": "Analyse de Données avec Python",
+    "section": "Pour aller plus loin",
+    "text": "Pour aller plus loin\nTrois sujets ne sont pas couverts par cette version condensée. Ils font partie de la version 30 h du cours :\n\nAnalyse temporelle approfondie — décomposition saisonnière, ARIMA, retards de déclaration.\nAnalyse spatiale — geopandas, choroplèthes, indices de Moran et Getis-Ord.\nProjet capstone — analyse end-to-end + rapport + soutenance.\n\nVoir la Section 7 des notes PDF pour les références bibliographiques associées.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "À propos du cours",
@@ -638,86 +790,6 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Analyse de Données avec Python",
-    "section": "",
-    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans pré-requis en programmation.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#pour-professionnels-de-la-santé",
-    "href": "index.html#pour-professionnels-de-la-santé",
-    "title": "Analyse de Données avec Python",
-    "section": "",
-    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans pré-requis en programmation.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#à-propos-du-cours",
-    "href": "index.html#à-propos-du-cours",
-    "title": "Analyse de Données avec Python",
-    "section": "À propos du cours",
-    "text": "À propos du cours\nCe cours s’adresse aux professionnels de santé qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nQue vous travailliez sur la surveillance épidémiologique (VIH, paludisme, tuberculose, choléra), la santé environnementale (pollution de l’air, qualité de l’eau, exposition au climat), l’évaluation des risques sanitaires, les programmes d’élimination de maladies, la recherche clinique, ou la santé publique programmatique au sens large — les outils analytiques sont les mêmes : Python, pandas, matplotlib, scipy, scikit-learn, statsmodels.\nAucune expérience de programmation n’est requise pour démarrer le Module 1. Des notions de base en statistique (moyenne, intervalle de confiance) aident pour les Modules 4 à 6 mais ne sont pas obligatoires.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#en-un-coup-dœil",
-    "href": "index.html#en-un-coup-dœil",
-    "title": "Analyse de Données avec Python",
-    "section": "En un coup d’œil",
-    "text": "En un coup d’œil\n\n\nNiveau\nDébutant complet. Aucune ligne de Python requise au démarrage.\n\n\nDurée\nSix heures réparties en six modules d’une heure (atelier d’une journée, trois demi-journées, ou rythme libre).\n\n\nOutils\nPython 3.10+ · Jupyter · Google Colab · notebooks bilingues code + commentaires en français.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#les-six-modules",
-    "href": "index.html#les-six-modules",
-    "title": "Analyse de Données avec Python",
-    "section": "Les six modules",
-    "text": "Les six modules\n\n\n\n MODULE 1\n\n Python et Pandas\nVariables, listes, dictionnaires, fonctions, boucles. Charger un CSV public, l’inspecter. Filtrer, trier, grouper avec pandas.\nDonnées : Gapminder · Prérequis : aucun\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 2\n\n Nettoyage et descriptif\nValeurs manquantes (MCAR/MAR/MNAR), pipeline de nettoyage réutilisable, mesures épidémiologiques : prévalence, incidence, RR, OR avec IC.\nDonnées : Gapminder · Prérequis : Module 1\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 3\n\n Visualisation\nHistogramme, boîte à moustaches, barres, ligne, scatter, heatmap. Palette accessible aux daltoniens. Tableau de bord 4 panneaux.\nDonnées : Gapminder + simulations · Prérequis : Module 1\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 4\n\n Tests d’hypothèses\nt-test (un / deux échantillons / apparié), χ², Mann-Whitney U. Taille d’effet, IC, correction pour tests multiples (Bonferroni, FDR).\nDonnées : Framingham · Prérequis : Modules 1, 2\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 5\n\n Régression\nRégression linéaire simple et multiple. Confounding, ajustement. Régression logistique et odds ratios. Sensibilité, spécificité, VPP, VPN.\nDonnées : Pima Indians Diabetes · Prérequis : Modules 1, 2, 4\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 6\n\n Machine learning clinique\nTrain/test stratifié, CV 5-folds. Arbres et forêts aléatoires. ROC + AUC, calibration, audit d’équité par sexe.\nDonnées : UCI Heart Disease · Prérequis : Modules 1, 2, 5\n\n\n\nOpen In Colab",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#démarrage-rapide",
-    "href": "index.html#démarrage-rapide",
-    "title": "Analyse de Données avec Python",
-    "section": "Démarrage rapide",
-    "text": "Démarrage rapide\n\nOption A — Google ColabOption B — Jupyter en local\n\n\nAucune installation. Cliquez sur un badge Open In Colab ci-dessus (ou ouvrez d’abord le sommaire interactif) puis exécutez cellule par cellule avec Maj + Entrée.\nLes données se chargent depuis l’URL publique automatiquement — aucune configuration locale.\n\n\ngit clone https://github.com/gabayae/-python-sante.git python-sante\ncd python-sante\npip install -r requirements.txt\njupyter notebook\nLe navigateur ouvre une interface — naviguez dans notebooks_vierges/ et double-cliquez sur le module à étudier.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#notes-de-cours-en-pdf",
-    "href": "index.html#notes-de-cours-en-pdf",
-    "title": "Analyse de Données avec Python",
-    "section": "Notes de cours en PDF",
-    "text": "Notes de cours en PDF\nLes notes de cours en PDF (26 pages) développent la matière théorique et méthodologique de chaque module, avec des extraits de code illustratifs et des références bibliographiques. À utiliser en parallèle des notebooks pour le fond conceptuel.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#pour-aller-plus-loin",
-    "href": "index.html#pour-aller-plus-loin",
-    "title": "Analyse de Données avec Python",
-    "section": "Pour aller plus loin",
-    "text": "Pour aller plus loin\nTrois sujets ne sont pas couverts par cette version condensée. Ils font partie de la version 30 h du cours :\n\nAnalyse temporelle approfondie — décomposition saisonnière, ARIMA, retards de déclaration.\nAnalyse spatiale — geopandas, choroplèthes, indices de Moran et Getis-Ord.\nProjet capstone — analyse end-to-end + rapport + soutenance.\n\nVoir la Section 7 des notes PDF pour les références bibliographiques associées.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
     "objectID": "notebooks_executes/module_01_python_pandas.html",
     "href": "notebooks_executes/module_01_python_pandas.html",
     "title": "\nModule 1·Python et Pandas\n",
@@ -734,7 +806,7 @@
     "href": "notebooks_executes/module_01_python_pandas.html#reproductibilite",
     "title": "\nModule 1·Python et Pandas\n",
     "section": "0. Reproductibilite",
-    "text": "0. Reproductibilite\nTout notebook qui utilise du hasard doit fixer la graine aléatoire en tête pour que les sorties soient identiques a chaque exécution.\n\nSyntaxe — import\nimport nom_module                  # importe tout le module\nimport nom_module as alias         # avec un alias court\nfrom nom_module import truc        # juste une partie\nLes alias np (numpy), pd (pandas), plt (matplotlib.pyplot) et sns (seaborn) sont des conventions universelles.\n\n\nimport random                          # module standard pour le hasard\nimport sys                             # pour afficher la version Python\nimport numpy as np                     # convention universelle : np\n\n# La graine fige le generateur aléatoire.\n# 42 est un classique mais n'importe quel entier marche.\nGRAINE = 42\nrandom.seed(GRAINE)                    # graine du module standard\nnp.random.seed(GRAINE)                 # graine de numpy (indépendante !)\n\n# Affichage des versions - utile pour la reproductibilité long terme\nprint(f\"Python {sys.version.split()[0]}\")\nprint(f\"numpy  {np.__version__}\")\n\nPython 3.13.5\nnumpy  2.1.3",
+    "text": "0. Reproductibilite\nTout notebook qui utilise du hasard doit fixer la graine aléatoire en tête pour que les sorties soient identiques a chaque exécution.\n\nSyntaxe — import\nimport nom_module                  # importe tout le module\nimport nom_module as alias         # avec un alias court\nfrom nom_module import truc        # juste une partie\nLes alias np (numpy), pd (pandas), plt (matplotlib.pyplot) et sns (seaborn) sont des conventions universelles.\n\n\nimport random                          # module standard pour le hasard\nimport sys                             # pour afficher la version Python\nimport numpy as np                     # convention universelle : np\n\n# La graine fige le generateur aléatoire.\n# 42 est un classique mais n'importe quel entier marche.\nGRAINE = 42\nrandom.seed(GRAINE)                    # graine du module standard\nnp.random.seed(GRAINE)                 # graine de numpy (indépendante !)\n\n# Affichage des versions - utile pour la reproductibilité long terme\nprint(f\"Python {sys.version.split()[0]}\")\nprint(f\"numpy  {np.__version__}\")\n\nPython 3.13.5\nnumpy  2.1.3\n\n\n\nLes bibliothèques que vous allez rencontrer\nCe cours s’appuie sur huit bibliothèques open source, gratuites. Voici le rôle de chacune en une phrase — vous les verrez apparaître au fur et à mesure des modules :\n\n\n\nBibliothèque\nRôle en une phrase\nModules\n\n\n\n\nNumPy (np)\nTableaux numériques performants, socle de tout l’écosystème scientifique.\n1 à 6\n\n\npandas (pd)\nTables (DataFrame) — l’Excel programmable de Python.\n1 à 6\n\n\nMatplotlib (plt)\nBibliothèque de visualisation fondamentale.\n1, 3, 4, 5, 6\n\n\nseaborn (sns)\nVisualisation statistique au-dessus de Matplotlib.\n3, 4, 5, 6\n\n\nSciPy (scipy.stats)\nTests statistiques, lois de probabilité, optimisation.\n2, 3, 4, 5, 6\n\n\nstatsmodels (sm)\nModèles statistiques inférentiels (OLS, logistique, GLM).\n4, 5, 6\n\n\nscikit-learn (sklearn)\nMachine learning classique : régression, classification, ROC, calibration.\n5, 6\n\n\nlifelines\nAnalyse de survie (Kaplan-Meier, Cox PH).\n5\n\n\n\nUne présentation détaillée de chaque bibliothèque avec liens vers la documentation officielle, les tutoriels recommandés et les manuels gratuits est disponible sur la page Boîte à outils Python du site web.",
     "crumbs": [
       "Accueil",
       "Modules",
@@ -1106,7 +1178,7 @@
     "href": "notebooks_executes/module_05_regression.html#regression-linéaire-multiple-sortie-statsmodels",
     "title": "\nModule 5·Regression\n",
     "section": "2. Regression linéaire multiple — sortie statsmodels",
-    "text": "2. Regression linéaire multiple — sortie statsmodels\nAjouter plusieurs predicteurs :\n\\[y = \\beta_0 + \\beta_1 \\cdot \\text{age} + \\beta_2 \\cdot \\text{IMC} + \\beta_3 \\cdot \\text{tabagisme} + \\varepsilon\\]\nChaque coefficient = effet du predicteur a autres variables constantes — c’est le coeur de l’ajustement pour facteur de confusion.\n\nSyntaxe — OLS statsmodels\nX = sm.add_constant(df[[\"col1\", \"col2\"]])   # ajoute une colonne 'const' = 1\nmodele = sm.OLS(y, X).fit()                  # ajustement\nmodele.summary()                             # sortie complete\nmodele.params                                # coefficients\nmodele.pvalues                               # p-values\nmodele.conf_int()                            # IC 95%\nadd_constant est obligatoire : sans elle l’ordonnee a l’origine est forcee a 0.\n\n\n# Simulation : vrai modèle SBP = 70 + 0.6*age + 0.8*IMC + 5*tabac + bruit\nn = 300\nage      = np.random.uniform(25, 80, n)\nimc      = np.random.normal(27, 5, n)\ntabac    = np.random.binomial(1, 0.25, n)        # 25% de fumeurs (1=fumeur, 0=non)\nsbp      = 70 + 0.6 * age + 0.8 * imc + 5 * tabac + np.random.normal(0, 10, n)\n\n# Construction de la matrice de design X\n# D'abord le DataFrame des predicteurs, puis add_constant pour l'intercept\nX = sm.add_constant(pd.DataFrame({\"age\": age, \"imc\": imc, \"tabac\": tabac}))\n\n# OLS = Ordinary Least Squares ; .fit() ajuste le modèle\nmodele = sm.OLS(sbp, X).fit()\n\n# Sortie classique de regression : R^2, F-stat, coefficients, IC, p-values\nprint(modele.summary())\n\n                            OLS Regression Results                            \n==============================================================================\nDep. Variable:                      y   R-squared:                       0.541\nModel:                            OLS   Adj. R-squared:                  0.537\nMethod:                 Least Squares   F-statistic:                     116.4\nDate:                Mon, 08 Jun 2026   Prob (F-statistic):           8.39e-50\nTime:                        19:52:02   Log-Likelihood:                -1118.8\nNo. Observations:                 300   AIC:                             2246.\nDf Residuals:                     296   BIC:                             2260.\nDf Model:                           3                                         \nCovariance Type:            nonrobust                                         \n==============================================================================\n                 coef    std err          t      P&gt;|t|      [0.025      0.975]\n------------------------------------------------------------------------------\nconst         67.5188      3.838     17.594      0.000      59.966      75.071\nage            0.6166      0.036     16.917      0.000       0.545       0.688\nimc            0.8751      0.119      7.337      0.000       0.640       1.110\ntabac          5.0439      1.338      3.770      0.000       2.411       7.677\n==============================================================================\nOmnibus:                        0.880   Durbin-Watson:                   2.002\nProb(Omnibus):                  0.644   Jarque-Bera (JB):                0.978\nSkew:                           0.079   Prob(JB):                        0.613\nKurtosis:                       2.769   Cond. No.                         397.\n==============================================================================\n\nNotes:\n[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n\n\n\n# Tableau coefficient compact (plus lisible que le summary complet)\ntidy = pd.DataFrame({\n    \"beta\":  modele.params,            # estimations\n    \"IC_lo\": modele.conf_int()[0],     # borne inférieure IC 95%\n    \"IC_hi\": modele.conf_int()[1],     # borne supérieure IC 95%\n    \"p\":     modele.pvalues,           # p-values\n}).round(3)\ntidy\n\n\n\n\n\n\n\n\nbeta\nIC_lo\nIC_hi\np\n\n\n\n\nconst\n67.519\n59.966\n75.071\n0.0\n\n\nage\n0.617\n0.545\n0.688\n0.0\n\n\nimc\n0.875\n0.640\n1.110\n0.0\n\n\ntabac\n5.044\n2.411\n7.677\n0.0\n\n\n\n\n\n\n\nLecture. “A age et tabagisme constants, chaque unite d’IMC est associee a une augmentation d’environ 0,8 mmHg de la tension systolique (IC 95 %…).”",
+    "text": "2. Regression linéaire multiple — sortie statsmodels\nAjouter plusieurs predicteurs :\n\\[y = \\beta_0 + \\beta_1 \\cdot \\text{age} + \\beta_2 \\cdot \\text{IMC} + \\beta_3 \\cdot \\text{tabagisme} + \\varepsilon\\]\nChaque coefficient = effet du predicteur a autres variables constantes — c’est le coeur de l’ajustement pour facteur de confusion.\n\nSyntaxe — OLS statsmodels\nX = sm.add_constant(df[[\"col1\", \"col2\"]])   # ajoute une colonne 'const' = 1\nmodele = sm.OLS(y, X).fit()                  # ajustement\nmodele.summary()                             # sortie complete\nmodele.params                                # coefficients\nmodele.pvalues                               # p-values\nmodele.conf_int()                            # IC 95%\nadd_constant est obligatoire : sans elle l’ordonnee a l’origine est forcee a 0.\n\n\n# Simulation : vrai modèle SBP = 70 + 0.6*age + 0.8*IMC + 5*tabac + bruit\nn = 300\nage      = np.random.uniform(25, 80, n)\nimc      = np.random.normal(27, 5, n)\ntabac    = np.random.binomial(1, 0.25, n)        # 25% de fumeurs (1=fumeur, 0=non)\nsbp      = 70 + 0.6 * age + 0.8 * imc + 5 * tabac + np.random.normal(0, 10, n)\n\n# Construction de la matrice de design X\n# D'abord le DataFrame des predicteurs, puis add_constant pour l'intercept\nX = sm.add_constant(pd.DataFrame({\"age\": age, \"imc\": imc, \"tabac\": tabac}))\n\n# OLS = Ordinary Least Squares ; .fit() ajuste le modèle\nmodele = sm.OLS(sbp, X).fit()\n\n# Sortie classique de regression : R^2, F-stat, coefficients, IC, p-values\nprint(modele.summary())\n\n                            OLS Regression Results                            \n==============================================================================\nDep. Variable:                      y   R-squared:                       0.541\nModel:                            OLS   Adj. R-squared:                  0.537\nMethod:                 Least Squares   F-statistic:                     116.4\nDate:                Tue, 09 Jun 2026   Prob (F-statistic):           8.39e-50\nTime:                        10:51:03   Log-Likelihood:                -1118.8\nNo. Observations:                 300   AIC:                             2246.\nDf Residuals:                     296   BIC:                             2260.\nDf Model:                           3                                         \nCovariance Type:            nonrobust                                         \n==============================================================================\n                 coef    std err          t      P&gt;|t|      [0.025      0.975]\n------------------------------------------------------------------------------\nconst         67.5188      3.838     17.594      0.000      59.966      75.071\nage            0.6166      0.036     16.917      0.000       0.545       0.688\nimc            0.8751      0.119      7.337      0.000       0.640       1.110\ntabac          5.0439      1.338      3.770      0.000       2.411       7.677\n==============================================================================\nOmnibus:                        0.880   Durbin-Watson:                   2.002\nProb(Omnibus):                  0.644   Jarque-Bera (JB):                0.978\nSkew:                           0.079   Prob(JB):                        0.613\nKurtosis:                       2.769   Cond. No.                         397.\n==============================================================================\n\nNotes:\n[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n\n\n\n# Tableau coefficient compact (plus lisible que le summary complet)\ntidy = pd.DataFrame({\n    \"beta\":  modele.params,            # estimations\n    \"IC_lo\": modele.conf_int()[0],     # borne inférieure IC 95%\n    \"IC_hi\": modele.conf_int()[1],     # borne supérieure IC 95%\n    \"p\":     modele.pvalues,           # p-values\n}).round(3)\ntidy\n\n\n\n\n\n\n\n\nbeta\nIC_lo\nIC_hi\np\n\n\n\n\nconst\n67.519\n59.966\n75.071\n0.0\n\n\nage\n0.617\n0.545\n0.688\n0.0\n\n\nimc\n0.875\n0.640\n1.110\n0.0\n\n\ntabac\n5.044\n2.411\n7.677\n0.0\n\n\n\n\n\n\n\nLecture. “A age et tabagisme constants, chaque unite d’IMC est associee a une augmentation d’environ 0,8 mmHg de la tension systolique (IC 95 %…).”",
     "crumbs": [
       "Accueil",
       "Modules",
@@ -1142,7 +1214,7 @@
     "href": "notebooks_executes/module_05_regression.html#regression-logistique-outcome-binaire",
     "title": "\nModule 5·Regression\n",
     "section": "5. Regression logistique — outcome binaire",
-    "text": "5. Regression logistique — outcome binaire\nQuand l’outcome est oui/non, l’OLS predit des valeurs en dehors de \\([0, 1]\\) — non utilisable. La régression logistique modelise la probabilité :\n\\[\\Pr(y = 1 \\mid x) = \\sigma(\\beta_0 + \\beta_1 x_1 + \\ldots), \\quad \\sigma(z) = \\frac{1}{1 + e^{-z}}\\]\nLes coefficients sont des log-odds. Pour des odds ratios : \\(OR = e^{\\beta}\\).\n\nSyntaxe — logistique statsmodels\nX = sm.add_constant(df[predicteurs])\nlogit = sm.Logit(y, X).fit(disp=False)    # disp=False : pas d'output d'iterations\nlogit.summary()\nnp.exp(logit.params)              # odds ratios\nnp.exp(logit.conf_int())          # IC des odds ratios\n\nApplication au jeu Pima Indians Diabetes.\n\nimport os\nfrom pathlib import Path\nimport pandas as pd\n\n# Chemins de cache candidats, dans l'ordre :\n#   1. ./data/         (jupyter local, notebook a la racine)\n#   2. ../data/        (jupyter local, notebook dans un sous-dossier)\n#   3. ./             (au pire on cree un cache dans le cwd)\n# En Colab, aucun n'existe : on tombe sur l'URL et on cree ./data/ pour les\n# cellules suivantes.\n_CANDIDATES = [Path(\"data\"), Path(\"../data\")]\nDATA_DIR = next((p for p in _CANDIDATES if p.is_dir()), Path(\"data\"))\nDATA_DIR.mkdir(exist_ok=True)\n\n\ndef load_csv(name: str, url: str, **read_csv_kwargs) -&gt; pd.DataFrame:\n    \"\"\"Charge un CSV : cache local d'abord, sinon URL publique.\n\n    Le cache utilise le meme separateur que la lecture (TSV reste TSV).\n    \"\"\"\n    for candidate_dir in _CANDIDATES:\n        local = candidate_dir / name\n        if local.exists():\n            return pd.read_csv(local, **read_csv_kwargs)\n    df = pd.read_csv(url, **read_csv_kwargs)\n    try:\n        sep = read_csv_kwargs.get(\"sep\", \",\")\n        (DATA_DIR / name).parent.mkdir(parents=True, exist_ok=True)\n        df.to_csv(DATA_DIR / name, index=False, sep=sep)\n    except OSError:\n        pass\n    return df\n\nPIMA_URL = (\n    \"https://raw.githubusercontent.com/jbrownlee/Datasets/master/\"\n    \"pima-indians-diabetes.data.csv\"\n)\n# Le fichier n'a pas d'en-tête - on fournit les noms via 'names='\nPIMA_COLS = [\"pregnancies\", \"glucose\", \"blood_pressure\",\n             \"skin_thickness\", \"insulin\", \"bmi\",\n             \"diabetes_pedigree\", \"age\", \"outcome\"]\npima = load_csv(\"pima_indians_diabetes.csv\", PIMA_URL,\n                names=PIMA_COLS, header=None)\n\n# Probleme connu du dataset : certaines mesures ont des 0 a la place de NaN.\n# Une glycémie a 0 mg/dL est physiologiquement impossible -&gt; NaN.\nfor col in [\"glucose\", \"blood_pressure\", \"skin_thickness\", \"insulin\", \"bmi\"]:\n    pima[col] = pima[col].replace(0, np.nan)\n\n# Cas complets seulement (en pratique on imputerait)\npima_complete = pima.dropna().copy()\n\nprint(f\"Dimensions (complet) : {pima_complete.shape}\")\nprint(f\"Prevalence diabete   : {pima_complete['outcome'].mean():.1%}\")\npima_complete.head()\n\nDimensions (complet) : (392, 9)\nPrevalence diabete   : 33.2%\n\n\n\n\n\n\n\n\n\npregnancies\nglucose\nblood_pressure\nskin_thickness\ninsulin\nbmi\ndiabetes_pedigree\nage\noutcome\n\n\n\n\n3\n1\n89.0\n66.0\n23.0\n94.0\n28.1\n0.167\n21\n0\n\n\n4\n0\n137.0\n40.0\n35.0\n168.0\n43.1\n2.288\n33\n1\n\n\n6\n3\n78.0\n50.0\n32.0\n88.0\n31.0\n0.248\n26\n1\n\n\n8\n2\n197.0\n70.0\n45.0\n543.0\n30.5\n0.158\n53\n1\n\n\n13\n1\n189.0\n60.0\n23.0\n846.0\n30.1\n0.398\n59\n1\n\n\n\n\n\n\n\n\n# Modele : diabète ~ age + IMC + glycémie\npredicteurs = [\"age\", \"bmi\", \"glucose\"]\nX = sm.add_constant(pima_complete[predicteurs])\ny = pima_complete[\"outcome\"]\n\n# sm.Logit pour la régression logistique\n# disp=False supprime les messages d'iteration\nlogit = sm.Logit(y, X).fit(disp=False)\nprint(logit.summary())\n\n                           Logit Regression Results                           \n==============================================================================\nDep. Variable:                outcome   No. Observations:                  392\nModel:                          Logit   Df Residuals:                      388\nMethod:                           MLE   Df Model:                            3\nDate:                Mon, 08 Jun 2026   Pseudo R-squ.:                  0.2886\nTime:                        19:52:03   Log-Likelihood:                -177.18\nconverged:                       True   LL-Null:                       -249.05\nCovariance Type:            nonrobust   LLR p-value:                 5.925e-31\n==============================================================================\n                 coef    std err          z      P&gt;|z|      [0.025      0.975]\n------------------------------------------------------------------------------\nconst         -9.6773      1.042     -9.288      0.000     -11.719      -7.635\nage            0.0541      0.013      4.085      0.000       0.028       0.080\nbmi            0.0779      0.020      3.870      0.000       0.038       0.117\nglucose        0.0363      0.005      7.391      0.000       0.027       0.046\n==============================================================================\n\n\n\nOdds ratios\nExponentialiser coefficients et bornes des IC.\n\nSyntaxe — np.exp\nnp.exp(x)        # e^x ; fonctionne sur scalaires et tableaux\n\n\n# np.exp() applique element par element\nor_tab = pd.DataFrame({\n    \"OR\":    np.exp(logit.params),\n    \"IC_lo\": np.exp(logit.conf_int()[0]),\n    \"IC_hi\": np.exp(logit.conf_int()[1]),\n    \"p\":     logit.pvalues,\n}).round(3)\nor_tab\n\n\n\n\n\n\n\n\nOR\nIC_lo\nIC_hi\np\n\n\n\n\nconst\n0.000\n0.000\n0.000\n0.0\n\n\nage\n1.056\n1.029\n1.083\n0.0\n\n\nbmi\n1.081\n1.039\n1.124\n0.0\n\n\nglucose\n1.037\n1.027\n1.047\n0.0\n\n\n\n\n\n\n\nLecture. “A age et IMC constants, chaque augmentation de 1 mg/dL de la glycémie multiplie les cotes de diabète par ~1,04.” Sur une plage de 30 mg/dL cela donne \\(1{,}04^{30} \\approx 3\\) — une augmentation substantielle.",
+    "text": "5. Regression logistique — outcome binaire\nQuand l’outcome est oui/non, l’OLS predit des valeurs en dehors de \\([0, 1]\\) — non utilisable. La régression logistique modelise la probabilité :\n\\[\\Pr(y = 1 \\mid x) = \\sigma(\\beta_0 + \\beta_1 x_1 + \\ldots), \\quad \\sigma(z) = \\frac{1}{1 + e^{-z}}\\]\nLes coefficients sont des log-odds. Pour des odds ratios : \\(OR = e^{\\beta}\\).\n\nSyntaxe — logistique statsmodels\nX = sm.add_constant(df[predicteurs])\nlogit = sm.Logit(y, X).fit(disp=False)    # disp=False : pas d'output d'iterations\nlogit.summary()\nnp.exp(logit.params)              # odds ratios\nnp.exp(logit.conf_int())          # IC des odds ratios\n\nApplication au jeu Pima Indians Diabetes.\n\nimport os\nfrom pathlib import Path\nimport pandas as pd\n\n# Chemins de cache candidats, dans l'ordre :\n#   1. ./data/         (jupyter local, notebook a la racine)\n#   2. ../data/        (jupyter local, notebook dans un sous-dossier)\n#   3. ./             (au pire on cree un cache dans le cwd)\n# En Colab, aucun n'existe : on tombe sur l'URL et on cree ./data/ pour les\n# cellules suivantes.\n_CANDIDATES = [Path(\"data\"), Path(\"../data\")]\nDATA_DIR = next((p for p in _CANDIDATES if p.is_dir()), Path(\"data\"))\nDATA_DIR.mkdir(exist_ok=True)\n\n\ndef load_csv(name: str, url: str, **read_csv_kwargs) -&gt; pd.DataFrame:\n    \"\"\"Charge un CSV : cache local d'abord, sinon URL publique.\n\n    Le cache utilise le meme separateur que la lecture (TSV reste TSV).\n    \"\"\"\n    for candidate_dir in _CANDIDATES:\n        local = candidate_dir / name\n        if local.exists():\n            return pd.read_csv(local, **read_csv_kwargs)\n    df = pd.read_csv(url, **read_csv_kwargs)\n    try:\n        sep = read_csv_kwargs.get(\"sep\", \",\")\n        (DATA_DIR / name).parent.mkdir(parents=True, exist_ok=True)\n        df.to_csv(DATA_DIR / name, index=False, sep=sep)\n    except OSError:\n        pass\n    return df\n\nPIMA_URL = (\n    \"https://raw.githubusercontent.com/jbrownlee/Datasets/master/\"\n    \"pima-indians-diabetes.data.csv\"\n)\n# Le fichier n'a pas d'en-tête - on fournit les noms via 'names='\nPIMA_COLS = [\"pregnancies\", \"glucose\", \"blood_pressure\",\n             \"skin_thickness\", \"insulin\", \"bmi\",\n             \"diabetes_pedigree\", \"age\", \"outcome\"]\npima = load_csv(\"pima_indians_diabetes.csv\", PIMA_URL,\n                names=PIMA_COLS, header=None)\n\n# Probleme connu du dataset : certaines mesures ont des 0 a la place de NaN.\n# Une glycémie a 0 mg/dL est physiologiquement impossible -&gt; NaN.\nfor col in [\"glucose\", \"blood_pressure\", \"skin_thickness\", \"insulin\", \"bmi\"]:\n    pima[col] = pima[col].replace(0, np.nan)\n\n# Cas complets seulement (en pratique on imputerait)\npima_complete = pima.dropna().copy()\n\nprint(f\"Dimensions (complet) : {pima_complete.shape}\")\nprint(f\"Prevalence diabete   : {pima_complete['outcome'].mean():.1%}\")\npima_complete.head()\n\nDimensions (complet) : (392, 9)\nPrevalence diabete   : 33.2%\n\n\n\n\n\n\n\n\n\npregnancies\nglucose\nblood_pressure\nskin_thickness\ninsulin\nbmi\ndiabetes_pedigree\nage\noutcome\n\n\n\n\n3\n1\n89.0\n66.0\n23.0\n94.0\n28.1\n0.167\n21\n0\n\n\n4\n0\n137.0\n40.0\n35.0\n168.0\n43.1\n2.288\n33\n1\n\n\n6\n3\n78.0\n50.0\n32.0\n88.0\n31.0\n0.248\n26\n1\n\n\n8\n2\n197.0\n70.0\n45.0\n543.0\n30.5\n0.158\n53\n1\n\n\n13\n1\n189.0\n60.0\n23.0\n846.0\n30.1\n0.398\n59\n1\n\n\n\n\n\n\n\n\n# Modele : diabète ~ age + IMC + glycémie\npredicteurs = [\"age\", \"bmi\", \"glucose\"]\nX = sm.add_constant(pima_complete[predicteurs])\ny = pima_complete[\"outcome\"]\n\n# sm.Logit pour la régression logistique\n# disp=False supprime les messages d'iteration\nlogit = sm.Logit(y, X).fit(disp=False)\nprint(logit.summary())\n\n                           Logit Regression Results                           \n==============================================================================\nDep. Variable:                outcome   No. Observations:                  392\nModel:                          Logit   Df Residuals:                      388\nMethod:                           MLE   Df Model:                            3\nDate:                Tue, 09 Jun 2026   Pseudo R-squ.:                  0.2886\nTime:                        10:51:03   Log-Likelihood:                -177.18\nconverged:                       True   LL-Null:                       -249.05\nCovariance Type:            nonrobust   LLR p-value:                 5.925e-31\n==============================================================================\n                 coef    std err          z      P&gt;|z|      [0.025      0.975]\n------------------------------------------------------------------------------\nconst         -9.6773      1.042     -9.288      0.000     -11.719      -7.635\nage            0.0541      0.013      4.085      0.000       0.028       0.080\nbmi            0.0779      0.020      3.870      0.000       0.038       0.117\nglucose        0.0363      0.005      7.391      0.000       0.027       0.046\n==============================================================================\n\n\n\nOdds ratios\nExponentialiser coefficients et bornes des IC.\n\nSyntaxe — np.exp\nnp.exp(x)        # e^x ; fonctionne sur scalaires et tableaux\n\n\n# np.exp() applique element par element\nor_tab = pd.DataFrame({\n    \"OR\":    np.exp(logit.params),\n    \"IC_lo\": np.exp(logit.conf_int()[0]),\n    \"IC_hi\": np.exp(logit.conf_int()[1]),\n    \"p\":     logit.pvalues,\n}).round(3)\nor_tab\n\n\n\n\n\n\n\n\nOR\nIC_lo\nIC_hi\np\n\n\n\n\nconst\n0.000\n0.000\n0.000\n0.0\n\n\nage\n1.056\n1.029\n1.083\n0.0\n\n\nbmi\n1.081\n1.039\n1.124\n0.0\n\n\nglucose\n1.037\n1.027\n1.047\n0.0\n\n\n\n\n\n\n\nLecture. “A age et IMC constants, chaque augmentation de 1 mg/dL de la glycémie multiplie les cotes de diabète par ~1,04.” Sur une plage de 30 mg/dL cela donne \\(1{,}04^{30} \\approx 3\\) — une augmentation substantielle.",
     "crumbs": [
       "Accueil",
       "Modules",

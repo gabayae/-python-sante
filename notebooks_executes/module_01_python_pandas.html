@@ -344,6 +344,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="../ecosysteme.html"> 
+<span class="menu-text">Boîte à outils</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../notes/notes_6h.pdf"> 
 <span class="menu-text">Notes (PDF)</span></a>
   </li>  
@@ -446,6 +450,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../ecosysteme.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Boîte à outils Python</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../notes/notes_6h.pdf" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Notes de cours (PDF)</span></a>
   </div>
@@ -474,7 +484,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Sur cette page</h2>
    
   <ul>
-  <li><a href="#reproductibilite" id="toc-reproductibilite" class="nav-link active" data-scroll-target="#reproductibilite">0. Reproductibilite</a></li>
+  <li><a href="#reproductibilite" id="toc-reproductibilite" class="nav-link active" data-scroll-target="#reproductibilite">0. Reproductibilite</a>
+  <ul class="collapse">
+  <li><a href="#les-bibliothèques-que-vous-allez-rencontrer" id="toc-les-bibliothèques-que-vous-allez-rencontrer" class="nav-link" data-scroll-target="#les-bibliothèques-que-vous-allez-rencontrer">Les bibliothèques que vous allez rencontrer</a></li>
+  </ul></li>
   <li><a href="#variables-et-types" id="toc-variables-et-types" class="nav-link" data-scroll-target="#variables-et-types">1. Variables et types</a></li>
   <li><a href="#listes-plusieurs-mesures-du-même-type" id="toc-listes-plusieurs-mesures-du-même-type" class="nav-link" data-scroll-target="#listes-plusieurs-mesures-du-même-type">2. Listes — plusieurs mesures du même type</a></li>
   <li><a href="#dictionnaires-la-fiche-patient" id="toc-dictionnaires-la-fiche-patient" class="nav-link" data-scroll-target="#dictionnaires-la-fiche-patient">3. Dictionnaires — la fiche patient</a></li>
@@ -572,7 +585,7 @@ Chaque concept Python est d’abord introduit dans un encart <strong>Syntaxe</st
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nom_module <span class="im">import</span> truc        <span class="co"># juste une partie</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Les alias <code>np</code> (numpy), <code>pd</code> (pandas), <code>plt</code> (matplotlib.pyplot) et <code>sns</code> (seaborn) sont des conventions universelles.</p>
 </blockquote>
-<div id="213a608d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:53.571463Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:53.570708Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:53.719306Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:53.718648Z&quot;}}" data-execution_count="1">
+<div id="14bcf28c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:53.329892Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:53.329493Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:53.523867Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:53.523192Z&quot;}}" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random                          <span class="co"># module standard pour le hasard</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys                             <span class="co"># pour afficher la version Python</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np                     <span class="co"># convention universelle : np</span></span>
@@ -591,6 +604,62 @@ Chaque concept Python est d’abord introduit dans un encart <strong>Syntaxe</st
 numpy  2.1.3</code></pre>
 </div>
 </div>
+<section id="les-bibliothèques-que-vous-allez-rencontrer" class="level3">
+<h3 class="anchored" data-anchor-id="les-bibliothèques-que-vous-allez-rencontrer">Les bibliothèques que vous allez rencontrer</h3>
+<p>Ce cours s’appuie sur huit bibliothèques <strong>open source</strong>, gratuites. Voici le rôle de chacune en une phrase — vous les verrez apparaître au fur et à mesure des modules :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Bibliothèque</th>
+<th>Rôle en une phrase</th>
+<th style="text-align: center;">Modules</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong><a href="https://numpy.org/doc/stable/">NumPy</a></strong> (<code>np</code>)</td>
+<td>Tableaux numériques performants, socle de tout l’écosystème scientifique.</td>
+<td style="text-align: center;">1 à 6</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://pandas.pydata.org/docs/">pandas</a></strong> (<code>pd</code>)</td>
+<td>Tables (<code>DataFrame</code>) — l’Excel programmable de Python.</td>
+<td style="text-align: center;">1 à 6</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://matplotlib.org/stable/users/index.html">Matplotlib</a></strong> (<code>plt</code>)</td>
+<td>Bibliothèque de visualisation fondamentale.</td>
+<td style="text-align: center;">1, 3, 4, 5, 6</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://seaborn.pydata.org/">seaborn</a></strong> (<code>sns</code>)</td>
+<td>Visualisation <strong>statistique</strong> au-dessus de Matplotlib.</td>
+<td style="text-align: center;">3, 4, 5, 6</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://docs.scipy.org/doc/scipy/">SciPy</a></strong> (<code>scipy.stats</code>)</td>
+<td>Tests statistiques, lois de probabilité, optimisation.</td>
+<td style="text-align: center;">2, 3, 4, 5, 6</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://www.statsmodels.org/stable/">statsmodels</a></strong> (<code>sm</code>)</td>
+<td>Modèles statistiques inférentiels (OLS, logistique, GLM).</td>
+<td style="text-align: center;">4, 5, 6</td>
+</tr>
+<tr class="odd">
+<td><strong><a href="https://scikit-learn.org/stable/">scikit-learn</a></strong> (<code>sklearn</code>)</td>
+<td>Machine learning classique : régression, classification, ROC, calibration.</td>
+<td style="text-align: center;">5, 6</td>
+</tr>
+<tr class="even">
+<td><strong><a href="https://lifelines.readthedocs.io/">lifelines</a></strong></td>
+<td>Analyse de survie (Kaplan-Meier, Cox PH).</td>
+<td style="text-align: center;">5</td>
+</tr>
+</tbody>
+</table>
+<p>Une <strong>présentation détaillée</strong> de chaque bibliothèque avec liens vers la documentation officielle, les tutoriels recommandés et les manuels gratuits est disponible sur la page <a href="../ecosysteme.html">Boîte à outils Python</a> du site web.</p>
+</section>
 </section>
 <section id="variables-et-types" class="level2">
 <h2 class="anchored" data-anchor-id="variables-et-types">1. Variables et types</h2>
@@ -642,7 +711,7 @@ numpy  2.1.3</code></pre>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ss">f"valeur = </span><span class="sc">{</span>x<span class="sc">:.1f}</span><span class="ss">"</span>                <span class="co"># avec format : 1 chiffre après la virgule</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Le <code>f</code> devant les guillemets active l’interpolation. C’est la facon <strong>recommandée</strong> en Python 3.6+.</p>
 </blockquote>
-<div id="0e22686a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:53.723177Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:53.722808Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:53.730518Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:53.729549Z&quot;}}" data-execution_count="2">
+<div id="9e051f39" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:53.527700Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:53.527198Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:53.532756Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:53.531990Z&quot;}}" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Quatre variables, une par type</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>age <span class="op">=</span> <span class="dv">45</span>                           <span class="co"># int  - entier</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>temperature <span class="op">=</span> <span class="fl">37.2</span>                 <span class="co"># float - décimal</span></span>
@@ -683,7 +752,7 @@ type(temp.) = float</code></pre>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>ma_liste.append(valeur)                  <span class="co"># ajoute a la fin (modifie en place)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Attention</strong> : Python compte <strong>a partir de 0</strong>, pas de 1. Le premier element est <code>[0]</code>, le deuxieme <code>[1]</code>, etc.</p>
 </blockquote>
-<div id="e7209f2f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:53.733803Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:53.733472Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:53.740151Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:53.739422Z&quot;}}" data-execution_count="3">
+<div id="20b46e5b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:53.535800Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:53.535198Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:53.541244Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:53.540579Z&quot;}}" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cinq mesures de tension systolique pour un même patient (mmHg)</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>tensions <span class="op">=</span> [<span class="dv">120</span>, <span class="dv">135</span>, <span class="dv">128</span>, <span class="dv">142</span>, <span class="dv">118</span>]   <span class="co"># crochets, virgules</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -736,7 +805,7 @@ Apres append(124) : [120, 135, 128, 142, 118, 124]</code></pre>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>mon_dict.keys()               <span class="co"># toutes les clés</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Une <strong>fiche patient</strong> est naturellement un dictionnaire : chaque champ (<code>age</code>, <code>sexe</code>, <code>diagnostic</code>) est une cle.</p>
 </blockquote>
-<div id="c30bd211" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:53.743019Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:53.742724Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:53.749052Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:53.748332Z&quot;}}" data-execution_count="4">
+<div id="61e43a29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:53.544253Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:53.543836Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:53.549148Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:53.548534Z&quot;}}" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Une fiche patient sous forme de dictionnaire</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>patient <span class="op">=</span> {</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"id"</span>:              <span class="st">"PAT-0042"</span>,</span>
@@ -798,7 +867,7 @@ Une <strong>cohorte</strong> = une <strong>liste de dictionnaires</strong>. C’
 <p><strong>Operateurs de comparaison</strong> : <code>==</code> (égal), <code>!=</code> (different), <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>.<br>
 <strong>Operateurs booleens</strong> : <code>and</code> (et), <code>or</code> (ou), <code>not</code> (non).</p>
 </blockquote>
-<div id="b9a7c624" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:53.752055Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:53.751699Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:53.757181Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:53.756381Z&quot;}}" data-execution_count="5">
+<div id="db29df57" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:53.552185Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:53.551653Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:53.556372Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:53.555726Z&quot;}}" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Classification ACC/AHA 2017 de l'hypertension</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>systolique <span class="op">=</span> <span class="dv">148</span>  <span class="co"># mmHg</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -837,7 +906,7 @@ Une <strong>cohorte</strong> = une <strong>liste de dictionnaires</strong>. C’
 <p>= 6,5 % -&gt; diabète</p>
 </blockquote></li>
 </ul>
-<div id="efe65628" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:53.760147Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:53.759854Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:53.765497Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:53.764778Z&quot;}}" data-execution_count="6">
+<div id="a6d023e6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:53.559253Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:53.558932Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:53.564316Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:53.563758Z&quot;}}" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cinq patients sous forme de liste de dictionnaires</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>cohorte <span class="op">=</span> [</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"id"</span>: <span class="st">"P001"</span>, <span class="st">"age"</span>: <span class="dv">34</span>, <span class="st">"hba1c"</span>: <span class="fl">5.4</span>},</span>
@@ -890,7 +959,7 @@ Une <strong>cohorte</strong> = une <strong>liste de dictionnaires</strong>. C’
 <blockquote class="blockquote">
 <p><strong>Docstring</strong> : la chaine entre triple guillemets juste après <code>def</code>. Affichee par <code>help(nom_fonction)</code> ou par Jupyter quand on survole le nom.</p>
 </blockquote>
-<div id="76469771" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:53.768327Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:53.768042Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:53.774358Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:53.773632Z&quot;}}" data-execution_count="7">
+<div id="299f1a78" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:53.567426Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:53.566833Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:53.572371Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:53.571797Z&quot;}}" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> imc(poids_kg: <span class="bu">float</span>, taille_m: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">float</span>:</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Indice de Masse Corporelle en kg/m^2.</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -952,7 +1021,7 @@ Pour toute fonction de calcul medical (dosage, eGFR, scores), preferez les <stro
 </blockquote>
 <p>On charge ici <strong>Gapminder</strong> : espérance de vie, PIB par habitant et population pour ~140 pays tous les 5 ans, de 1952 a 2007. <a href="https://github.com/jennybc/gapminder">GitHub : <code>jennybc/gapminder</code></a>.</p>
 <p>La fonction <code>load_csv</code> ci-dessous est notre <strong>patron de chargement</strong> utilise dans tous les modules. Elle essaie le cache local (<code>data/</code>) d’abord, sinon telecharge depuis l’URL. Cela marche <strong>en Colab comme en local</strong>.</p>
-<div id="194b0416" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:53.777334Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:53.777046Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.712916Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.712069Z&quot;}}" data-execution_count="8">
+<div id="78bff1f7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:53.576018Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:53.575275Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.502198Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.501532Z&quot;}}" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1118,7 +1187,7 @@ Pour toute fonction de calcul medical (dosage, eGFR, scores), preferez les <stro
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>df.nunique()                       <span class="co"># nb de valeurs uniques par colonne</span></span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"col"</span>].unique()                 <span class="co"># valeurs uniques d'UNE colonne</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </blockquote>
-<div id="83a26beb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.717236Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.716897Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.725538Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.724762Z&quot;}}" data-execution_count="9">
+<div id="67d5fc28" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.506216Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.505444Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.518136Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.517409Z&quot;}}" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># .columns donne les noms de colonnes ; .tolist() les convertit en liste Python</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Colonnes :"</span>, gm.columns.tolist())</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
@@ -1151,7 +1220,7 @@ Continents       : ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania']
 Annees presentes : [np.int64(1952), np.int64(1957), np.int64(1962), np.int64(1967), np.int64(1972), np.int64(1977), np.int64(1982), np.int64(1987), np.int64(1992), np.int64(1997), np.int64(2002), np.int64(2007)]</code></pre>
 </div>
 </div>
-<div id="57c4b858" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.728215Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.727918Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.746471Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.745439Z&quot;}}" data-execution_count="10">
+<div id="71410fa3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.520935Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.520647Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.543640Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.542383Z&quot;}}" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># .describe() : statistiques descriptives des colonnes numériques</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># .round(2) arrondit a 2 décimales (purement cosmetique)</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>gm.describe().<span class="bu">round</span>(<span class="dv">2</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1232,7 +1301,7 @@ Annees presentes : [np.int64(1952), np.int64(1957), np.int64(1962), np.int64(196
 </div>
 </div>
 </div>
-<div id="564f568a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.750291Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.749523Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.756571Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.755765Z&quot;}}" data-execution_count="11">
+<div id="2476cde1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.547543Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.547124Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.558115Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.557239Z&quot;}}" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># .value_counts() : fréquence de chaque valeur unique</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Pratique pour les colonnes catégorielles</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>gm[<span class="st">"continent"</span>].value_counts()</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1262,7 +1331,7 @@ Name: count, dtype: int64</code></pre>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>sous_df <span class="op">=</span> df[(df[<span class="st">"a"</span>] <span class="op">&gt;</span> <span class="dv">1</span>) <span class="op">&amp;</span> (df[<span class="st">"b"</span>] <span class="op">==</span> <span class="st">"X"</span>)]</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Attention</strong> : il faut <code>&amp;</code> <code>|</code> <code>~</code> (pas <code>and</code> <code>or</code> <code>not</code>) et <strong>parentheser chaque condition</strong> — sinon precedence des opérateurs vous trahira.</p>
 </blockquote>
-<div id="5814d696" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.759744Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.759450Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.772490Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.771467Z&quot;}}" data-execution_count="12">
+<div id="b6a1a654" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.561594Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.560858Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.580634Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.579951Z&quot;}}" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La derniere année présente dans le jeu de données</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>annee_recente <span class="op">=</span> gm[<span class="st">"year"</span>].<span class="bu">max</span>()       <span class="co"># .max() renvoie le max</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Annee la plus recente : </span><span class="sc">{</span>annee_recente<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -1349,7 +1418,7 @@ Pays africains        : 52</code></pre>
 </div>
 </div>
 </div>
-<div id="4059d3e6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.775507Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.775203Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.787907Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.786945Z&quot;}}" data-execution_count="13">
+<div id="594a08f0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.583509Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.583184Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.597204Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.596411Z&quot;}}" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Esperance de vie &lt; 50 ans dans la derniere année</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>faible_ev <span class="op">=</span> recent[recent[<span class="st">"lifeExp"</span>] <span class="op">&lt;</span> <span class="dv">50</span>]</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Pays avec EV &lt; 50 ans en </span><span class="sc">{</span>annee_recente<span class="sc">}</span><span class="ss"> : </span><span class="sc">{</span><span class="bu">len</span>(faible_ev)<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -1495,7 +1564,7 @@ Pays africains        : 52</code></pre>
 </div>
 </div>
 <p><strong>Exemple avec deux conditions</strong> — pays africains ET PIB &lt; 1 000 USD :</p>
-<div id="8e0b5e13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.791316Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.791019Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.804088Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.803274Z&quot;}}" data-execution_count="14">
+<div id="08760c34" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.600186Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.599790Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.611918Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.611124Z&quot;}}" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Noter les parentheses autour de CHAQUE condition + l'opérateur &amp;</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>pauvre_africain <span class="op">=</span> recent[</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    (recent[<span class="st">"continent"</span>] <span class="op">==</span> <span class="st">"Africa"</span>)</span>
@@ -1645,7 +1714,7 @@ Pays africains        : 52</code></pre>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>df.nsmallest(n, <span class="st">"col"</span>)                      <span class="co"># n plus petits</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </blockquote>
 <p>Question classique : <strong>quels sont les pays les mieux/moins bien places sur un indicateur ?</strong></p>
-<div id="8e301088" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.807836Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.807463Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.818216Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.817431Z&quot;}}" data-execution_count="15">
+<div id="c3984430" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.614658Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.614348Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.624492Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.623555Z&quot;}}" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Les 10 pays avec la plus haute espérance de vie en 2007</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ascending=False -&gt; ordre decroissant</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>top10 <span class="op">=</span> recent.sort_values(<span class="st">"lifeExp"</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">10</span>)</span>
@@ -1748,7 +1817,7 @@ Pays africains        : 52</code></pre>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>df.groupby([<span class="st">"c1"</span>, <span class="st">"c2"</span>])[<span class="st">"x"</span>].mean()                  <span class="co"># par croisement</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>.agg()</code> accepte une liste de noms de fonctions ou même une fonction personnalisee.</p>
 </blockquote>
-<div id="332856ae" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.820966Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.820693Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.834622Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.833846Z&quot;}}" data-execution_count="16">
+<div id="45e5275c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.628140Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.627762Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.647321Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.646615Z&quot;}}" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Statistiques d'EV par continent en 2007</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Methode chainee : on lit de gauche a droite comme une phrase</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>resume <span class="op">=</span> (</span>
@@ -1849,7 +1918,7 @@ Pays africains        : 52</code></pre>
 <span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Les bornes sont <strong>incluses a droite</strong> par défaut (<code>right=True</code>).</p>
 </blockquote>
-<div id="e1df0af7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.837442Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.837150Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.851446Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.850608Z&quot;}}" data-execution_count="17">
+<div id="d4b39a5d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.650849Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.650531Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.664441Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.663383Z&quot;}}" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># .copy() empeche le SettingWithCopyWarning quand on modifie</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>gm <span class="op">=</span> gm.copy()</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1931,10 +2000,10 @@ Pays africains        : 52</code></pre>
 <li>Calculez la moyenne d’EV par décennie.</li>
 </ol>
 <p>Indice : pour transformer une année en décennie, on peut faire <code>année // 10 * 10</code> (le <code>//</code> est la division entiere : <code>1957 // 10 = 195</code>).</p>
-<div id="c27d35d9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.854748Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.854326Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.859101Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.858220Z&quot;}}" data-execution_count="18">
+<div id="15197b3e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.668191Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.667811Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.671863Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.671127Z&quot;}}" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre essai ici</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="f098b8e4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.862408Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.862117Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.872455Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.871480Z&quot;}}" data-execution_count="19">
+<div id="f43c85ce" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.675270Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.674937Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.684128Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.683522Z&quot;}}" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>afrique <span class="op">=</span> gm[gm[<span class="st">"continent"</span>] <span class="op">==</span> <span class="st">"Africa"</span>].copy()</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Division entiere puis multiplication : 1957 // 10 * 10 = 1950</span></span>
@@ -1954,10 +2023,10 @@ Name: lifeExp, dtype: float64</code></pre>
 </section>
 <section id="exercice-2-5-pays-africains-avec-la-plus-faible-ev-en-2007" class="level3">
 <h3 class="anchored" data-anchor-id="exercice-2-5-pays-africains-avec-la-plus-faible-ev-en-2007">Exercice 2 — 5 pays africains avec la plus faible EV en 2007</h3>
-<div id="3c3c7ed0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.875686Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.875357Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.878670Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.877988Z&quot;}}" data-execution_count="20">
+<div id="c1bca8da" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.686892Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.686568Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.689802Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.689110Z&quot;}}" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre essai ici</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="839091f9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.881990Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.881457Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.894103Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.893407Z&quot;}}" data-execution_count="21">
+<div id="d60ddbcf" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.692620Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.692204Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.703345Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.702525Z&quot;}}" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co"># .nsmallest(n, col) : n lignes ayant les plus petites valeurs de col</span></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>(</span>
@@ -2024,10 +2093,10 @@ Name: lifeExp, dtype: float64</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pd.crosstab(df[<span class="st">"col_ligne"</span>], df[<span class="st">"col_colonne"</span>])   <span class="co"># comptes</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>pd.crosstab(df[<span class="st">"col_ligne"</span>], df[<span class="st">"col_colonne"</span>], margins<span class="op">=</span><span class="va">True</span>)  <span class="co"># avec totaux</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </blockquote>
-<div id="cfa8976d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.897605Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.897069Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.901713Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.900956Z&quot;}}" data-execution_count="22">
+<div id="37829e4b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.707013Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.706657Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.710759Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.710023Z&quot;}}" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre essai ici</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="c9dd7df1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:50:54.904727Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:50:54.904288Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:50:54.926491Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:50:54.925525Z&quot;}}" data-execution_count="23">
+<div id="0ca76c5a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T16:49:54.714387Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T16:49:54.713846Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T16:49:54.738544Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T16:49:54.737499Z&quot;}}" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>recent <span class="op">=</span> recent.copy()</span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>recent[<span class="st">"revenu"</span>] <span class="op">=</span> pd.cut(</span>
