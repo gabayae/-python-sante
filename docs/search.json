@@ -1,0 +1,1190 @@
+[
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html",
+    "href": "notebooks_executes/module_06_ml_clinique.html",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "",
+    "text": "Analyse de Données avec Python pour Professionnels de la Santé\n\n\n\nVersion condensee 6 heures · Module 6 sur 6 · Duree 60 minutes",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#imports",
+    "href": "notebooks_executes/module_06_ml_clinique.html#imports",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "0. Imports",
+    "text": "0. Imports\nLe module sklearn est gigantesque ; on importe seulement ce dont on a besoin :\n\nSyntaxe — imports sklearn (selectifs)\nfrom sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import roc_curve, roc_auc_score\nLa structure est sklearn.&lt;catégorie&gt;.&lt;classe_ou_fonction&gt;.\n\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\n# Splits et évaluation\nfrom sklearn.model_selection import train_test_split, cross_val_score\n# Pretraitement\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.pipeline import Pipeline\n# Modeles\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.tree import DecisionTreeClassifier, plot_tree\nfrom sklearn.ensemble import RandomForestClassifier\n# Metriques\nfrom sklearn.metrics import (classification_report, confusion_matrix,\n                              roc_curve, roc_auc_score, brier_score_loss)\nfrom sklearn.calibration import calibration_curve\n\nnp.random.seed(42)\nsns.set_theme(style=\"whitegrid\", font_scale=1.05)",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#chargement",
+    "href": "notebooks_executes/module_06_ml_clinique.html#chargement",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "1. Chargement",
+    "text": "1. Chargement\nColonnes principales :\n\n\n\nVariable\nSens\n\n\n\n\nage\nAge (annees)\n\n\nsex\n1 = homme, 0 = femme\n\n\ncp\nType de douleur thoracique (0-3)\n\n\ntrestbps\nTension de repos (mmHg)\n\n\nchol\nCholesterol total (mg/dL)\n\n\nfbs\nGlycemie a jeun &gt; 120 mg/dL\n\n\nthalach\nFC max a l’effort\n\n\nexang\nAngine induite par l’effort\n\n\noldpeak\nDepression ST a l’effort\n\n\nca\nNombre de gros vaisseaux a la fluoroscopie\n\n\ntarget\n1 = maladie, 0 = pas de maladie\n\n\n\n\nimport os\nfrom pathlib import Path\nimport pandas as pd\n\n# Chemins de cache candidats, dans l'ordre :\n#   1. ./data/         (jupyter local, notebook a la racine)\n#   2. ../data/        (jupyter local, notebook dans un sous-dossier)\n#   3. ./             (au pire on cree un cache dans le cwd)\n# En Colab, aucun n'existe : on tombe sur l'URL et on cree ./data/ pour les\n# cellules suivantes.\n_CANDIDATES = [Path(\"data\"), Path(\"../data\")]\nDATA_DIR = next((p for p in _CANDIDATES if p.is_dir()), Path(\"data\"))\nDATA_DIR.mkdir(exist_ok=True)\n\n\ndef load_csv(name: str, url: str, **read_csv_kwargs) -&gt; pd.DataFrame:\n    \"\"\"Charge un CSV : cache local d'abord, sinon URL publique.\n\n    Le cache utilise le meme separateur que la lecture (TSV reste TSV).\n    \"\"\"\n    for candidate_dir in _CANDIDATES:\n        local = candidate_dir / name\n        if local.exists():\n            return pd.read_csv(local, **read_csv_kwargs)\n    df = pd.read_csv(url, **read_csv_kwargs)\n    try:\n        sep = read_csv_kwargs.get(\"sep\", \",\")\n        (DATA_DIR / name).parent.mkdir(parents=True, exist_ok=True)\n        df.to_csv(DATA_DIR / name, index=False, sep=sep)\n    except OSError:\n        pass\n    return df\n\nHEART_URL = (\n    \"https://raw.githubusercontent.com/sharmaroshan/\"\n    \"Heart-UCI-Dataset/master/heart.csv\"\n)\nheart = load_csv(\"heart_uci.csv\", HEART_URL)\nprint(f\"Dimensions : {heart.shape}\")\n# .mean() sur une colonne binaire = proportion de 1\nprint(f\"Prevalence : {heart['target'].mean():.1%}\")\nheart.head()\n\nDimensions : (303, 14)\nPrevalence : 54.5%\n\n\n\n\n\n\n\n\n\nage\nsex\ncp\ntrestbps\nchol\nfbs\nrestecg\nthalach\nexang\noldpeak\nslope\nca\nthal\ntarget\n\n\n\n\n0\n63\n1\n3\n145\n233\n1\n0\n150\n0\n2.3\n0\n0\n1\n1\n\n\n1\n37\n1\n2\n130\n250\n0\n1\n187\n0\n3.5\n0\n0\n2\n1\n\n\n2\n41\n0\n1\n130\n204\n0\n0\n172\n0\n1.4\n2\n0\n2\n1\n\n\n3\n56\n1\n1\n120\n236\n0\n1\n178\n0\n0.8\n2\n0\n2\n1\n\n\n4\n57\n0\n0\n120\n354\n0\n1\n163\n1\n0.6\n2\n0\n2\n1",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#traintest-stratifié",
+    "href": "notebooks_executes/module_06_ml_clinique.html#traintest-stratifié",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "2. Train/test stratifié",
+    "text": "2. Train/test stratifié\nToujours stratifier sur l’outcome : sinon, le jeu de test peut avoir une prévalence très différente et l’AUC devient instable.\n\nSyntaxe — train_test_split avec stratify\nX_tr, X_te, y_tr, y_te = train_test_split(\n    X, y,\n    test_size=0.3,         # 30% en test\n    random_state=42,        # reproductibilité\n    stratify=y,             # conserve la prévalence dans les 2 splits\n)\n\n\n# La liste des predicteurs (toutes les colonnes sauf 'target')\nfeatures = [\"age\", \"sex\", \"cp\", \"trestbps\", \"chol\", \"fbs\",\n            \"restecg\", \"thalach\", \"exang\", \"oldpeak\",\n            \"slope\", \"ca\", \"thal\"]\nX = heart[features]\ny = heart[\"target\"]\n\nX_tr, X_te, y_tr, y_te = train_test_split(\n    X, y, test_size=0.3, random_state=42, stratify=y\n)\nprint(f\"Train : {len(X_tr)} patients (prévalence {y_tr.mean():.1%})\")\nprint(f\"Test  : {len(X_te)} patients (prévalence {y_te.mean():.1%})\")\n\nTrain : 212 patients (prévalence 54.2%)\nTest  : 91 patients (prévalence 54.9%)",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#baseline-régression-logistique-en-validation-croisee-5-folds",
+    "href": "notebooks_executes/module_06_ml_clinique.html#baseline-régression-logistique-en-validation-croisee-5-folds",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "3. Baseline — régression logistique en validation croisee 5-folds",
+    "text": "3. Baseline — régression logistique en validation croisee 5-folds\nLa validation croisee est la bonne manière d’estimer la généralisation a partir d’un petit jeu de données :\n\nOn découpe les données en k plis égaux (souvent 5 ou 10).\nOn entraine sur k - 1 plis et on teste sur le 1 restant.\nOn repete pour chacun des k plis.\nOn moyenne les k scores.\n\n\nSyntaxe — cross_val_score\nfrom sklearn.model_selection import cross_val_score\nscores = cross_val_score(modele, X, y, cv=5, scoring=\"accuracy\")\n# cv=5 : 5-fold CV\n# scoring : 'accuracy', 'roc_auc', 'f1', 'precision', ...\n\n\n# Modele baseline\n# max_iter=1000 pour éviter un warning de non-convergence sur petits jeux\nlr = LogisticRegression(max_iter=1000, random_state=42)\n\n# 5-fold CV sur tout X (les splits internes sont indépendants du train_test_split externe)\ncv = cross_val_score(lr, X, y, cv=5, scoring=\"accuracy\")\n\n# .mean() et .std() resument la performance + variabilite\nprint(f\"Accuracy CV : {cv.mean():.3f}  +/- {cv.std():.3f}\")\n# .round(3).tolist() : 3 décimales puis conversion en liste Python pour l'affichage\nprint(f\"Par pli     : {cv.round(3).tolist()}\")\n\nAccuracy CV : 0.828  +/- 0.046\nPar pli     : [0.803, 0.869, 0.852, 0.867, 0.75]",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#arbre-de-décision-classifieur-interpretable",
+    "href": "notebooks_executes/module_06_ml_clinique.html#arbre-de-décision-classifieur-interpretable",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "4. Arbre de décision — classifieur interpretable",
+    "text": "4. Arbre de décision — classifieur interpretable\nUn arbre est une suite de questions oui/non aboutissant a une feuille avec une classe predite. Un clinicien peut le lire et expliquer la prediction au lit du patient.\nToujours fixer max_depth. Sans limite, l’arbre pousse jusqu’a classer parfaitement chaque ligne du train — surapprentissage absolu.\n\nSyntaxe — DecisionTreeClassifier\nfrom sklearn.tree import DecisionTreeClassifier, plot_tree\ndt = DecisionTreeClassifier(max_depth=4, random_state=42)\ndt.fit(X_tr, y_tr)\ndt.predict(X_te)               # predictions binaires\ndt.score(X_te, y_te)           # accuracy sur le test\nplot_tree(dt, feature_names=..., class_names=..., filled=True)\n\n\n# Arbre de profondeur max 4\ndt = DecisionTreeClassifier(max_depth=4, random_state=42)\n\n# .fit(X, y) : entrainement (mêmes signatures pour tous les classifieurs sklearn)\ndt.fit(X_tr, y_tr)\n\n# .predict() : décisions binaires sur le test\ny_hat = dt.predict(X_te)\n\n# classification_report : precision, recall, f1, support, par classe\nprint(classification_report(\n    y_te, y_hat,\n    target_names=[\"Pas malade\", \"Malade\"],\n))\n\n              precision    recall  f1-score   support\n\n  Pas malade       0.77      0.73      0.75        41\n      Malade       0.79      0.82      0.80        50\n\n    accuracy                           0.78        91\n   macro avg       0.78      0.78      0.78        91\nweighted avg       0.78      0.78      0.78        91\n\n\n\n\n# Visualisation de l'arbre\nfig, ax = plt.subplots(figsize=(18, 9))\nplot_tree(\n    dt,\n    feature_names=features,                    # noms des variables\n    class_names=[\"Pas malade\", \"Malade\"],     # noms des classes\n    filled=True,                                # couleurs par classe majoritaire\n    rounded=True,                                # coins arrondis (cosmetique)\n    fontsize=8,\n    ax=ax,\n)\nplt.title(\"Arbre de décision (max_depth = 4)\")\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#foret-aléatoire",
+    "href": "notebooks_executes/module_06_ml_clinique.html#foret-aléatoire",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "5. Foret aléatoire",
+    "text": "5. Foret aléatoire\nUne forêt aléatoire combine des centaines d’arbres entraines sur des échantillons bootstrap avec des sous-ensembles aléatoires de features et moyenne leurs predictions.\nLa randomisation decorrele les arbres et réduit la variance.\nCompromis : meilleures predictions, plus d’arbre unique pointable a un clinicien.\n\nSyntaxe — RandomForestClassifier\nfrom sklearn.ensemble import RandomForestClassifier\nrf = RandomForestClassifier(\n    n_estimators=200,         # nombre d'arbres\n    max_depth=6,              # profondeur max par arbre\n    random_state=42,\n    n_jobs=-1,                # utilise tous les cores CPU\n)\nrf.fit(X_tr, y_tr)\nrf.feature_importances_       # importance par variable\n\n\n# 200 arbres, profondeur 6, parallelise (n_jobs=-1)\nrf = RandomForestClassifier(n_estimators=200, max_depth=6,\n                            random_state=42, n_jobs=-1)\nrf.fit(X_tr, y_tr)\n\nprint(classification_report(\n    y_te, rf.predict(X_te),\n    target_names=[\"Pas malade\", \"Malade\"],\n))\n\n              precision    recall  f1-score   support\n\n  Pas malade       0.82      0.68      0.75        41\n      Malade       0.77      0.88      0.82        50\n\n    accuracy                           0.79        91\n   macro avg       0.80      0.78      0.78        91\nweighted avg       0.80      0.79      0.79        91\n\n\n\n\n# Comparaison côte a côte en validation croisee\n# Dictionnaire : nom -&gt; objet modèle\nmodeles = {\n    \"Logistique\":      LogisticRegression(max_iter=1000, random_state=42),\n    \"Arbre (depth=4)\": DecisionTreeClassifier(max_depth=4, random_state=42),\n    \"Foret aléatoire\": RandomForestClassifier(n_estimators=200, max_depth=6,\n                                              random_state=42, n_jobs=-1),\n}\nprint(\"Accuracy CV 5-folds :\")\n# .items() pour iterer sur les paires (cle, valeur)\nfor nom, m in modeles.items():\n    s = cross_val_score(m, X, y, cv=5, scoring=\"accuracy\")\n    # :22s aligne le nom sur 22 caractères\n    print(f\"  {nom:22s} : {s.mean():.3f} +/- {s.std():.3f}\")\n\nAccuracy CV 5-folds :\n  Logistique             : 0.828 +/- 0.046\n  Arbre (depth=4)        : 0.765 +/- 0.064\n  Foret aléatoire        : 0.831 +/- 0.045",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#courbe-roc-et-auc",
+    "href": "notebooks_executes/module_06_ml_clinique.html#courbe-roc-et-auc",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "6. Courbe ROC et AUC",
+    "text": "6. Courbe ROC et AUC\nLa ROC trace la sensibilité contre 1 - spécificité quand on fait varier le seuil de décision de 0 a 1.\nL’AUC (area under curve) résume tout en un nombre :\n\n0,5 — pas mieux qu’un tirage a pile ou face\n0,7 - 0,8 — acceptable\n0,8 - 0,9 — excellent\n\n0,9 — exceptionnel (rare en clinique réelle)\n\n\nL’AUC seule ne suffit pas. Un modèle peut avoir une excellente AUC et être inutile si ses probabilités sont mal calibrees.\n\nSyntaxe — ROC et AUC\nfrom sklearn.metrics import roc_curve, roc_auc_score\nprobs = modele.predict_proba(X_te)[:, 1]   # proba positives\nfpr, tpr, seuils = roc_curve(y_te, probs)   # FPR, TPR, seuils correspondants\nauc = roc_auc_score(y_te, probs)            # AUC en un nombre\n\n\n# Reentrainement des modèles sur le train\nlr.fit(X_tr, y_tr)\n\n# .predict_proba() renvoie une matrice (n, 2) : [proba_0, proba_1]\n# [:, 1] : on garde seulement la 2e colonne (proba positive)\np_lr = lr.predict_proba(X_te)[:, 1]\np_rf = rf.predict_proba(X_te)[:, 1]\n\n# roc_curve renvoie 3 tableaux : fpr, tpr, seuils (le 3e on l'ignore avec _)\nfpr_lr, tpr_lr, _ = roc_curve(y_te, p_lr)\nfpr_rf, tpr_rf, _ = roc_curve(y_te, p_rf)\nauc_lr = roc_auc_score(y_te, p_lr)\nauc_rf = roc_auc_score(y_te, p_rf)\n\nfig, ax = plt.subplots(figsize=(6.5, 5.5))\nax.plot(fpr_lr, tpr_lr, lw=2, label=f\"Logistique     (AUC = {auc_lr:.3f})\")\nax.plot(fpr_rf, tpr_rf, lw=2, label=f\"Foret aléatoire (AUC = {auc_rf:.3f})\")\n# Diagonale = un modèle 'au hasard'\nax.plot([0, 1], [0, 1], \"k--\", alpha=0.5, label=\"Hasard (AUC = 0.500)\")\nax.set_xlabel(\"Taux faux positifs (1 - spécificité)\")\nax.set_ylabel(\"Taux vrais positifs (sensibilité)\")\nax.set_title(\"Courbes ROC — maladie coronarienne\")\nax.legend(loc=\"lower right\")\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#importance-des-predicteurs",
+    "href": "notebooks_executes/module_06_ml_clinique.html#importance-des-predicteurs",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "7. Importance des predicteurs",
+    "text": "7. Importance des predicteurs\nLa forêt aléatoire expose une mesure d’importance Gini par feature. A utiliser pour générer des hypothèses — c’est une mesure brute (elle melange les features correlees) mais utile pour vérifier que le modèle utilise des predicteurs cliniquement plausibles.\n\nSyntaxe — feature_importances_\nrf.feature_importances_       # tableau, même longueur que features\nLe _ final indique un attribut calcule pendant .fit() (convention sklearn).\n\n\n# Construction d'un DataFrame nom_feature / importance\nimp = pd.DataFrame({\n    \"Feature\":    features,\n    \"Importance\": rf.feature_importances_,\n})\n# Tri croissant pour que .barh affiche le top en haut\nimp = imp.sort_values(\"Importance\", ascending=True)\n\nfig, ax = plt.subplots(figsize=(7, 5))\nax.barh(imp[\"Feature\"], imp[\"Importance\"], color=\"steelblue\")\nax.set_xlabel(\"Importance (Gini)\")\nax.set_title(\"Quels predicteurs portent le plus de signal ?\")\nplt.tight_layout(); plt.show()\n\n# Top 5 : on prend les 5 dernieres lignes (tri ascendant) puis on inverse\nprint(\"Top 5 features :\")\n# .iloc[::-1] : inverse l'ordre des lignes (du plus grand au plus petit)\nfor _, row in imp.tail(5).iloc[::-1].iterrows():\n    print(f\"  {row['Feature']:&gt;10s} : {row['Importance']:.3f}\")\n\n\n\n\n\n\n\n\nTop 5 features :\n          cp : 0.172\n        thal : 0.128\n     oldpeak : 0.124\n     thalach : 0.118\n       slope : 0.072",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#calibration-les-probabilités-sont-elles-dignes-de-confiance",
+    "href": "notebooks_executes/module_06_ml_clinique.html#calibration-les-probabilités-sont-elles-dignes-de-confiance",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "8. Calibration — les probabilités sont-elles dignes de confiance ?",
+    "text": "8. Calibration — les probabilités sont-elles dignes de confiance ?\nUne bonne AUC n’implique pas de bonnes probabilités. Un modèle bien calibre produit des probabilités qui correspondent aux fréquences observees : si vous predisez 30 % de risque, ~30 % des patients developpent effectivement la maladie.\nOn évalué avec :\n\nune courbe de calibration (probabilité moyenne predite vs proportion observee) ;\nle score de Brier (plus bas = mieux ; 0 = parfait).\n\n\nSyntaxe — calibration\nfrom sklearn.calibration import calibration_curve\nfrom sklearn.metrics import brier_score_loss\nobs, mean_pred = calibration_curve(y_te, probs, n_bins=8, strategy=\"quantile\")\nbrier = brier_score_loss(y_te, probs)\n\n\n# n_bins=8 : on segmente l'échelle des probas en 8 paniers\n# strategy='quantile' : chaque panier contient ~ le même nombre de patients\nobs_lr, mean_lr = calibration_curve(y_te, p_lr, n_bins=8, strategy=\"quantile\")\nobs_rf, mean_rf = calibration_curve(y_te, p_rf, n_bins=8, strategy=\"quantile\")\n\nfig, ax = plt.subplots(figsize=(6, 5))\nax.plot(mean_lr, obs_lr, \"o-\", lw=2, label=\"Logistique\")\nax.plot(mean_rf, obs_rf, \"o-\", lw=2, label=\"Foret aléatoire\")\n# Diagonale = calibration parfaite\nax.plot([0, 1], [0, 1], \"k--\", label=\"Parfaitement calibree\")\nax.set_xlabel(\"Probabilite predite moyenne\")\nax.set_ylabel(\"Frequence observee\")\nax.set_title(\"Courbe de calibration\")\nax.legend(); plt.tight_layout(); plt.show()\n\n# Score de Brier : MSE entre probabilités predites et outcome réel\nprint(f\"Score de Brier (Logistique)     : {brier_score_loss(y_te, p_lr):.4f}\")\nprint(f\"Score de Brier (Foret aléatoire): {brier_score_loss(y_te, p_rf):.4f}\")\n\n\n\n\n\n\n\n\nScore de Brier (Logistique)     : 0.1639\nScore de Brier (Foret aléatoire): 0.1424",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#audit-déquité-par-sexe",
+    "href": "notebooks_executes/module_06_ml_clinique.html#audit-déquité-par-sexe",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "9. Audit d’équité par sexe",
+    "text": "9. Audit d’équité par sexe\nOn vérifie que le modèle performe de manière comparable entre hommes et femmes — un contrôle minimal avant tout deploiement.\nUn écart de plusieurs points d’AUC entre groupes est un signal d’alerte qui justifie un re-entrainement, une re-collecte de données, ou un seuil différent par groupe.\n\n# On boucle sur les deux sexes (1 = homme, 0 = femme dans ce dataset)\nrows = []\nfor sex_val, lbl in [(1, \"Homme\"), (0, \"Femme\")]:\n    # Masque booleen .values : np.array de True/False\n    m = (X_te[\"sex\"] == sex_val).values\n    # Sous-groupe trop petit : on saute\n    if m.sum() &lt; 10:\n        continue\n    \n    # Sous-groupes de y, probas et predictions\n    sub_y = y_te[m]\n    sub_p = p_rf[m]\n    sub_h = rf.predict(X_te)[m]\n    \n    # Matrice de confusion par mains (TN, FP, FN, TP)\n    tn = int(((sub_h == 0) & (sub_y == 0)).sum())\n    fp = int(((sub_h == 1) & (sub_y == 0)).sum())\n    fn = int(((sub_h == 0) & (sub_y == 1)).sum())\n    tp = int(((sub_h == 1) & (sub_y == 1)).sum())\n    \n    rows.append({\n        \"groupe\": lbl,\n        \"n\":      int(m.sum()),\n        \"AUC\":    round(float(roc_auc_score(sub_y, sub_p)), 3),\n        \"sens\":   round(tp / (tp + fn), 3) if (tp + fn) else None,\n        \"spec\":   round(tn / (tn + fp), 3) if (tn + fp) else None,\n    })\n\npd.DataFrame(rows)\n\n\n\n\n\n\n\n\ngroupe\nn\nAUC\nsens\nspec\n\n\n\n\n0\nHomme\n61\n0.870\n0.846\n0.686\n\n\n1\nFemme\n30\n0.812\n0.917\n0.667",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#exercices-avec-corriges",
+    "href": "notebooks_executes/module_06_ml_clinique.html#exercices-avec-corriges",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "10. Exercices (avec corriges)",
+    "text": "10. Exercices (avec corriges)\n\nExercice 1 — Comparer l’AUC entre logistique et forêt aléatoire en CV\n\n# Votre essai ici\n\n\n# Solution\n# scoring='roc_auc' : la métrique de CV devient l'AUC\nauc_lr_cv = cross_val_score(LogisticRegression(max_iter=1000, random_state=42),\n                            X, y, cv=5, scoring=\"roc_auc\").mean()\nauc_rf_cv = cross_val_score(\n    RandomForestClassifier(n_estimators=200, max_depth=6, random_state=42, n_jobs=-1),\n    X, y, cv=5, scoring=\"roc_auc\",\n).mean()\nprint(f\"AUC Logistique : {auc_lr_cv:.3f}\")\nprint(f\"AUC Foret      : {auc_rf_cv:.3f}\")\n# +.3f garde le signe (+ ou -)\nprint(f\"Gain           : {auc_rf_cv - auc_lr_cv:+.3f}\")\n\nAUC Logistique : 0.901\nAUC Foret      : 0.904\nGain           : +0.003\n\n\n\n\nExercice 2 — Sensibilite et spécificité vs seuil\n\n# Votre essai ici\n\n\n# Solution\n# Probas predites par la forêt sur le test\np = rf.predict_proba(X_te)[:, 1]\n\n# np.linspace(a, b, n) : n points uniformes entre a et b\nseuils = np.linspace(0.05, 0.95, 19)    # 0.05, 0.10, ..., 0.95\nrows = []\nfor s in seuils:\n    yh = (p &gt;= s).astype(int)\n    tn, fp, fn, tp = confusion_matrix(y_te, yh).ravel()\n    rows.append({\n        \"seuil\": s,\n        # 'if (tp + fn)' protege de la division par zero\n        \"sens\":  tp / (tp + fn) if (tp + fn) else np.nan,\n        \"spec\":  tn / (tn + fp) if (tn + fp) else np.nan,\n    })\nthr = pd.DataFrame(rows)\n\nfig, ax = plt.subplots(figsize=(7, 4))\nax.plot(thr[\"seuil\"], thr[\"sens\"], label=\"Sensibilite\")\nax.plot(thr[\"seuil\"], thr[\"spec\"], label=\"Specificite\")\nax.set_xlabel(\"Seuil\"); ax.legend()\nax.set_title(\"Sens / spec vs seuil de décision\")\nplt.tight_layout(); plt.show()\n\n\n\n\n\n\n\n\n\n\nExercice 3 — Top 5 features uniquement — la performance baisse-t-elle ?\n\n# Votre essai ici\n\n\n# Solution\n# Series : feature -&gt; importance\ntop5 = (pd.Series(rf.feature_importances_, index=features)\n          .sort_values(ascending=False)\n          .head(5)\n          .index.tolist())\nprint(f\"Top 5 : {top5}\")\n\n# AUC en CV avec seulement les 5 features\nauc_top5 = cross_val_score(\n    RandomForestClassifier(n_estimators=200, max_depth=6, random_state=42, n_jobs=-1),\n    heart[top5], y, cv=5, scoring=\"roc_auc\",\n).mean()\nprint(f\"AUC top-5    : {auc_top5:.3f}\")\nprint(f\"AUC toutes (13) : {auc_rf_cv:.3f}\")\n\nTop 5 : ['cp', 'thal', 'oldpeak', 'thalach', 'slope']\nAUC top-5    : 0.859\nAUC toutes (13) : 0.904",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#resume-final",
+    "href": "notebooks_executes/module_06_ml_clinique.html#resume-final",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "Resume final",
+    "text": "Resume final\nVous etes arrive a la fin des 6 heures.\nVous savez maintenant :\n\nManipuler des données en Python et pandas (Module 1).\nNettoyer un jeu de données clinique et calculer prévalence, incidence, RR/OR (Module 2).\nVisualiser pour une audience de santé avec rigueur (Module 3).\nTester une hypothèse et rapporter taille d’effet + IC (Module 4).\nAjuster une régression linéaire ou logistique, lire des odds ratios (Module 5).\nEntrainer, évaluer honnetement et auditer un classifieur ML (Module 6).",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#aller-plus-loin",
+    "href": "notebooks_executes/module_06_ml_clinique.html#aller-plus-loin",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "Aller plus loin",
+    "text": "Aller plus loin\n\nAnalyse temporelle (décomposition, series épidémiques) : voir ../code/notebooks/ch09_geospatial_temporal.ipynb.\nAnalyse spatiale (geopandas, choropleth) : voir le même notebook.\nProjet capstone : voir ../code/notebooks/ch10_capstone.ipynb.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_06_ml_clinique.html#ressources-et-liens-utiles",
+    "href": "notebooks_executes/module_06_ml_clinique.html#ressources-et-liens-utiles",
+    "title": "\nModule 6·ML clinique\n",
+    "section": "Ressources et liens utiles",
+    "text": "Ressources et liens utiles\n\nDocumentation officielle\n\nscikit-learn — https://scikit-learn.org/stable/ (la documentation est exceptionnellement claire ; commencez par le user guide).\nRandom Forest doc — https://scikit-learn.org/stable/modules/ensemble.html#random-forests\nModel évaluation metrics — https://scikit-learn.org/stable/modules/model_evaluation.html\nCalibration — https://scikit-learn.org/stable/modules/calibration.html\n\n\n\nManuels gratuits\n\nAn Introduction to Statistical Learning (James, Witten, Hastie, Tibshirani, edition Python 2023) — https://www.statlearning.com/\nLe manuel de référence pour ML, niveau accessible, avec code Python.\nThe Elements of Statistical Learning (Hastie, Tibshirani, Friedman) — https://hastie.su.domains/ElemStatLearn/\nPlus technique ; libre en PDF.\n\n\n\nML applique a la santé\n\nChristodoulou et al. (2019) A systematic review shows no performance benefit of machine learning over logistic régression for clinical prediction models. J Clin Epidemiol 110: 12-22 — étude qui modere les attentes en ML clinique.\nWynants et al. (2020) Prediction models for diagnosis and prognosis of COVID-19: systematic review and critical appraisal. BMJ 369: m1328 — exemple de ce qui peut mal tourner.\nTRIPOD-AI / PROBAST-AI — checklists pour la publication et l’évaluation des modèles IA en santé : https://www.tripod-statement.org/\nFDA — Artificial Intelligence and Machine Learning Software as a Medical Device — https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices\n\n\n\nEquite et biais\n\nObermeyer et al. (2019) Dissecting racial bias in an algorithm used to manage the health of populations. Science 366: 447-453 — étude de cas majeure sur le biais algorithmique en santé.\nfairlearn (https://fairlearn.org/) — bibliothèque Python pour auditer et corriger les biais.\nAI Fairness 360 (IBM, https://aif360.res.ibm.com/) — autre suite d’outils équité.\n\n\n\nPour aller plus loin\n\nXGBoost (https://xgboost.readthedocs.io/) — gradient boosting, souvent meilleur que la forêt sur tabulaire.\nSHAP (https://shap.readthedocs.io/) — pour expliquer les predictions individuelles, indispensable en contexte clinique.\nMLflow / Weights & Biases — pour tracer experimentations, versions de modeles, hyperparametres.\n\n\n\n\n← Module 5 : Regression\n\n\nSommaire du cours\n\n\n(fin du cours)",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "6 — ML clinique"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "",
+    "text": "Analyse de Données avec Python pour Professionnels de la Santé\n\n\n\nVersion condensee 6 heures · Module 4 sur 6 · Duree 60 minutes",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#imports-et-reproductibilité",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#imports-et-reproductibilité",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "0. Imports et reproductibilité",
+    "text": "0. Imports et reproductibilité\n\nSyntaxe — import depuis un sous-module\nfrom scipy import stats              # tout le sous-module\nfrom statsmodels.stats.multitest import multipletests   # une fonction\n\n\nimport math\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom scipy import stats                                    # tests statistiques\nfrom statsmodels.stats.multitest import multipletests      # corrections multiples\n\nnp.random.seed(42)\nsns.set_theme(style=\"whitegrid\", font_scale=1.05)",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#la-logique-dun-test-dhypothèse",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#la-logique-dun-test-dhypothèse",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "1. La logique d’un test d’hypothèse",
+    "text": "1. La logique d’un test d’hypothèse\nUn test est une preuve par contradiction probabiliste :\n\nOn suppose H0 vraie (pas d’effet).\nOn calcule une statistique de test a partir des données.\nOn demande : si H0 etait vraie, ces données seraient-elles inhabituelles ? Cette probabilité est la p-value.\nSi p &lt; seuil \\(\\alpha\\) (souvent 0,05), on rejette H0.\n\n\nCe qu’une p-value n’est PAS\n\nPas la probabilité que H0 soit vraie.\nPas la probabilité que le résultat soit du au hasard.\nNe mesure pas la taille d’un effet.\np = 0,049 n’est pas notablement différent de p = 0,051.\n\n\nRegle. Rapporter une p-value avec une taille d’effet et un IC. Une étude de 100 000 patients peut détecter \\(d = 0{,}05\\) avec \\(p &lt; 10^{-6}\\) : statistiquement significatif, cliniquement non pertinent.\n\nReference : Wasserstein RL & Lazar NA, The ASA Statement on p-Values: Context, Process, and Purpose, The American Statistician 70(2), 2016.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#test-t-a-un-échantillon",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#test-t-a-un-échantillon",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "2. Test t a un échantillon",
+    "text": "2. Test t a un échantillon\nQuestion. La moyenne du cholesterol dans notre clinique differe-t-elle de la moyenne nationale de 200 mg/dL ?\n\nH0 : \\(\\mu = 200\\)\nH1 : \\(\\mu \\neq 200\\)\n\nHypothese : la moyenne d’échantillonnage est approximativement normale (garantie par le TCL si \\(n &gt; 30\\), exige une distribution normale sinon).\n\nSyntaxe — test t un échantillon\nt, p = stats.ttest_1samp(échantillon, popmean=valeur_h0)\n# t : statistique de test\n# p : p-value bilaterale\n\n\n# Simulation : moyenne 212, écart-type 35, n = 80\nchol = np.random.normal(212, 35, size=80)\n\n# Test : moyenne differe-t-elle de 200 ?\nt, p = stats.ttest_1samp(chol, popmean=200)\n\n# Calculer l'IC 95% manuellement (scipy ne le donne pas directement ici)\n# stats.sem = standard error of mean = écart-type / sqrt(n)\nmoy = chol.mean()\nse = stats.sem(chol)\n# stats.t.ppf(p, df) = quantile p de la loi de Student a df degres\nic = moy + np.array([-1, 1]) * stats.t.ppf(0.975, df=len(chol) - 1) * se\n\nprint(f\"Moyenne échantillon : {moy:.1f} mg/dL\")\nprint(f\"IC 95%              : [{ic[0]:.1f}, {ic[1]:.1f}]\")\nprint(f\"t (df={len(chol)-1})         : {t:.3f}\")\nprint(f\"p-value             : {p:.4f}\")\n\nMoyenne échantillon : 207.7 mg/dL\nIC 95%              : [200.2, 215.1]\nt (df=79)         : 2.046\np-value             : 0.0441",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#test-t-pour-deux-échantillons-indépendants",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#test-t-pour-deux-échantillons-indépendants",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "3. Test t pour deux échantillons indépendants",
+    "text": "3. Test t pour deux échantillons indépendants\nQuestion. Le traitement abaisse-t-il la tension par rapport au placebo ?\nHypotheses :\n\nEchantillons indépendants ;\nVariable approximativement normale dans chaque groupe ;\nVariances egales — relachee par la correction de Welch (equal_var=False, défaut moderne).\n\n\nSyntaxe — test t deux échantillons\nt, p = stats.ttest_ind(groupe1, groupe2,\n                       equal_var=False)   # Welch (recommandé par défaut)\n\n\n# Deux groupes simules\ntraitement = np.random.normal(128, 15, size=60)\ncontrole   = np.random.normal(138, 16, size=55)\n\n# Test t de Welch (variances inégales autorisees)\nt, p = stats.ttest_ind(traitement, controle, equal_var=False)\n\nprint(f\"Moyenne traitement : {traitement.mean():.1f} mmHg\")\nprint(f\"Moyenne controle   : {controle.mean():.1f} mmHg\")\nprint(f\"Difference         : {controle.mean() - traitement.mean():.1f} mmHg\")\nprint(f\"t de Welch         : {t:.3f}\")\nprint(f\"p-value            : {p:.4f}\")\n\nMoyenne traitement : 127.5 mmHg\nMoyenne controle   : 139.5 mmHg\nDifference         : 11.9 mmHg\nt de Welch         : -4.460\np-value            : 0.0000",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#test-t-apparie-avant-après",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#test-t-apparie-avant-après",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "4. Test t apparie (avant / après)",
+    "text": "4. Test t apparie (avant / après)\nQuestion. Un programme d’exercice de 12 semaines réduit-il la tension systolique ? Chaque patient est son propre temoin.\nLe test utilise les différences intra-patient, eliminant la variabilite inter-patient.\n\nSyntaxe — test t apparie\nt, p = stats.ttest_rel(avant, après)    # rel = related/paired\n# Les deux tableaux DOIVENT être alignes patient par patient.\n\n\nn = 45\navant  = np.random.normal(142, 12, n)             # tension avant\naprès  = avant - np.random.normal(8, 6, n)        # tension après (moins ~8 mmHg)\ndiff   = avant - après                            # réduction par patient\n\nt, p = stats.ttest_rel(avant, après)\n\nprint(f\"Moyenne avant     : {avant.mean():.1f} mmHg\")\nprint(f\"Moyenne après     : {après.mean():.1f} mmHg\")\nprint(f\"Reduction moyenne : {diff.mean():.1f} mmHg\")\nprint(f\"t apparie (df={n-1}): {t:.3f}\")\nprint(f\"p-value           : {p:.2e}\")    # notation scientifique\n\nMoyenne avant     : 143.6 mmHg\nMoyenne après     : 135.8 mmHg\nReduction moyenne : 7.9 mmHg\nt apparie (df=44): 7.798\np-value           : 7.89e-10\n\n\n\n# Visualisation : trajectoires individuelles + distribution des différences\nfig, axes = plt.subplots(1, 2, figsize=(11, 4))\n\n# Lignes grises : une par patient (spaghetti plot)\nfor i in range(n):\n    axes[0].plot([0, 1], [avant[i], après[i]],\n                 color=\"gray\", alpha=0.35)\n# Ligne rouge : la moyenne du groupe\naxes[0].plot([0, 1], [avant.mean(), après.mean()],\n             color=\"red\", lw=3, marker=\"o\", markersize=8, label=\"Moyenne\")\naxes[0].set_xticks([0, 1])\naxes[0].set_xticklabels([\"Avant\", \"Apres\"])\naxes[0].set_ylabel(\"Tension systolique (mmHg)\")\naxes[0].set_title(\"Trajectoires individuelles\")\naxes[0].legend()\n\n# Distribution des différences intra-patient\naxes[1].hist(diff, bins=12, edgecolor=\"black\", color=\"steelblue\")\naxes[1].axvline(0, color=\"red\", ls=\"--\", label=\"Pas de changement\")\naxes[1].axvline(diff.mean(), color=\"green\", ls=\"--\",\n                label=f\"Reduction = {diff.mean():.1f}\")\naxes[1].set_xlabel(\"Reduction de tension (mmHg)\")\naxes[1].set_ylabel(\"Patients\")\naxes[1].set_title(\"Distribution des différences intra-patient\")\naxes[1].legend()\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#test-du-chi-deux-dindépendance",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#test-du-chi-deux-dindépendance",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "5. Test du chi-deux d’indépendance",
+    "text": "5. Test du chi-deux d’indépendance\nQuestion. La prévalence du diabète est-elle associee a la catégorie d’IMC ?\nCompare les comptages observes dans un tableau de contingence aux comptages attendus sous independance.\n\\[\\chi^2 = \\sum_{ij} \\frac{(O_{ij} - E_{ij})^2}{E_{ij}}\\]\nHypothese : chaque effectif attendu \\(\\ge 5\\). Sinon utiliser le test exact de Fisher (stats.fisher_exact).\n\nSyntaxe — chi-deux\ntab = pd.crosstab(df[\"ligne\"], df[\"colonne\"])   # contingence\nchi2, p, dof, attendu = stats.chi2_contingency(tab)\n# chi2    : statistique\n# p       : p-value\n# dof     : degres de liberte = (n_lignes - 1) * (n_colonnes - 1)\n# attendu : matrice des effectifs attendus sous H0\n\n\n# Simulation : 500 patients, repartis selon l'IMC\nn = 500\nimc_cat = np.random.choice([\"Normal\", \"Surpoids\", \"Obesite\"],\n                          size=n, p=[0.3, 0.4, 0.3])\n\n# Probabilite de diabète dependant de la catégorie d'IMC\np_diab = {\"Normal\": 0.08, \"Surpoids\": 0.18, \"Obesite\": 0.35}\n\n# np.random.binomial(1, p) tire 0 ou 1 avec probabilité p\n# List comprehension : une boucle inline qui construit une liste\ndiab = np.array([np.random.binomial(1, p_diab[b]) for b in imc_cat])\n\n# np.where(condition, valeur_si_True, valeur_si_False) : vectorise un if/else\ndf = pd.DataFrame({\n    \"imc\":      imc_cat,\n    \"diabète\": np.where(diab == 1, \"Oui\", \"Non\"),\n})\n\n# Table de contingence puis test\ntab = pd.crosstab(df[\"imc\"], df[\"diabète\"])\nprint(tab)\n\nchi2, p, dof, attendu = stats.chi2_contingency(tab)\nprint(f\"\\nchi2 = {chi2:.2f}, df = {dof}, p = {p:.2e}\")\nprint(\"\\nEffectifs attendus sous H0 (independance) :\")\nprint(pd.DataFrame(attendu, index=tab.index, columns=tab.columns).round(1))\n\ndiabète   Non  Oui\nimc               \nNormal    137   14\nObesite   101   51\nSurpoids  160   37\n\nchi2 = 28.03, df = 2, p = 8.20e-07\n\nEffectifs attendus sous H0 (independance) :\ndiabète     Non   Oui\nimc                  \nNormal    120.2  30.8\nObesite   121.0  31.0\nSurpoids  156.8  40.2",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#mann-whitney-u-alternative-non-parametrique",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#mann-whitney-u-alternative-non-parametrique",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "6. Mann-Whitney U — alternative non parametrique",
+    "text": "6. Mann-Whitney U — alternative non parametrique\nQuand la variable est asymétrique (duree de sejour, couts, biologie avec longue queue) ou que \\(n\\) est petit, le test t sur l’échelle brute peut induire en erreur.\nMann-Whitney U compare les rangs : il teste si une distribution domine stochastiquement l’autre.\n\nSyntaxe\nu, p = stats.mannwhitneyu(g1, g2, alternative=\"two-sided\")\n\n\n# Duree de sejour : exponentielle a droite (asymétrique)\ndms_chir = np.random.exponential(7,   size=40)    # moyenne 7 j\ndms_med  = np.random.exponential(4.5, size=45)    # moyenne 4.5 j\n\nu, p = stats.mannwhitneyu(dms_chir, dms_med, alternative=\"two-sided\")\n\n# np.median plus informatif que mean pour une distribution asymétrique\nprint(f\"DMS mediane (chirurgie) : {np.median(dms_chir):.1f} j\")\nprint(f\"DMS mediane (medecine)  : {np.median(dms_med):.1f} j\")\nprint(f\"U = {u:.0f}, p = {p:.4f}\")\n\nDMS mediane (chirurgie) : 4.0 j\nDMS mediane (medecine)  : 3.3 j\nU = 1016, p = 0.3092",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#correction-pour-tests-multiples",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#correction-pour-tests-multiples",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "7. Correction pour tests multiples",
+    "text": "7. Correction pour tests multiples\nSi vous testez 20 hypothèses indépendantes au seuil 0,05 sous H0, vous attendez 1 faux positif par hasard.\nDeux familles de corrections :\n\nBonferroni (contrôle FWER) — multiplie chaque p par \\(m\\). Tres conservateur ; a utiliser quand même un faux positif est inacceptable.\nBenjamini-Hochberg FDR — contrôle la proportion attendue de faux positifs parmi les positifs declares. Standard en genomique et en analyses exploratoires.\n\n\nSyntaxe\nfrom statsmodels.stats.multitest import multipletests\nrejette, p_corr, _, _ = multipletests(p_array, alpha=0.05,\n                                      method=\"bonferroni\")\n# rejette : tableau de True/False\n# p_corr  : p-values corrigees\n\n\n# Simulation : 1000 tests sous H0 (rien a trouver)\nn_tests = 1000\npvals = np.empty(n_tests)                # tableau vide de longueur 1000\n\n# Boucle : 1000 paires de groupes tirees de N(0, 1) - H0 vraie\nfor i in range(n_tests):\n    a = np.random.normal(0, 1, 30)\n    b = np.random.normal(0, 1, 30)\n    pvals[i] = stats.ttest_ind(a, b).pvalue\n\n# Sans correction\nn_fp = (pvals &lt; 0.05).sum()        # comptage vectorise\nprint(f\"Sans correction : {n_fp} significatifs sur {n_tests}  ({n_fp / n_tests:.1%})\")\n\n# Avec corrections (4 valeurs renvoyees, on ignore les 2 dernieres avec _)\nrej_bonf, _, _, _ = multipletests(pvals, alpha=0.05, method=\"bonferroni\")\nrej_fdr,  _, _, _ = multipletests(pvals, alpha=0.05, method=\"fdr_bh\")\nprint(f\"Bonferroni      : {rej_bonf.sum()} significatifs\")\nprint(f\"FDR (BH)        : {rej_fdr.sum()} significatifs\")\n\nSans correction : 44 significatifs sur 1000  (4.4%)\nBonferroni      : 0 significatifs\nFDR (BH)        : 0 significatifs",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#taille-deffet-d-de-cohen",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#taille-deffet-d-de-cohen",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "8. Taille d’effet — d de Cohen",
+    "text": "8. Taille d’effet — d de Cohen\n\\[d = \\frac{\\bar{x}_1 - \\bar{x}_2}{s_{pooled}}\\]\nReperes (Cohen 1988, indicatifs) :\n\n\\(|d| &lt; 0{,}2\\) — negligeable\n\\(0{,}2 \\le |d| &lt; 0{,}5\\) — petit\n\\(0{,}5 \\le |d| &lt; 0{,}8\\) — moyen\n\\(|d| \\ge 0{,}8\\) — large\n\n\nSyntaxe — opérateur ternaire (if inline)\nx = \"a\" if condition else \"b\"     # équivalent a if/else en une ligne\n\n\ndef cohens_d(g1, g2):\n    \"\"\"d de Cohen pour deux groupes indépendants.\"\"\"\n    n1, n2 = len(g1), len(g2)\n    # ddof=1 : variance d'échantillon (denominateur n-1, pas n)\n    s = math.sqrt(((n1 - 1) * np.var(g1, ddof=1) + (n2 - 1) * np.var(g2, ddof=1))\n                  / (n1 + n2 - 2))\n    return (g1.mean() - g2.mean()) / s\n\n# Reutiliser les groupes du paragraphe 3\nd = cohens_d(traitement, controle)\n\n# Chaine de if/else inline (lecture droite a gauche)\nlabel = (\"large\" if abs(d) &gt;= 0.8 else\n         \"moyen\" if abs(d) &gt;= 0.5 else\n         \"petit\" if abs(d) &gt;= 0.2 else \"negligeable\")\nprint(f\"d de Cohen (traitement vs controle) : {d:.2f} ({label})\")\n\nd de Cohen (traitement vs controle) : -0.83 (large)\n\n\n\n# Mise en garde : grand n + petit effet = p minuscule\nhuge1 = np.random.normal(120.0, 15, size=50_000)\nhuge2 = np.random.normal(120.5, 15, size=50_000)   # différence réelle de 0.5 mmHg\n\nt, p = stats.ttest_ind(huge1, huge2)\nprint(f\"Diff moyenne : {huge2.mean() - huge1.mean():.2f} mmHg\")\nprint(f\"p-value      : {p:.2e}\")\nprint(f\"d de Cohen   : {cohens_d(huge1, huge2):.3f}\")\nprint(\"  -&gt; Statistiquement significatif. Cliniquement non pertinent.\")\n\nDiff moyenne : 0.63 mmHg\np-value      : 2.89e-11\nd de Cohen   : -0.042\n  -&gt; Statistiquement significatif. Cliniquement non pertinent.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#application-framingham",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#application-framingham",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "9. Application — Framingham",
+    "text": "9. Application — Framingham\nSource : GitHub - GauravPadawe/Framingham-Heart-Study.\n\nSyntaxe — dropna avec subset\ndf.dropna()                              # supprime toute ligne avec NaN\ndf.dropna(subset=[\"col\"])                # seulement si NaN dans col\ndf.copy()                                # bonne pratique après filtrage\n\n\nimport os\nfrom pathlib import Path\nimport pandas as pd\n\n# Chemins de cache candidats, dans l'ordre :\n#   1. ./data/         (jupyter local, notebook a la racine)\n#   2. ../data/        (jupyter local, notebook dans un sous-dossier)\n#   3. ./             (au pire on cree un cache dans le cwd)\n# En Colab, aucun n'existe : on tombe sur l'URL et on cree ./data/ pour les\n# cellules suivantes.\n_CANDIDATES = [Path(\"data\"), Path(\"../data\")]\nDATA_DIR = next((p for p in _CANDIDATES if p.is_dir()), Path(\"data\"))\nDATA_DIR.mkdir(exist_ok=True)\n\n\ndef load_csv(name: str, url: str, **read_csv_kwargs) -&gt; pd.DataFrame:\n    \"\"\"Charge un CSV : cache local d'abord, sinon URL publique.\n\n    Le cache utilise le meme separateur que la lecture (TSV reste TSV).\n    \"\"\"\n    for candidate_dir in _CANDIDATES:\n        local = candidate_dir / name\n        if local.exists():\n            return pd.read_csv(local, **read_csv_kwargs)\n    df = pd.read_csv(url, **read_csv_kwargs)\n    try:\n        sep = read_csv_kwargs.get(\"sep\", \",\")\n        (DATA_DIR / name).parent.mkdir(parents=True, exist_ok=True)\n        df.to_csv(DATA_DIR / name, index=False, sep=sep)\n    except OSError:\n        pass\n    return df\n\nFRAM_URL = (\n    \"https://raw.githubusercontent.com/GauravPadawe/\"\n    \"Framingham-Heart-Study/master/framingham.csv\"\n)\nfram = load_csv(\"framingham.csv\", FRAM_URL)\n\n# .dropna() supprime TOUTE ligne avec au moins 1 NaN\n# Approche grossiere mais didactique - en pratique on imputerait\nfram_clean = fram.dropna().copy()\n\nprint(f\"Dimensions (complet)   : {fram_clean.shape}\")\nprint(f\"Prevalence CHD 10 ans : {fram_clean['TenYearCHD'].mean():.1%}\")\nfram_clean.head()\n\nDimensions (complet)   : (3658, 16)\nPrevalence CHD 10 ans : 15.2%\n\n\n\n\n\n\n\n\n\nmale\nage\neducation\ncurrentSmoker\ncigsPerDay\nBPMeds\nprevalentStroke\nprevalentHyp\ndiabetes\ntotChol\nsysBP\ndiaBP\nBMI\nheartRate\nglucose\nTenYearCHD\n\n\n\n\n0\n1\n39\n4.0\n0\n0.0\n0.0\n0\n0\n0\n195.0\n106.0\n70.0\n26.97\n80.0\n77.0\n0\n\n\n1\n0\n46\n2.0\n0\n0.0\n0.0\n0\n0\n0\n250.0\n121.0\n81.0\n28.73\n95.0\n76.0\n0\n\n\n2\n1\n48\n1.0\n1\n20.0\n0.0\n0\n0\n0\n245.0\n127.5\n80.0\n25.34\n75.0\n70.0\n0\n\n\n3\n0\n61\n3.0\n1\n30.0\n0.0\n0\n1\n0\n225.0\n150.0\n95.0\n28.58\n65.0\n103.0\n1\n\n\n4\n0\n46\n3.0\n1\n23.0\n0.0\n0\n0\n0\n285.0\n130.0\n84.0\n23.10\n85.0\n85.0\n0",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#exercices-avec-corriges",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#exercices-avec-corriges",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "10. Exercices (avec corriges)",
+    "text": "10. Exercices (avec corriges)\n\nExercice 1 — Test t a deux échantillons sur sysBP selon TenYearCHD\n\n# Votre essai ici\n\n\n# Solution\n# .loc[ligne, colonne] : sélection precise par étiquette\nchd  = fram_clean.loc[fram_clean[\"TenYearCHD\"] == 1, \"sysBP\"]\nctrl = fram_clean.loc[fram_clean[\"TenYearCHD\"] == 0, \"sysBP\"]\n\nt, p = stats.ttest_ind(chd, ctrl, equal_var=False)\n# .values pour convertir pd.Series -&gt; np.array (cohens_d attend du numpy)\nd = cohens_d(chd.values, ctrl.values)\n\nprint(f\"Moyenne SBP, CHD = 1 : {chd.mean():.1f}\")\nprint(f\"Moyenne SBP, CHD = 0 : {ctrl.mean():.1f}\")\nprint(f\"Difference            : {chd.mean() - ctrl.mean():.1f} mmHg\")\nprint(f\"t = {t:.2f}, p = {p:.2e}, d = {d:.2f}\")\n\nMoyenne SBP, CHD = 1 : 144.0\nMoyenne SBP, CHD = 0 : 130.3\nDifference            : 13.7 mmHg\nt = 11.41, p = 1.03e-27, d = 0.64\n\n\n\n\nExercice 2 — Test chi-deux : currentSmoker x TenYearCHD\n\n# Votre essai ici\n\n\n# Solution\ntab = pd.crosstab(fram_clean[\"currentSmoker\"], fram_clean[\"TenYearCHD\"])\nchi2, p, dof, _ = stats.chi2_contingency(tab)\nprint(tab)\nprint(f\"\\nchi2 = {chi2:.2f}, df = {dof}, p = {p:.2e}\")\n\nTenYearCHD        0    1\ncurrentSmoker           \n0              1597  272\n1              1504  285\n\nchi2 = 1.24, df = 1, p = 2.66e-01\n\n\n\n\nExercice 3 — Correction multiple sur 7 predicteurs\nTester age, totChol, sysBP, diaBP, BMI, heartRate, glucose entre groupes CHD. Appliquer Bonferroni et BH-FDR.\n\n# Votre essai ici\n\n\n# Solution\npredicteurs = [\"age\", \"totChol\", \"sysBP\", \"diaBP\", \"BMI\", \"heartRate\", \"glucose\"]\nlignes = []                                # liste de dictionnaires, sera convertie en DF\n\nfor col in predicteurs:\n    g1 = fram_clean.loc[fram_clean[\"TenYearCHD\"] == 1, col]\n    g0 = fram_clean.loc[fram_clean[\"TenYearCHD\"] == 0, col]\n    t, p = stats.ttest_ind(g1, g0, equal_var=False)\n    d = cohens_d(g1.values, g0.values)\n    # .append() ajoute un dictionnaire a la liste\n    lignes.append({\n        \"variable\": col,\n        \"diff\":     g1.mean() - g0.mean(),\n        \"cohen_d\":  d,\n        \"p\":        p,\n    })\n\n# Convertir la liste-de-dicts en DataFrame\nres = pd.DataFrame(lignes)\n\n# Corrections - on extrait seulement la 2e valeur (p corrigees)\n_, p_bonf, _, _ = multipletests(res[\"p\"], alpha=0.05, method=\"bonferroni\")\n_, p_fdr,  _, _ = multipletests(res[\"p\"], alpha=0.05, method=\"fdr_bh\")\nres[\"p_bonferroni\"] = p_bonf\nres[\"p_fdr_bh\"]     = p_fdr\nres.round(4)\n\n\n\n\n\n\n\n\nvariable\ndiff\ncohen_d\np\np_bonferroni\np_fdr_bh\n\n\n\n\n0\nage\n5.5753\n0.6697\n0.0000\n0.0\n0.0000\n\n\n1\ntotChol\n11.2092\n0.2552\n0.0000\n0.0\n0.0000\n\n\n2\nsysBP\n13.6961\n0.6360\n0.0000\n0.0\n0.0000\n\n\n3\ndiaBP\n5.0027\n0.4225\n0.0000\n0.0\n0.0000\n\n\n4\nBMI\n0.9284\n0.2291\n0.0000\n0.0\n0.0000\n\n\n5\nheartRate\n0.6840\n0.0571\n0.2202\n1.0\n0.2202\n\n\n6\nglucose\n8.1153\n0.3420\n0.0000\n0.0\n0.0000",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#resume",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#resume",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "Resume",
+    "text": "Resume\nVous savez choisir le bon test pour une question clinique, vérifier ses conditions, corriger pour tests multiples, et toujours rapporter une taille d’effet avec un IC a côte de la p-value.\nSuite -&gt; Module 5 : regression. Memes données Framingham, mais ajustement multivariable pour plusieurs predicteurs simultanement.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_04_tests_hypotheses.html#ressources-et-liens-utiles",
+    "href": "notebooks_executes/module_04_tests_hypotheses.html#ressources-et-liens-utiles",
+    "title": "\nModule 4·Tests d’hypothèses\n",
+    "section": "Ressources et liens utiles",
+    "text": "Ressources et liens utiles\n\nDocumentation officielle\n\nscipy.stats — https://docs.scipy.org/doc/scipy/référence/stats.html (catalogue de tous les tests dispo).\nstatsmodels — multiple testing — https://www.statsmodels.org/stable/stats.html#multiple-tests-and-multiple-comparison-procédures\n\n\n\nLe debat sur les p-values\n\nWasserstein RL & Lazar NA (2016) The ASA Statement on p-Values: Context, Process, and Purpose. The American Statistician 70(2): 129-133 — déclaration officielle de l’American Statistical Association.\nGreenland S. et al. (2016) Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations. European Journal of Epidemiology 31: 337-350 — les 25 fausses interprétations courantes des p-values.\nAmrhein V. et al. (2019) Scientists rise up against statistical significance. Nature 567: 305-307.\n\n\n\nTaille d’effet\n\nCohen J. (1988) Statistical Power Analysis for the Behavioral Sciences. 2e ed., Lawrence Erlbaum — origine des seuils 0.2/0.5/0.8.\nPour calculer la taille d’effet en pratique avec scipy/numpy : Pingouin (https://pingouin-stats.org/) est une bibliothèque francaise (developpee a Geneve) très complete.\n\n\n\nTests multiples\n\nBenjamini Y. & Hochberg Y. (1995) Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing. JRSS-B 57(1): 289-300 — papier fondateur du FDR.\n\n\n\nJeu de données\n\nFramingham Heart Study (officiel, NIH) — https://www.framinghamheartstudy.org/\nExtrait pedagogique sur GitHub — https://github.com/GauravPadawe/Framingham-Heart-Study\n\n\n\nPour aller plus loin\n\nPingouin (https://pingouin-stats.org/) — tests, tailles d’effet, ANOVA, robustes, dans une seule API.\nscipy.stats — power calculations — pour planifier la taille d’échantillon avant de collecter.\n\n\n\n\n← Module 3 : Visualisation\n\n\nSommaire du cours\n\n\nModule 5 : Regression →",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "4 — Tests d'hypothèses"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "",
+    "text": "Analyse de Données avec Python pour Professionnels de la Santé\n\n\n\nVersion condensee 6 heures · Module 2 sur 6 · Duree 60 minutes",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#imports-et-reproductibilité",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#imports-et-reproductibilité",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "0. Imports et reproductibilité",
+    "text": "0. Imports et reproductibilité\n\nSyntaxe — import multiple\nimport a, b              # rare, évite par convention\nimport a                 # une ligne par module - préfère\nimport b\nOn regroupe les imports en tête : standard library d’abord, puis tierces parties.\n\n\nimport math                            # fonctions mathématiques scalaires\nimport numpy as np                     # tableaux numériques\nimport pandas as pd                    # tables\nimport matplotlib.pyplot as plt        # graphiques\nfrom scipy import stats                # stats inferentielles\n\nnp.random.seed(42)                     # graine reproductibilité\npd.set_option(\"display.width\", 100)    # largeur d'affichage console",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#les-trois-mécanismes-de-données-manquantes",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#les-trois-mécanismes-de-données-manquantes",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "1. Les trois mécanismes de données manquantes",
+    "text": "1. Les trois mécanismes de données manquantes\nTout traitement des valeurs manquantes depend de leur mécanisme (Rubin 1976) :\n\nMCAR — Missing Completely At Random. Independant du reste. Exemple : un tube de prelevement casse. Supprimer est sans biais.\nMAR — Missing At Random. Depend de variables observees. Exemple : le cholesterol n’est pas mesure chez les jeunes. Imputer en tenant compte de l’age est sans biais.\nMNAR — Missing Not At Random. Depend de la valeur non observee. Exemple : les patients les plus malades ratent leurs rendez-vous. Supprimer biaise vers les patients en bonne santé.\n\n\nDans les dossiers electroniques, MNAR est la règle, pas l’exception. Toujours vérifier si l’issue differe entre lignes completes et lignes a données manquantes.\n\nLecture recommandée : Little RJA & Rubin DB, Statistical Analysis with Missing Data, 3e ed., Wiley 2019.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#detection-avec-pandas",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#detection-avec-pandas",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "2. Detection avec pandas",
+    "text": "2. Detection avec pandas\nPandas utilise NaN (Not a Number) pour les valeurs manquantes numériques, et None pour les objets. Les deux sont détectés par .isnull() (alias : .isna()).\n\nSyntaxe — creer un DataFrame a la main\ndf = pd.DataFrame({\n    \"col1\": [v1, v2, v3, ...],\n    \"col2\": [w1, w2, w3, ...],\n})\nChaque clé du dictionnaire devient un nom de colonne, chaque liste les valeurs de la colonne.\n\n\nSyntaxe — détection NaN\ndf.isnull()           # DataFrame de True/False, même taille\ndf.isnull().sum()     # nb manquant par colonne\ndf.isnull().any(axis=1)   # True/False par ligne (au moins un NaN)\n\n\n# Petit DataFrame clinique avec des manquements deliberes\n# np.nan est la valeur 'NaN' (Not a Number) de numpy.\ndonnées = {\n    \"patient_id\":  [\"P001\", \"P002\", \"P003\", \"P004\", \"P005\", \"P006\"],\n    \"age\":         [45, 67, 34, np.nan, 71, 52],          # 1 manquant\n    \"sexe\":        [\"M\", \"F\", \"F\", \"M\", np.nan, \"F\"],   # 1 manquant\n    \"tension\":     [128, 158, np.nan, 145, 162, np.nan],   # 2 manquants\n    \"hba1c\":       [5.4, 7.8, 5.1, np.nan, 8.2, 6.3],      # 1 manquant\n}\ndf = pd.DataFrame(données)\ndf\n\n\n\n\n\n\n\n\npatient_id\nage\nsexe\ntension\nhba1c\n\n\n\n\n0\nP001\n45.0\nM\n128.0\n5.4\n\n\n1\nP002\n67.0\nF\n158.0\n7.8\n\n\n2\nP003\n34.0\nF\nNaN\n5.1\n\n\n3\nP004\nNaN\nM\n145.0\nNaN\n\n\n4\nP005\n71.0\nNaN\n162.0\n8.2\n\n\n5\nP006\n52.0\nF\nNaN\n6.3\n\n\n\n\n\n\n\n\n# Construire un petit tableau de diagnostic\n# .isnull() donne un DataFrame booleen, .sum() somme True/False par colonne\n# (True compte comme 1, False comme 0)\nmanquant = pd.DataFrame({\n    \"n_manquant\":   df.isnull().sum(),\n    \"pct_manquant\": (df.isnull().sum() / len(df) * 100).round(1),\n})\nmanquant\n\n\n\n\n\n\n\n\nn_manquant\npct_manquant\n\n\n\n\npatient_id\n0\n0.0\n\n\nage\n1\n16.7\n\n\nsexe\n1\n16.7\n\n\ntension\n2\n33.3\n\n\nhba1c\n1\n16.7",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#strategies-dimputation",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#strategies-dimputation",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "3. Strategies d’imputation",
+    "text": "3. Strategies d’imputation\n\n\n\n\n\n\n\nMethode\nQuand l’utiliser\n\n\n\n\nMediane\nVariables continues asymétriques (lab, tension, IMC)\n\n\nMoyenne\nVariables continues symétriques (taille adulte)\n\n\nMode\nVariables catégorielles\n\n\nPar sous-groupe\nBonne valeur dependant d’un groupe connu (sexe, age)\n\n\nKNN\nPlusieurs colonnes correlees avec manquements partages\n\n\n\nToujours documenter la méthode utilisee. Pour les variables critiques, garder un indicateur de manquement avant d’imputer.\n\nSyntaxe — fillna\ndf[\"col\"] = df[\"col\"].fillna(valeur)             # remplace par valeur fixe\ndf[\"col\"] = df[\"col\"].fillna(df[\"col\"].median())   # par mediane\ndf = df.fillna({\"a\": 0, \"b\": \"inconnu\"})        # plusieurs colonnes\ndf = df.copy()                                   # éviter SettingWithCopyWarning\n\n\nSyntaxe — dropna\ndf.dropna()                              # supprime toute ligne avec NaN\ndf.dropna(subset=[\"col1\", \"col2\"])       # seulement si NaN dans ces colonnes\ndf.dropna(thresh=3)                      # garde lignes avec &gt;= 3 non-NaN\n\n\ndf_imp = df.copy()                             # toujours travailler sur une copie\n\n# Mediane pour les valeurs lab (robuste aux extremes)\ndf_imp[\"tension\"] = df_imp[\"tension\"].fillna(df_imp[\"tension\"].median())\ndf_imp[\"hba1c\"] = df_imp[\"hba1c\"].fillna(df_imp[\"hba1c\"].median())\n\n# Moyenne pour l'age (a peu près symétrique dans cette cohorte adulte)\ndf_imp[\"age\"] = df_imp[\"age\"].fillna(df_imp[\"age\"].mean())\n\n# Mode pour la catégorielle\n# .mode() peut renvoyer plusieurs valeurs si égalité, on prend la 1ere : [0]\ndf_imp[\"sexe\"] = df_imp[\"sexe\"].fillna(df_imp[\"sexe\"].mode()[0])\ndf_imp\n\n\n\n\n\n\n\n\npatient_id\nage\nsexe\ntension\nhba1c\n\n\n\n\n0\nP001\n45.0\nM\n128.0\n5.4\n\n\n1\nP002\n67.0\nF\n158.0\n7.8\n\n\n2\nP003\n34.0\nF\n151.5\n5.1\n\n\n3\nP004\n53.8\nM\n145.0\n6.3\n\n\n4\nP005\n71.0\nF\n162.0\n8.2\n\n\n5\nP006\n52.0\nF\n151.5\n6.3",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#validation-plages-cliniquement-plausibles",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#validation-plages-cliniquement-plausibles",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "4. Validation : plages cliniquement plausibles",
+    "text": "4. Validation : plages cliniquement plausibles\nOn enumere les bornes attendues dans un dictionnaire (col -&gt; (min, max)) puis on les applique systematiquement.\n\nSyntaxe — definition de fonction avec docstring\ndef ma_fonction(arg1, arg2):\n    \"\"\"Une ligne qui resume.\"\"\"\n    # ... corps ...\n    return résultat\n\n\n# Dictionnaire de plages cliniquement acceptables\nPLAGES = {\n    \"age\":     (0, 120),         # tuple (min, max)\n    \"tension\": (60, 300),\n    \"hba1c\":   (2.0, 20.0),\n}\n\ndef valider_plage(df, colonne, lo, hi):\n    \"\"\"Renvoie le sous-DataFrame des lignes hors plage [lo, hi].\"\"\"\n    # Operateur | == OR booleen vectorise pour pandas\n    hors = df[(df[colonne] &lt; lo) | (df[colonne] &gt; hi)]\n    if len(hors):\n        print(f\"  '{colonne}' : {len(hors)} valeur(s) hors [{lo}, {hi}]\")\n    return hors\n\n# .items() : iterer sur (cle, valeur) d'un dictionnaire\n# (lo, hi) : 'unpacking' d'un tuple en 2 variables\nfor col, (lo, hi) in PLAGES.items():\n    if col in df_imp.columns:           # seulement si la colonne existe\n        valider_plage(df_imp, col, lo, hi)\nprint(\"Validation terminee.\")\n\nValidation terminee.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#pipeline-de-nettoyage-reutilisable",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#pipeline-de-nettoyage-reutilisable",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "5. Pipeline de nettoyage reutilisable",
+    "text": "5. Pipeline de nettoyage reutilisable\nOn combine tout dans une seule fonction. Patron : chaque étape prend un DataFrame et en renvoie un. C’est testable, debuggable et explicite sur chaque choix.\n\nSyntaxe — argument par défaut\ndef f(x, y=10):       # y vaut 10 si non spécifie\n    ...\nf(5)                  # appel avec x=5, y=10\nf(5, y=20)            # appel avec x=5, y=20\n\n\ndef nettoyer_clinique(df, plages=PLAGES):\n    \"\"\"Pipeline de base : noms, doublons, plages, imputation.\n\n    Parametres\n    ----------\n    df : pd.DataFrame\n        Données brutes.\n    plages : dict[str, tuple[float, float]]\n        Bornes attendues pour chaque colonne numérique.\n    \"\"\"\n    df = df.copy()                       # toujours une copie\n\n    # ---- 1) Noms de colonnes propres ----\n    # .str.strip() supprime les espaces aux extremites\n    # .str.lower() passe en minuscules\n    # .str.replace(\" \", \"_\") remplace espaces par underscores\n    df.columns = df.columns.str.strip().str.lower().str.replace(\" \", \"_\")\n\n    # ---- 2) Supprimer les doublons exacts ----\n    avant = len(df)\n    df = df.drop_duplicates()\n    print(f\"  doublons supprimes : {avant - len(df)}\")\n\n    # ---- 3) Hors plage -&gt; NaN ----\n    for col, (lo, hi) in plages.items():\n        if col in df.columns:\n            masque = (df[col] &lt; lo) | (df[col] &gt; hi)\n            if masque.any():\n                print(f\"  '{col}' hors plage -&gt; NaN : {int(masque.sum())}\")\n                # df.loc[ligne, colonne] = valeur\n                df.loc[masque, col] = np.nan\n\n    # ---- 4) Imputation mediane sur les colonnes numériques ----\n    # .select_dtypes(include=\"number\") garde seulement int/float\n    for col in df.select_dtypes(include=\"number\").columns:\n        df[col] = df[col].fillna(df[col].median())\n\n    return df\n\n\n# Demo sur un DataFrame deliberement sale\nmessy = pd.DataFrame({\n    \"AGE\":     [45, 67, -3, 52, 200, 38],            # -3 et 200 invalides\n    \"tension\": [128, 158, 112, 450, 135, np.nan],   # 450 invalide, 1 NaN\n    \"hba1c\":   [5.4, 7.8, 5.1, 6.3, np.nan, 5.8],\n})\nnettoyer_clinique(messy)\n\n  doublons supprimes : 0\n  'age' hors plage -&gt; NaN : 2\n  'tension' hors plage -&gt; NaN : 1\n\n\n\n\n\n\n\n\n\nage\ntension\nhba1c\n\n\n\n\n0\n45.0\n128.0\n5.4\n\n\n1\n67.0\n158.0\n7.8\n\n\n2\n48.5\n112.0\n5.1\n\n\n3\n52.0\n131.5\n6.3\n\n\n4\n48.5\n135.0\n5.8\n\n\n5\n38.0\n131.5\n5.8",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#tendance-centrale-moyenne-mediane-mode",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#tendance-centrale-moyenne-mediane-mode",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "6. Tendance centrale — moyenne, mediane, mode",
+    "text": "6. Tendance centrale — moyenne, mediane, mode\n\n\n\nMesure\nQuand l’utiliser\n\n\n\n\nMoyenne\nDistribution approximativement symétrique\n\n\nMediane\nDistribution asymétrique (lab, duree de sejour)\n\n\nMode\nVariable catégorielle\n\n\n\nRegle pratique. Si une valeur extreme deplace la moyenne de plus de quelques pourcents, rapporter la mediane.\n\nSyntaxe — Series pandas\ns = pd.Series([v1, v2, v3])      # liste -&gt; Series (vecteur 1D)\ns.mean(), s.median(), s.std()    # moyenne, mediane, écart-type\ns.drop(index)                    # supprime un element par index\n\n\n# Glycemie a jeun avec une valeur aberrante (saisie erronee : 340)\nglycémie = pd.Series([92, 98, 104, 95, 88, 110, 97, 340, 101, 93])\n\n# Comparer moyenne et mediane montre la sensibilité a l'outlier\nprint(f\"Moyenne : {glycémie.mean():.1f}  &lt;- tiree par 340\")\nprint(f\"Mediane : {glycémie.median():.1f}  &lt;- robuste\")\n\n# .drop(7) supprime l'element a l'index 7 (la valeur 340)\nprint(f\"Sans la valeur aberrante : moyenne = {glycémie.drop(7).mean():.1f}\")\n\nMoyenne : 121.8  &lt;- tiree par 340\nMediane : 97.5  &lt;- robuste\nSans la valeur aberrante : moyenne = 97.6",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#dispersion-écart-type-iqr-cv",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#dispersion-écart-type-iqr-cv",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "7. Dispersion — écart-type, IQR, CV",
+    "text": "7. Dispersion — écart-type, IQR, CV\nL’IQR (Q3 - Q1) est la dispersion des 50 % du milieu. Robuste aux valeurs extremes, c’est le bon résumé pour les distributions asymétriques (duree de sejour, couts hospitaliers).\nLe coefficient de variation \\(CV = \\sigma / \\mu\\) (en %) est sans unite : utile pour comparer la dispersion de variables aux unites différentes.\n\nSyntaxe — quantile\ns.quantile(0.5)                  # mediane (50e percentile)\ns.quantile([0.25, 0.75])         # plusieurs en même temps\nq1, q3 = s.quantile([0.25, 0.75])  # unpacking\n\n\n# Duree moyenne de sejour (DMS), distribution asymétrique a droite\ndms = pd.Series([2, 3, 3, 4, 4, 5, 5, 6, 7, 8, 12, 28, 45])\n\n# Recuperation des quartiles en une ligne (unpacking d'une Series)\nq1, q3 = dms.quantile([0.25, 0.75])\nprint(f\"Mediane : {dms.median():.0f} jours\")\nprint(f\"IQR     : {q1:.0f}-{q3:.0f} jours\")\nprint(f\"Moyenne : {dms.mean():.1f} jours  &lt;- gonflee par 28 et 45\")\n\nMediane : 5 jours\nIQR     : 4-8 jours\nMoyenne : 10.2 jours  &lt;- gonflee par 28 et 45",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#mesures-épidémiologiques",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#mesures-épidémiologiques",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "8. Mesures épidémiologiques",
+    "text": "8. Mesures épidémiologiques\n\n8.1 Prevalence\n\\[P = \\frac{\\text{cas existants au temps }t}{\\text{population au temps }t}\\]\nToujours accompagner d’un intervalle de confiance. L’approximation normale convient quand \\(n p (1-p) &gt; 5\\).\n\nSyntaxe — math.sqrt et puissance\nmath.sqrt(x)        # racine carree\nx ** 0.5            # équivalent\nx ** 2              # x au carre\n\n\n# Données : 625 diabétiques sur 5,000 enquetes\nn_total, n_diabetique = 5_000, 625    # _ comme separateur de milliers\n\np = n_diabetique / n_total            # proportion brute\nse = math.sqrt(p * (1 - p) / n_total) # erreur standard (formule binomiale)\n\n# IC 95% normal : p +/- 1.96 * SE\nci_lo = (p - 1.96 * se) * 100         # en pourcentage\nci_hi = (p + 1.96 * se) * 100\n\nprint(f\"Prevalence du diabete : {p * 100:.1f}%   IC 95% [{ci_lo:.1f}%, {ci_hi:.1f}%]\")\n\nPrevalence du diabete : 12.5%   IC 95% [11.6%, 13.4%]\n\n\n\n\n8.2 Taux d’incidence (nouveaux cas par personne-temps)\n\\[IR = \\frac{\\text{nouveaux cas pendant la période}}{\\text{personnes-années suivies}}\\]\nLes nouveaux cas suivent une loi de Poisson, d’ou \\(\\text{SE}(IR) = \\sqrt{\\text{cas}} / \\text{PA}\\).\n\n# Cohorte TB : 18 nouveaux cas, 850 personnes-années suivies\nnouveaux_tb, personne_annees = 18, 850\nir = nouveaux_tb / personne_annees\nse = math.sqrt(nouveaux_tb) / personne_annees    # SE Poisson\n\n# On multiplie par 1000 pour une lecture habituelle 'pour 1,000 PA'\nci_lo, ci_hi = (ir - 1.96 * se) * 1000, (ir + 1.96 * se) * 1000\nprint(f\"Incidence TB : {ir * 1000:.1f} pour 1,000 PA\")\nprint(f\"IC 95%       : [{ci_lo:.1f}, {ci_hi:.1f}]\")\n\nIncidence TB : 21.2 pour 1,000 PA\nIC 95%       : [11.4, 31.0]\n\n\n\n\n8.3 Ratio de risque (RR) et ratio de cotes (OR)\nTableau 2x2 :\n\n\n\n\nMalade +\nMalade -\n\n\n\n\nExpose\na\nb\n\n\nNon expose\nc\nd\n\n\n\n\\[RR = \\frac{a/(a+b)}{c/(c+d)} \\qquad OR = \\frac{a \\cdot d}{b \\cdot c}\\]\nOn passe par \\(\\ln\\) pour les IC (la distribution de \\(\\ln RR\\) et \\(\\ln OR\\) est approximativement normale).\n\nSyntaxe — fonction qui renvoie un dictionnaire\ndef f():\n    return {\"résultat\": x, \"ic\": (lo, hi)}    # dict\nr = f()\nr[\"résultat\"], r[\"ic\"]\n\n\ndef ratio_risque(a, b, c, d, alpha=0.05):\n    \"\"\"Risk ratio avec IC Wald sur l'échelle log.\"\"\"\n    # stats.norm.ppf(p) = quantile p de la loi normale standard\n    z = stats.norm.ppf(1 - alpha / 2)         # ~1.96 pour alpha=0.05\n    rr = (a / (a + b)) / (c / (c + d))\n    se = math.sqrt(1/a - 1/(a+b) + 1/c - 1/(c+d))\n    return {\n        \"RR\":    round(rr, 3),\n        # math.exp() = e^x, inverse de math.log()\n        \"IC_lo\": round(math.exp(math.log(rr) - z * se), 3),\n        \"IC_hi\": round(math.exp(math.log(rr) + z * se), 3),\n    }\n\n\ndef ratio_cotes(a, b, c, d, alpha=0.05):\n    \"\"\"Odds ratio avec IC Wald sur l'échelle log.\"\"\"\n    z = stats.norm.ppf(1 - alpha / 2)\n    or_ = (a * d) / (b * c)\n    se = math.sqrt(1/a + 1/b + 1/c + 1/d)\n    return {\n        \"OR\":    round(or_, 3),\n        \"IC_lo\": round(math.exp(math.log(or_) - z * se), 3),\n        \"IC_hi\": round(math.exp(math.log(or_) + z * se), 3),\n    }\n\n# Tabagisme et cancer du poumon (cohorte hypothetique)\n# a = fumeurs avec cancer ; b = fumeurs sans cancer\n# c = non-fumeurs avec cancer ; d = non-fumeurs sans cancer\nprint(\"RR (cohorte)    :\", ratio_risque(80, 920, 10, 990))\n\n# Obesite et arthrose du genou (cas-temoin)\nprint(\"OR (cas-temoin) :\", ratio_cotes(120, 60, 80, 140))\n\nRR (cohorte)    : {'RR': 8.0, 'IC_lo': 4.17, 'IC_hi': 15.348}\nOR (cas-temoin) : {'OR': 3.5, 'IC_lo': 2.313, 'IC_hi': 5.296}",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#application-descriptif-sur-gapminder",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#application-descriptif-sur-gapminder",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "9. Application — descriptif sur Gapminder",
+    "text": "9. Application — descriptif sur Gapminder\nTableau résumé de l’espérance de vie par continent en 2007.\n\nSyntaxe — describe et sélection de colonnes par liste\ndf.describe()                          # toutes les colonnes num.\ndf.describe(percentiles=[0.25, 0.5, 0.75])  # quartiles\ndf_sub = df[[\"col1\", \"col2\", \"col3\"]]   # sélection multi-colonnes\n\n\nimport os\nfrom pathlib import Path\nimport pandas as pd\n\n# Chemins de cache candidats, dans l'ordre :\n#   1. ./data/         (jupyter local, notebook a la racine)\n#   2. ../data/        (jupyter local, notebook dans un sous-dossier)\n#   3. ./             (au pire on cree un cache dans le cwd)\n# En Colab, aucun n'existe : on tombe sur l'URL et on cree ./data/ pour les\n# cellules suivantes.\n_CANDIDATES = [Path(\"data\"), Path(\"../data\")]\nDATA_DIR = next((p for p in _CANDIDATES if p.is_dir()), Path(\"data\"))\nDATA_DIR.mkdir(exist_ok=True)\n\n\ndef load_csv(name: str, url: str, **read_csv_kwargs) -&gt; pd.DataFrame:\n    \"\"\"Charge un CSV : cache local d'abord, sinon URL publique.\n\n    Le cache utilise le meme separateur que la lecture (TSV reste TSV).\n    \"\"\"\n    for candidate_dir in _CANDIDATES:\n        local = candidate_dir / name\n        if local.exists():\n            return pd.read_csv(local, **read_csv_kwargs)\n    df = pd.read_csv(url, **read_csv_kwargs)\n    try:\n        sep = read_csv_kwargs.get(\"sep\", \",\")\n        (DATA_DIR / name).parent.mkdir(parents=True, exist_ok=True)\n        df.to_csv(DATA_DIR / name, index=False, sep=sep)\n    except OSError:\n        pass\n    return df\n\nGAPMINDER_URL = (\n    \"https://raw.githubusercontent.com/jennybc/gapminder/\"\n    \"master/inst/extdata/gapminder.tsv\"\n)\ngm = load_csv(\"gapminder.tsv\", GAPMINDER_URL, sep=\"\\t\")\nrecent = gm[gm[\"year\"] == 2007].copy()\n\n# .describe() suit le groupby pour produire un tableau par groupe\nresume = (recent.groupby(\"continent\")[\"lifeExp\"]\n                .describe(percentiles=[0.25, 0.5, 0.75]).round(1))\n\n# On sélectionné les colonnes utiles\nresume[[\"count\", \"mean\", \"std\", \"min\", \"25%\", \"50%\", \"75%\", \"max\"]]\n\n\n\n\n\n\n\n\ncount\nmean\nstd\nmin\n25%\n50%\n75%\nmax\n\n\ncontinent\n\n\n\n\n\n\n\n\n\n\n\n\nAfrica\n52.0\n54.8\n9.6\n39.6\n47.8\n52.9\n59.4\n76.4\n\n\nAmericas\n25.0\n73.6\n4.4\n60.9\n71.8\n72.9\n76.4\n80.7\n\n\nAsia\n33.0\n70.7\n8.0\n43.8\n65.5\n72.4\n75.6\n82.6\n\n\nEurope\n30.0\n77.6\n3.0\n71.8\n75.0\n78.6\n79.8\n81.8\n\n\nOceania\n2.0\n80.7\n0.7\n80.2\n80.5\n80.7\n81.0\n81.2",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#exercices-avec-corriges",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#exercices-avec-corriges",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "10. Exercices (avec corriges)",
+    "text": "10. Exercices (avec corriges)\n\nExercice 1 — Pipeline sur un jeu artificiel\nAppliquez nettoyer_clinique sur le DataFrame ci-dessous. Verifiez le rapport et les valeurs imputees.\n\n# Votre essai ici\n\n\n# Solution\nmessy = pd.DataFrame({\n    \"age\":     [45, 67, -3, 52, 67, 200, 38, np.nan, 71, 44],\n    \"tension\": [128, 158, 112, 450, 158, 135, 122, np.nan, 162, 118],\n    \"hba1c\":   [5.4, 7.8, 5.1, 6.3, 7.8, np.nan, 5.8, 6.1, 5.2, 5.2],\n})\nnettoyer_clinique(messy)\n\n  doublons supprimes : 1\n  'age' hors plage -&gt; NaN : 2\n  'tension' hors plage -&gt; NaN : 1\n\n\n\n\n\n\n\n\n\nage\ntension\nhba1c\n\n\n\n\n0\n45.0\n128.0\n5.4\n\n\n1\n67.0\n158.0\n7.8\n\n\n2\n48.5\n112.0\n5.1\n\n\n3\n52.0\n128.0\n6.3\n\n\n5\n48.5\n135.0\n5.6\n\n\n6\n38.0\n122.0\n5.8\n\n\n7\n48.5\n128.0\n6.1\n\n\n8\n71.0\n162.0\n5.2\n\n\n9\n44.0\n118.0\n5.2\n\n\n\n\n\n\n\n\n\nExercice 2 — Resume par continent\nPour Gapminder en 2007 : moyenne, mediane et IQR de l’EV par continent.\nIndice : on peut passer une fonction personnalisee a .agg().\n\n# Votre essai ici\n\n\n# Solution\n# Fonction personnalisee pour l'IQR\ndef iqr(s):\n    return s.quantile(0.75) - s.quantile(0.25)\n\n# .agg accepte une liste qui melange noms de stats et fonctions\n(recent.groupby(\"continent\")[\"lifeExp\"]\n        .agg([\"mean\", \"median\", iqr]).round(2))\n\n\n\n\n\n\n\n\nmean\nmedian\niqr\n\n\ncontinent\n\n\n\n\n\n\n\nAfrica\n54.81\n52.93\n11.61\n\n\nAmericas\n73.61\n72.90\n4.63\n\n\nAsia\n70.73\n72.40\n10.15\n\n\nEurope\n77.65\n78.61\n4.78\n\n\nOceania\n80.72\n80.72\n0.52\n\n\n\n\n\n\n\n\n\nExercice 3 — Prevalence avec IC\nUne enquete de 2 000 personnes détecté 250 cas. Calculez la prévalence et son IC 95%. Ecrivez une fonction reutilisable.\n\n# Votre essai ici\n\n\n# Solution\ndef prevalence_ic(cas, total, confiance=0.95):\n    \"\"\"Prevalence et IC normal a un niveau de confiance donne.\"\"\"\n    p = cas / total\n    # stats.norm.ppf : quantile de la loi normale\n    z = stats.norm.ppf(0.5 + confiance / 2)\n    se = math.sqrt(p * (1 - p) / total)\n    return {\n        \"prévalence\": round(p, 4),\n        \"IC_lo\":      round(max(0.0, p - z * se), 4),   # borne &gt;= 0\n        \"IC_hi\":      round(min(1.0, p + z * se), 4),   # borne &lt;= 1\n    }\n\nprint(prevalence_ic(250, 2000))\n\n{'prévalence': 0.125, 'IC_lo': np.float64(0.1105), 'IC_hi': np.float64(0.1395)}\n\n\n\n\nExercice 4 — OR d’une étude cas-temoin\n200 cas / 200 temoins ; 140 cas et 80 temoins sont exposes. Calculez l’OR et son IC 95%.\n\n# Votre essai ici\n\n\n# Solution\n# a = cas exposes (140), b = temoins exposes (80),\n# c = cas non exposes (200-140=60), d = temoins non exposes (200-80=120)\nprint(ratio_cotes(140, 80, 60, 120))\n\n{'OR': 3.5, 'IC_lo': 2.313, 'IC_hi': 5.296}",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#resume",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#resume",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "Resume",
+    "text": "Resume\nVous savez maintenant :\n\ndiagnostiquer le mécanisme des données manquantes ;\nchoisir une strategie d’imputation et la documenter ;\nconstruire un pipeline de nettoyage reutilisable ;\ncalculer les mesures descriptives et épidémiologiques de base (prévalence, incidence, RR/OR) avec leurs IC.\n\nSuite -&gt; Module 3 : visualisation. Memes données, autre langage.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_02_nettoyage_descriptif.html#ressources-et-liens-utiles",
+    "href": "notebooks_executes/module_02_nettoyage_descriptif.html#ressources-et-liens-utiles",
+    "title": "\nModule 2·Nettoyage et descriptif\n",
+    "section": "Ressources et liens utiles",
+    "text": "Ressources et liens utiles\n\nDocumentation officielle\n\npandas — Working with missing data — https://pandas.pydata.org/docs/user_guide/missing_data.html\npandas — Group by: split-apply-combine — https://pandas.pydata.org/docs/user_guide/groupby.html\nscipy.stats — https://docs.scipy.org/doc/scipy/référence/stats.html\n\n\n\nMethodologie\n\nRubin, D.B. (1976) Inference and Missing Data. Biometrika 63(3): 581-592 — texte fondateur des mécanismes MCAR/MAR/MNAR.\nLittle & Rubin (2019) Statistical Analysis with Missing Data, 3e ed., Wiley — manuel de reference.\nWeiskopf & Weng (2013) Methods and dimensions of electronic health record data quality assessment, JAMIA 20(1): 144-151 — revue des problèmes de qualité dans les DPI.\nSTROBE Statement — https://www.strobe-statement.org/ : checklist de rapportage pour études d’observation (cohorte, cas-temoin, transversale).\n\n\n\nEpidemiologie de poche\n\nCDC — Principles of Epidemiology in Public Health Practice (cours en ligne gratuit) — https://www.cdc.gov/csels/dsepd/ss1978/index.html\nOMS — Indicators of public health — https://www.who.int/data/gho\n\n\n\nBibliotheques utilisees\n\npandas, numpy, scipy.stats, matplotlib\nPour des imputations multivariees plus poussees : sklearn.impute.IterativeImputer (https://scikit-learn.org/stable/modules/impute.html).\n\n\n\n\n← Module 1 : Python et Pandas\n\n\nSommaire du cours\n\n\nModule 3 : Visualisation →",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "2 — Nettoyage et descriptif"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/index.html",
+    "href": "notebooks_executes/index.html",
+    "title": "\nAnalyse de Données avec Python pour Professionnels de la Santé\n",
+    "section": "",
+    "text": "Cours en 6 heures\n\n\nAnalyse de Données avec Python pour Professionnels de la Santé\n\n\nUne formation pratique en Python pour les professionnels de santé, épidémiologistes, et étudiants en santé publique. Six modules d’une heure, du Python de base au machine learning clinique.\n\n\n\nLes six modules\n\n\n\n\nMODULE 1Python et Pandas\n\n\n60 min\n\n\n\nVariables, listes, dictionnaires, fonctions, boucles. Charger un CSV public et l’inspecter. Filtrer, trier, grouper avec pandas. Le socle Python pour les cinq modules suivants.\n\n\nDonnées : Gapminder · Prerequis : Aucun\n\n\nOuvrir le notebookOuvrir dans Colab\n\n\n\n\n\nMODULE 2Nettoyage et descriptif\n\n\n60 min\n\n\n\nValeurs manquantes (MCAR, MAR, MNAR), pipeline de nettoyage reutilisable, validation par plages cliniques. Tendance centrale, dispersion. Mesures épidémiologiques cles : prévalence, incidence, RR, OR avec IC.\n\n\nDonnées : Gapminder · Prerequis : Module 1\n\n\nOuvrir le notebookOuvrir dans Colab\n\n\n\n\n\nMODULE 3Visualisation\n\n\n60 min\n\n\n\nHistogramme, boîte a moustaches, barres, ligne, scatter, heatmap. Annoter avec axes, unites, seuils cliniques. Palette accessible aux daltoniens. Composer un tableau de bord 4 panneaux.\n\n\nDonnées : Gapminder + simulations · Prerequis : Module 1\n\n\nOuvrir le notebookOuvrir dans Colab\n\n\n\n\n\nMODULE 4Tests d’hypothèses\n\n\n60 min\n\n\n\nt-test (un / deux échantillons / apparie), chi-deux, Mann-Whitney U. Choisir le bon test, vérifier les conditions, rapporter taille d’effet et IC. Correction pour tests multiples (Bonferroni, FDR).\n\n\nDonnées : Framingham · Prerequis : Modules 1, 2\n\n\nOuvrir le notebookOuvrir dans Colab\n\n\n\n\n\nMODULE 5Regression\n\n\n60 min\n\n\n\nRegression linéaire simple et multiple avec statsmodels. Confounding et ajustement. Hypotheses OLS. Regression logistique et odds ratios. Sensibilite, spécificité, VPP, VPN.\n\n\nDonnées : Pima Indians Diabetes · Prerequis : Modules 1, 2, 4\n\n\nOuvrir le notebookOuvrir dans Colab\n\n\n\n\n\nMODULE 6ML clinique\n\n\n60 min\n\n\n\nTrain / test stratifie, validation croisee 5-folds. Arbres et forêts aléatoires avec scikit-learn. ROC + AUC, courbe de calibration, audit d’équité par sexe.\n\n\nDonnées : UCI Heart Disease · Prerequis : Modules 1, 2, 5\n\n\nOuvrir le notebookOuvrir dans Colab\n\n\n\nPour qui ?\n\n\nCe cours est conçu pour les professionnels de santé (medecins, soignants, sage-femmes, pharmaciens), les épidémiologistes et les étudiants en santé publique qui veulent analyser leurs données eux-mêmes, sans avoir a sous-traiter chaque question a un statisticien.\n\n\nAucune expérience de programmation n’est requise pour démarrer le Module 1. Des notions de base en statistique (moyenne, IC) aident pour les Modules 4 a 6 mais ne sont pas obligatoires.\n\n\nDemarrage rapide\n\n\n\n\nOption A — Google Colab\n\n\n\nCliquer sur Ouvrir dans Colab du Module 1.\n\n\nExecuter les cellules avec Maj + Entree.\n\n\nAucune installation locale nécessaire.\n\n\n\n\n\nOption B — Jupyter en local\n\n\n\nInstaller Anaconda.\n\n\nTerminal : cd 6hours puis jupyter notebook.\n\n\nOuvrir notebooks_vierges/module_01_python_pandas.ipynb.\n\n\n\n\n\nStructure du dossier\n\n6hours/\n├── README.md                       # installation, règles d'usage\n├── index.ipynb                     # &lt;-- ce notebook (sommaire)\n├── data/                           # jeux de données mis en cache\n├── notebooks_vierges/              # a distribuer aux apprenants\n│   ├── module_01_python_pandas.ipynb\n│   └── ...\n└── notebooks_executes/             # corriges, avec sorties\n    ├── module_01_python_pandas.ipynb\n    └── ...\n\n\n\nCOMMENT UTILISER CE DOSSIER\n\n\nLes notebooks vierges et exécutés ont les mêmes cellules ; les vierges sont la version a distribuer aux apprenants (sorties effacees, ils executent eux-mêmes), les exécutés servent de corrige rapide pour l’instructeur. Reconstruire les vierges a partir des exécutés : python _build/run_all.py.\n\n\n\nPour aller plus loin\n\n\nCette version 6 heures se concentre sur le coeur analytique. Les sujets suivants sont couverts dans la version longue 30 heures (dossier ../code/notebooks/ du depot) :\n\n\n\nAnalyse temporelle — series épidémiques, décomposition saisonnière, COVID-19.\n\n\nAnalyse spatiale — geopandas, choropleths, données Africa CDC / WHO.\n\n\nProjet capstone — analyse complete end-to-end, rapport, soutenance.\n\n\n\n\nMateriel pedagogique libre. Si vous le reutilisez, citez la source.\n\n\n\n\n Retour au sommet",
+    "crumbs": [
+      "Accueil",
+      "Ressources",
+      "Sommaire visuel (index)"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Analyse de Données avec Python",
+    "section": "",
+    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé, épidémiologistes et étudiants en santé publique sans pré-requis en programmation.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#pour-professionnels-de-la-santé",
+    "href": "index.html#pour-professionnels-de-la-santé",
+    "title": "Analyse de Données avec Python",
+    "section": "",
+    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé, épidémiologistes et étudiants en santé publique sans pré-requis en programmation.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#en-un-coup-dœil",
+    "href": "index.html#en-un-coup-dœil",
+    "title": "Analyse de Données avec Python",
+    "section": "En un coup d’œil",
+    "text": "En un coup d’œil\n\n\nNiveau\nDébutant complet. Aucune ligne de Python requise au démarrage.\n\n\nDurée\nSix heures réparties en six modules d’une heure (atelier d’une journée, trois demi-journées, ou rythme libre).\n\n\nOutils\nPython 3.10+ · Jupyter · Google Colab · notebooks bilingues code + commentaires en français.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#les-six-modules",
+    "href": "index.html#les-six-modules",
+    "title": "Analyse de Données avec Python",
+    "section": "Les six modules",
+    "text": "Les six modules\n\n\n\nMODULE 1\n\nPython et Pandas\nVariables, listes, dictionnaires, fonctions, boucles. Charger un CSV public, l’inspecter. Filtrer, trier, grouper avec pandas.\nDonnées : Gapminder · Prérequis : aucun\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\nMODULE 2\n\nNettoyage et descriptif\nValeurs manquantes (MCAR/MAR/MNAR), pipeline de nettoyage réutilisable, mesures épidémiologiques : prévalence, incidence, RR, OR avec IC.\nDonnées : Gapminder · Prérequis : Module 1\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\nMODULE 3\n\nVisualisation\nHistogramme, boîte à moustaches, barres, ligne, scatter, heatmap. Palette accessible aux daltoniens. Tableau de bord 4 panneaux.\nDonnées : Gapminder + simulations · Prérequis : Module 1\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\nMODULE 4\n\nTests d’hypothèses\nt-test (un / deux échantillons / apparié), χ², Mann-Whitney U. Taille d’effet, IC, correction pour tests multiples (Bonferroni, FDR).\nDonnées : Framingham · Prérequis : Modules 1, 2\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\nMODULE 5\n\nRégression\nRégression linéaire simple et multiple. Confounding, ajustement. Régression logistique et odds ratios. Sensibilité, spécificité, VPP, VPN.\nDonnées : Pima Indians Diabetes · Prérequis : Modules 1, 2, 4\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\nMODULE 6\n\nMachine learning clinique\nTrain/test stratifié, CV 5-folds. Arbres et forêts aléatoires. ROC + AUC, calibration, audit d’équité par sexe.\nDonnées : UCI Heart Disease · Prérequis : Modules 1, 2, 5\n\n\n\nOpen In Colab",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#démarrage-rapide",
+    "href": "index.html#démarrage-rapide",
+    "title": "Analyse de Données avec Python",
+    "section": "Démarrage rapide",
+    "text": "Démarrage rapide\n\nOption A — Google ColabOption B — Jupyter en local\n\n\nAucune installation. Cliquez sur un badge Open In Colab ci-dessus (ou ouvrez d’abord le sommaire interactif) puis exécutez cellule par cellule avec Maj + Entrée.\nLes données se chargent depuis l’URL publique automatiquement — aucune configuration locale.\n\n\ngit clone https://github.com/gabayae/-python-sante.git python-sante\ncd python-sante\npip install -r requirements.txt\njupyter notebook\nLe navigateur ouvre une interface — naviguez dans notebooks_vierges/ et double-cliquez sur le module à étudier.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#notes-de-cours-en-pdf",
+    "href": "index.html#notes-de-cours-en-pdf",
+    "title": "Analyse de Données avec Python",
+    "section": "Notes de cours en PDF",
+    "text": "Notes de cours en PDF\nLes notes de cours en PDF (26 pages) développent la matière théorique et méthodologique de chaque module, avec des extraits de code illustratifs et des références bibliographiques. À utiliser en parallèle des notebooks pour le fond conceptuel.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#pour-aller-plus-loin",
+    "href": "index.html#pour-aller-plus-loin",
+    "title": "Analyse de Données avec Python",
+    "section": "Pour aller plus loin",
+    "text": "Pour aller plus loin\nTrois sujets ne sont pas couverts par cette version condensée. Ils font partie de la version 30 h du cours :\n\nAnalyse temporelle approfondie — décomposition saisonnière, ARIMA, retards de déclaration.\nAnalyse spatiale — geopandas, choroplèthes, indices de Moran et Getis-Ord.\nProjet capstone — analyse end-to-end + rapport + soutenance.\n\nVoir la Section 7 des notes PDF pour les références bibliographiques associées.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "À propos du cours",
+    "section": "",
+    "text": "Ce cours est conçu pour les professionnels de santé (médecins, soignants, sage-femmes, pharmaciens), les épidémiologistes et les étudiants en santé publique qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nLa version 6 h se concentre sur l’épine dorsale analytique :\n\nPython et Pandas pour la santé\nNettoyage et statistique descriptive\nVisualisation pour données de santé\nTests d’hypothèses\nRégression (linéaire + logistique)\nMachine learning clinique",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#objectif",
+    "href": "about.html#objectif",
+    "title": "À propos du cours",
+    "section": "",
+    "text": "Ce cours est conçu pour les professionnels de santé (médecins, soignants, sage-femmes, pharmaciens), les épidémiologistes et les étudiants en santé publique qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nLa version 6 h se concentre sur l’épine dorsale analytique :\n\nPython et Pandas pour la santé\nNettoyage et statistique descriptive\nVisualisation pour données de santé\nTests d’hypothèses\nRégression (linéaire + logistique)\nMachine learning clinique",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#pour-qui",
+    "href": "about.html#pour-qui",
+    "title": "À propos du cours",
+    "section": "Pour qui ?",
+    "text": "Pour qui ?\nAucune expérience de programmation n’est requise pour démarrer le Module 1. Des notions de base en statistique (moyenne, intervalle de confiance) aident pour les Modules 4 à 6 mais ne sont pas obligatoires.",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#format-pédagogique",
+    "href": "about.html#format-pédagogique",
+    "title": "À propos du cours",
+    "section": "Format pédagogique",
+    "text": "Format pédagogique\n\n6 notebooks Jupyter prêts pour Google Colab.\n6 notebooks corrigés avec sorties (pour relecture).\nNotes de cours en PDF (26 pages) — théorie, formules, références.\nSnippets de code abondamment commentés : chaque ligne non triviale est expliquée à droite.\nEncarts « Syntaxe » introduisant chaque construction Python avant son usage concret.\nExercices avec corrigés.",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#jeux-de-données-utilisés",
+    "href": "about.html#jeux-de-données-utilisés",
+    "title": "À propos du cours",
+    "section": "Jeux de données utilisés",
+    "text": "Jeux de données utilisés\n\n\n\nJeu de données\nOrigine\nUtilisé dans\n\n\n\n\nGapminder\njennybc/gapminder\nModules 1, 2, 3\n\n\nPima Indians Diabetes\njbrownlee/Datasets\nModule 5\n\n\nUCI Heart Disease (Cleveland)\nsharmaroshan/Heart-UCI-Dataset\nModule 6\n\n\nFramingham Heart Study\nGauravPadawe/Framingham-Heart-Study\nModule 4\n\n\n\nTous sont des jeux publics, distribués sous licence ouverte par leurs auteurs originaux.",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#auteur",
+    "href": "about.html#auteur",
+    "title": "À propos du cours",
+    "section": "Auteur",
+    "text": "Auteur\nYaé Ulrich Gaba · GitHub",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#licence",
+    "href": "about.html#licence",
+    "title": "À propos du cours",
+    "section": "Licence",
+    "text": "Licence\nCe matériel pédagogique est distribué sous Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0).\nVous êtes libre de :\n\nPartager — copier, redistribuer le matériel sous n’importe quel format ou support\nAdapter — remixer, transformer et créer à partir du matériel pour n’importe quelle utilisation, y compris commerciale\n\nSous les conditions suivantes :\n\nAttribution — citer l’auteur, intégrer un lien vers la licence et indiquer les modifications éventuelles\nPartage dans les mêmes conditions — diffuser les œuvres dérivées sous la même licence",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#citation",
+    "href": "about.html#citation",
+    "title": "À propos du cours",
+    "section": "Citation",
+    "text": "Citation\nSi vous utilisez ce matériel, merci de le citer. GitHub propose un bouton « Cite this repository » dans la barre de droite — il génère automatiquement le BibTeX ci-dessous.\n@misc{gaba2026python_sante,\n  author = {Gaba, Ya{\\'e} Ulrich},\n  title  = {Analyse de Donn{\\'e}es avec Python pour Professionnels\n            de la Sant{\\'e} --- version condens{\\'e}e 6 heures},\n  year   = {2026},\n  url    = {https://github.com/gabayae/-python-sante},\n  note   = {CC BY-SA 4.0}\n}",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#pour-signaler-un-problème-ou-contribuer",
+    "href": "about.html#pour-signaler-un-problème-ou-contribuer",
+    "title": "À propos du cours",
+    "section": "Pour signaler un problème ou contribuer",
+    "text": "Pour signaler un problème ou contribuer\n\nCoquille / bug / suggestion : ouvrir une issue.\nCorrection / amélioration : fork → branche → PR. La section « Forker le dépôt » du README détaille les étapes.",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#construction-technique",
+    "href": "about.html#construction-technique",
+    "title": "À propos du cours",
+    "section": "Construction technique",
+    "text": "Construction technique\nCe site est construit avec Quarto. Les notebooks Jupyter sont rendus directement sans ré-exécution (les sorties embarquées dans les .ipynb sont utilisées telles quelles). Le PDF des notes est compilé avec XeLaTeX + minted.\nPour reconstruire le site localement :\ngit clone https://github.com/gabayae/-python-sante.git python-sante\ncd python-sante\nquarto render\n# Le site est genere dans docs/",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html",
+    "href": "notebooks_executes/module_01_python_pandas.html",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "",
+    "text": "Analyse de Données avec Python pour Professionnels de la Santé\n\n\n\nVersion condensee 6 heures · Module 1 sur 6 · Duree 60 minutes",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#reproductibilite",
+    "href": "notebooks_executes/module_01_python_pandas.html#reproductibilite",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "0. Reproductibilite",
+    "text": "0. Reproductibilite\nTout notebook qui utilise du hasard doit fixer la graine aléatoire en tête pour que les sorties soient identiques a chaque exécution.\n\nSyntaxe — import\nimport nom_module                  # importe tout le module\nimport nom_module as alias         # avec un alias court\nfrom nom_module import truc        # juste une partie\nLes alias np (numpy), pd (pandas), plt (matplotlib.pyplot) et sns (seaborn) sont des conventions universelles.\n\n\nimport random                          # module standard pour le hasard\nimport sys                             # pour afficher la version Python\nimport numpy as np                     # convention universelle : np\n\n# La graine fige le generateur aléatoire.\n# 42 est un classique mais n'importe quel entier marche.\nGRAINE = 42\nrandom.seed(GRAINE)                    # graine du module standard\nnp.random.seed(GRAINE)                 # graine de numpy (indépendante !)\n\n# Affichage des versions - utile pour la reproductibilité long terme\nprint(f\"Python {sys.version.split()[0]}\")\nprint(f\"numpy  {np.__version__}\")\n\nPython 3.13.5\nnumpy  2.1.3",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#variables-et-types",
+    "href": "notebooks_executes/module_01_python_pandas.html#variables-et-types",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "1. Variables et types",
+    "text": "1. Variables et types\nUne variable est un nom qui pointe vers une valeur.\n\nSyntaxe — affectation\nnom_variable = valeur\nLe = se lit “reçoit”. Python devine le type a partir de la valeur : 45 -&gt; int, 37.2 -&gt; float, \"texte\" -&gt; str, True/False -&gt; bool.\n\n\n\n\n\n\n\n\n\nType\nStocke\nExemple en santé\n\n\n\n\nint\nNombre entier\nAge en annees, nombre d’admissions\n\n\nfloat\nNombre a virgule\nTemperature, HbA1c, créatinine\n\n\nstr\nTexte\nCode CIM, identifiant patient\n\n\nbool\nVrai / Faux\nHospitalise ? Fumeur ?\n\n\n\n\nSyntaxe — f-string (chaine formattee)\nf\"texte {variable} texte\"          # affiche la valeur de `variable`\nf\"valeur = {x:.1f}\"                # avec format : 1 chiffre après la virgule\nLe f devant les guillemets active l’interpolation. C’est la facon recommandée en Python 3.6+.\n\n\n# Quatre variables, une par type\nage = 45                           # int  - entier\ntemperature = 37.2                 # float - décimal\ndiagnostic = \"Diabete de type 2\"  # str   - texte entre guillemets\nhospitalise = True                 # bool  - True ou False (majuscules !)\n\n# print() affiche sur la sortie standard.\n# f\"...{var}...\" insère la valeur de var dans la chaine.\nprint(f\"Age          : {age} ans\")\nprint(f\"Temperature  : {temperature} C\")\nprint(f\"Diagnostic   : {diagnostic}\")\nprint(f\"Hospitalise  : {hospitalise}\")\n\n# type(x) renvoie le type de x - utile pour deboguer\nprint(f\"\\ntype(age)   = {type(age).__name__}\")\nprint(f\"type(temp.) = {type(temperature).__name__}\")\n\nAge          : 45 ans\nTemperature  : 37.2 C\nDiagnostic   : Diabete de type 2\nHospitalise  : True\n\ntype(age)   = int\ntype(temp.) = float",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#listes-plusieurs-mesures-du-même-type",
+    "href": "notebooks_executes/module_01_python_pandas.html#listes-plusieurs-mesures-du-même-type",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "2. Listes — plusieurs mesures du même type",
+    "text": "2. Listes — plusieurs mesures du même type\nUne liste range des valeurs dans l’ordre.\n\nSyntaxe — liste\nma_liste = [valeur1, valeur2, valeur3]   # crochets, virgules\nma_liste[0]                              # premier  element (indice 0 !)\nma_liste[-1]                             # dernier  element\nma_liste[1:3]                            # tranche  : indices 1 et 2\nlen(ma_liste)                            # nombre d'elements\nma_liste.append(valeur)                  # ajoute a la fin (modifie en place)\nAttention : Python compte a partir de 0, pas de 1. Le premier element est [0], le deuxieme [1], etc.\n\n\n# Cinq mesures de tension systolique pour un même patient (mmHg)\ntensions = [120, 135, 128, 142, 118]   # crochets, virgules\n\n# Acces aux elements individuels\nprint(f\"Toutes : {tensions}\")\nprint(f\"1ere   : {tensions[0]} mmHg\")          # indice 0 = premier\nprint(f\"3eme   : {tensions[2]} mmHg\")          # indice 2 = troisieme\nprint(f\"Dern.  : {tensions[-1]} mmHg\")         # -1 = derniere\nprint(f\"3 dern.: {tensions[-3:]}\")             # tranche depuis -3\n\n# Fonctions integrees utiles\nprint(f\"\\nNombre : {len(tensions)}\")\nprint(f\"Min    : {min(tensions)} mmHg\")\nprint(f\"Max    : {max(tensions)} mmHg\")\nprint(f\"Somme  : {sum(tensions)}\")\nprint(f\"Moyenne: {sum(tensions) / len(tensions):.1f} mmHg\")\n\n# Ajouter une mesure - modifie la liste en place\ntensions.append(124)\nprint(f\"\\nApres append(124) : {tensions}\")\n\nToutes : [120, 135, 128, 142, 118]\n1ere   : 120 mmHg\n3eme   : 128 mmHg\nDern.  : 118 mmHg\n3 dern.: [128, 142, 118]\n\nNombre : 5\nMin    : 118 mmHg\nMax    : 142 mmHg\nSomme  : 643\nMoyenne: 128.6 mmHg\n\nApres append(124) : [120, 135, 128, 142, 118, 124]",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#dictionnaires-la-fiche-patient",
+    "href": "notebooks_executes/module_01_python_pandas.html#dictionnaires-la-fiche-patient",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "3. Dictionnaires — la fiche patient",
+    "text": "3. Dictionnaires — la fiche patient\nUn dictionnaire associe des clés (souvent du texte) a des valeurs.\n\nSyntaxe — dictionnaire\nmon_dict = {\n    \"cle1\": valeur1,        # paires cle : valeur\n    \"cle2\": valeur2,        # separees par des virgules\n}\nmon_dict[\"cle1\"]              # lecture\nmon_dict[\"cle3\"] = valeur3    # ajout / mise a jour\n\"cle1\" in mon_dict            # test d'appartenance -&gt; True/False\nmon_dict.keys()               # toutes les clés\nUne fiche patient est naturellement un dictionnaire : chaque champ (age, sexe, diagnostic) est une cle.\n\n\n# Une fiche patient sous forme de dictionnaire\npatient = {\n    \"id\":              \"PAT-0042\",\n    \"age\":             58,\n    \"sexe\":            \"F\",\n    \"diagnostic\":      \"HTA\",                     # hypertension\n    \"tension_systolique\": 148,\n    \"medicaments\":     [\"Amlodipine\", \"HCTZ\"],   # liste imbriquee\n    \"fumeur\":          False,\n}\n\n# Lecture d'un champ\nprint(f\"Patient {patient['id']} : {patient['age']} ans, {patient['sexe']}\")\nprint(f\"Diagnostic : {patient['diagnostic']}\")\n\n# La clé 'medicaments' contient une liste - on peut l'iterer\nprint(f\"Medicaments ({len(patient['medicaments'])}) : {', '.join(patient['medicaments'])}\")\n\n# Mise a jour d'un champ - utile pour les visites de suivi\npatient[\"tension_systolique\"] = 138\nprint(f\"Tension après traitement : {patient['tension_systolique']} mmHg\")\n\n# Test d'appartenance\nprint(f\"\\nLe patient a-t-il un champ 'allergies' ? {'allergies' in patient}\")\n\nPatient PAT-0042 : 58 ans, F\nDiagnostic : HTA\nMedicaments (2) : Amlodipine, HCTZ\nTension après traitement : 138 mmHg\n\nLe patient a-t-il un champ 'allergies' ? False\n\n\n\n\nA RETENIR\n\n\nUne cohorte = une liste de dictionnaires. C’est exactement la forme que pandas convertira en DataFrame plus loin. Plus tard dans le notebook : pd.DataFrame(cohorte) et c’est gagne.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#conditionnelles-appliquer-une-règle-clinique",
+    "href": "notebooks_executes/module_01_python_pandas.html#conditionnelles-appliquer-une-règle-clinique",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "4. Conditionnelles — appliquer une règle clinique",
+    "text": "4. Conditionnelles — appliquer une règle clinique\n\nSyntaxe — if / elif / else\nif condition1:\n    # bloc exécute si condition1 est True\n    ...\nelif condition2:\n    # bloc exécute si condition1 False ET condition2 True\n    ...\nelse:\n    # bloc exécute si toutes les précédentes sont False\n    ...\nIndentation : Python utilise des espaces (4 par convention) pour delimiter les blocs. Pas d’accolades ! Une indentation incorrecte leve une IndentationError.\n\n\nOperateurs de comparaison : == (égal), != (different), &lt;, &lt;=, &gt;, &gt;=.\nOperateurs booleens : and (et), or (ou), not (non).\n\n\n# Classification ACC/AHA 2017 de l'hypertension\nsystolique = 148  # mmHg\n\n# L'ordre des conditions compte : on teste du seuil le plus haut\n# au plus bas. Sinon on classerait 148 comme \"Elevee\" au lieu de \"Stade 2\".\nif systolique &gt;= 140:\n    categorie = \"Stade 2 Hypertension\"\nelif systolique &gt;= 130:\n    categorie = \"Stade 1 Hypertension\"\nelif systolique &gt;= 120:\n    categorie = \"Elevee\"\nelse:\n    categorie = \"Normale\"\n\nprint(f\"Tension {systolique} mmHg  -&gt;  {categorie}\")\n\nTension 148 mmHg  -&gt;  Stade 2 Hypertension",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#boucles-for-appliquer-une-règle-a-toute-la-cohorte",
+    "href": "notebooks_executes/module_01_python_pandas.html#boucles-for-appliquer-une-règle-a-toute-la-cohorte",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "5. Boucles for — appliquer une règle a toute la cohorte",
+    "text": "5. Boucles for — appliquer une règle a toute la cohorte\n\nSyntaxe — for\nfor element in collection:        # collection = liste, dict, ...\n    # corps de la boucle, exécute une fois par element\n    print(element)\nLe for parcourt dans l’ordre chaque element. La variable de boucle (element ci-dessus) prend successivement chaque valeur.\n\nCombinaison fréquente : on a une cohorte (liste de dictionnaires) et une règle clinique a appliquer a chaque patient.\nExemple : depistage du diabète par HbA1c (critères ADA) :\n\nHbA1c &lt; 5,7 % -&gt; normal\n5,7 a 6,4 % -&gt; pre-diabète\n\n= 6,5 % -&gt; diabète\n\n\n\n# Cinq patients sous forme de liste de dictionnaires\ncohorte = [\n    {\"id\": \"P001\", \"age\": 34, \"hba1c\": 5.4},\n    {\"id\": \"P002\", \"age\": 67, \"hba1c\": 7.8},\n    {\"id\": \"P003\", \"age\": 52, \"hba1c\": 6.1},\n    {\"id\": \"P004\", \"age\": 29, \"hba1c\": 5.0},\n    {\"id\": \"P005\", \"age\": 73, \"hba1c\": 9.1},\n]\n\n# La variable `p` reçoit successivement chaque dictionnaire de la liste\nfor p in cohorte:\n    # On peut combiner if/elif/else dans la boucle\n    if p[\"hba1c\"] &gt;= 6.5:\n        statut = \"Diabetique\"\n    elif p[\"hba1c\"] &gt;= 5.7:\n        statut = \"Pre-diabétique\"\n    else:\n        statut = \"Normal\"\n    # Affichage formate : :&gt;2d aligne les chiffres a droite sur 2 caractères,\n    # :&gt;4.1f reserve 4 caractères avec 1 chiffre après la virgule\n    print(f\"  {p['id']} (age {p['age']:&gt;2d}) : HbA1c = {p['hba1c']:&gt;4.1f}%  -&gt;  {statut}\")\n\n  P001 (age 34) : HbA1c =  5.4%  -&gt;  Normal\n  P002 (age 67) : HbA1c =  7.8%  -&gt;  Diabetique\n  P003 (age 52) : HbA1c =  6.1%  -&gt;  Pre-diabétique\n  P004 (age 29) : HbA1c =  5.0%  -&gt;  Normal\n  P005 (age 73) : HbA1c =  9.1%  -&gt;  Diabetique",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#fonctions-emballer-une-formule-clinique",
+    "href": "notebooks_executes/module_01_python_pandas.html#fonctions-emballer-une-formule-clinique",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "6. Fonctions — emballer une formule clinique",
+    "text": "6. Fonctions — emballer une formule clinique\nUne fonction est un bloc de code reutilisable, nomme, avec des parametres en entree et éventuellement une valeur en sortie.\n\nSyntaxe — fonction\ndef nom_fonction(param1, param2):       # signature\n    \"\"\"Docstring : une ligne qui dit ce que fait la fonction.\"\"\"\n    # corps de la fonction\n    ...\n    return résultat                     # renvoie une valeur\n\n# Appel :\nr = nom_fonction(valeur1, valeur2)      # positionnel\nr = nom_fonction(param1=valeur1)        # par mot-cle (plus lisible !)\nAnnotations de type (optionnelles mais recommandées) :\ndef imc(poids_kg: float, taille_m: float) -&gt; float:\n    ...\nElles documentent les types attendus sans rien forcer a l’exécution.\n\n\nDocstring : la chaine entre triple guillemets juste après def. Affichee par help(nom_fonction) ou par Jupyter quand on survole le nom.\n\n\ndef imc(poids_kg: float, taille_m: float) -&gt; float:\n    \"\"\"Indice de Masse Corporelle en kg/m^2.\n\n    Parametres\n    ----------\n    poids_kg : float\n        poids en kilogrammes.\n    taille_m : float\n        taille en metres (PAS en cm).\n    \"\"\"\n    # Verification defensive : taille positive\n    if taille_m &lt;= 0:\n        raise ValueError(\"taille_m doit être strictement positive\")\n    # ** est l'opérateur puissance (taille^2)\n    return poids_kg / (taille_m ** 2)\n\n\ndef categorie_imc(valeur: float) -&gt; str:\n    \"\"\"Classification OMS adulte.\"\"\"\n    if valeur &lt; 18.5:\n        return \"Maigreur\"\n    if valeur &lt; 25.0:\n        return \"Normal\"\n    if valeur &lt; 30.0:\n        return \"Surpoids\"\n    return \"Obesite\"\n\n# Appel par mots-clés - plus lisible que imc(82, 1.75)\nv = imc(poids_kg=82, taille_m=1.75)\nprint(f\"IMC = {v:.1f}  ({categorie_imc(v)})\")\n\n# La docstring est accessible avec help() ou .__doc__\nprint(f\"\\nDocstring : {imc.__doc__.splitlines()[0]}\")\n\nIMC = 26.8  (Surpoids)\n\nDocstring : Indice de Masse Corporelle en kg/m^2.\n\n\n\n\nCONSEIL CLINIQUE\n\n\nPour toute fonction de calcul medical (dosage, eGFR, scores), preferez les appels par mot-clé (imc(poids_kg=82, taille_m=1.75)) plutôt que positionnels (imc(82, 1.75)). Une inversion d’arguments dans une formule de dosage mg/kg peut être dramatique.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#pandas-du-python-pur-a-la-table",
+    "href": "notebooks_executes/module_01_python_pandas.html#pandas-du-python-pur-a-la-table",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "7. Pandas — du Python pur a la table",
+    "text": "7. Pandas — du Python pur a la table\nPandas est la bibliothèque standard pour manipuler des tableaux en Python. L’objet central est le DataFrame : un tableur programmable.\n\nSyntaxe — importer pandas et charger un CSV\nimport pandas as pd                              # convention\n\ndf = pd.read_csv(\"fichier.csv\")                  # depuis le disque\ndf = pd.read_csv(\"https://...../fichier.csv\")    # depuis Internet\ndf = pd.read_csv(\"fichier.tsv\", sep=\"\\t\")       # avec un autre separateur\n\nOn charge ici Gapminder : espérance de vie, PIB par habitant et population pour ~140 pays tous les 5 ans, de 1952 a 2007. GitHub : jennybc/gapminder.\nLa fonction load_csv ci-dessous est notre patron de chargement utilise dans tous les modules. Elle essaie le cache local (data/) d’abord, sinon telecharge depuis l’URL. Cela marche en Colab comme en local.\n\nimport os\nfrom pathlib import Path\nimport pandas as pd\n\n# Chemins de cache candidats, dans l'ordre :\n#   1. ./data/         (jupyter local, notebook a la racine)\n#   2. ../data/        (jupyter local, notebook dans un sous-dossier)\n#   3. ./             (au pire on cree un cache dans le cwd)\n# En Colab, aucun n'existe : on tombe sur l'URL et on cree ./data/ pour les\n# cellules suivantes.\n_CANDIDATES = [Path(\"data\"), Path(\"../data\")]\nDATA_DIR = next((p for p in _CANDIDATES if p.is_dir()), Path(\"data\"))\nDATA_DIR.mkdir(exist_ok=True)\n\n\ndef load_csv(name: str, url: str, **read_csv_kwargs) -&gt; pd.DataFrame:\n    \"\"\"Charge un CSV : cache local d'abord, sinon URL publique.\n\n    Le cache utilise le meme separateur que la lecture (TSV reste TSV).\n    \"\"\"\n    for candidate_dir in _CANDIDATES:\n        local = candidate_dir / name\n        if local.exists():\n            return pd.read_csv(local, **read_csv_kwargs)\n    df = pd.read_csv(url, **read_csv_kwargs)\n    try:\n        sep = read_csv_kwargs.get(\"sep\", \",\")\n        (DATA_DIR / name).parent.mkdir(parents=True, exist_ok=True)\n        df.to_csv(DATA_DIR / name, index=False, sep=sep)\n    except OSError:\n        pass\n    return df\n\n# URL stable de Gapminder (depuis le repo de Jenny Bryan)\nGAPMINDER_URL = (\n    \"https://raw.githubusercontent.com/jennybc/gapminder/\"\n    \"master/inst/extdata/gapminder.tsv\"\n)\n\nimport pandas as pd                       # convention : pd\n\n# sep=\"\\t\" parce que c'est un TSV (tab-separated values)\ngm = load_csv(\"gapminder.tsv\", GAPMINDER_URL, sep=\"\\t\")\n\n# .shape renvoie un tuple (lignes, colonnes)\nprint(f\"Dimensions : {gm.shape[0]:,} lignes x {gm.shape[1]} colonnes\")\n\n# .head() affiche les n premières lignes (défaut 5)\ngm.head()\n\nDimensions : 1,704 lignes x 6 colonnes\n\n\n\n\n\n\n\n\n\ncountry\ncontinent\nyear\nlifeExp\npop\ngdpPercap\n\n\n\n\n0\nAfghanistan\nAsia\n1952\n28.801\n8425333\n779.445314\n\n\n1\nAfghanistan\nAsia\n1957\n30.332\n9240934\n820.853030\n\n\n2\nAfghanistan\nAsia\n1962\n31.997\n10267083\n853.100710\n\n\n3\nAfghanistan\nAsia\n1967\n34.020\n11537966\n836.197138\n\n\n4\nAfghanistan\nAsia\n1972\n36.088\n13079460\n739.981106",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#cinq-méthodes-dinspection-a-connaître-par-coeur",
+    "href": "notebooks_executes/module_01_python_pandas.html#cinq-méthodes-dinspection-a-connaître-par-coeur",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "8. Cinq méthodes d’inspection a connaître par coeur",
+    "text": "8. Cinq méthodes d’inspection a connaître par coeur\nAvant toute analyse, toujours exécuter ces cinq commandes sur tout nouveau jeu de données :\n\n\n\n\n\n\n\nMethode\nCe qu’elle vous dit\n\n\n\n\ndf.head(n)\nLes n premières lignes — voir a quoi ca ressemble\n\n\ndf.shape\n(nb lignes, nb colonnes)\n\n\ndf.dtypes\nType de chaque colonne (les nombres saisis comme texte se reperent ici !)\n\n\ndf.describe()\nMoyenne, écart-type, quartiles des colonnes numériques\n\n\ndf['col'].value_counts()\nFrequences d’une colonne catégorielle\n\n\n\n\nSyntaxe — sélection de colonne\ndf[\"nom_colonne\"]                  # une colonne -&gt; Series\ndf[[\"col1\", \"col2\"]]               # plusieurs   -&gt; DataFrame\ndf.nunique()                       # nb de valeurs uniques par colonne\ndf[\"col\"].unique()                 # valeurs uniques d'UNE colonne\n\n\n# .columns donne les noms de colonnes ; .tolist() les convertit en liste Python\nprint(\"Colonnes :\", gm.columns.tolist())\nprint()\n\n# .dtypes : type de chaque colonne\nprint(\"Types :\")\nprint(gm.dtypes)\nprint()\n\n# .nunique() : nombre de valeurs distinctes dans une colonne\nprint(f\"Pays distincts   : {gm['country'].nunique()}\")\n\n# .unique() : la liste des valeurs distinctes\nprint(f\"Continents       : {sorted(gm['continent'].unique())}\")\nprint(f\"Annees presentes : {sorted(gm['year'].unique())}\")\n\nColonnes : ['country', 'continent', 'year', 'lifeExp', 'pop', 'gdpPercap']\n\nTypes :\ncountry       object\ncontinent     object\nyear           int64\nlifeExp      float64\npop            int64\ngdpPercap    float64\ndtype: object\n\nPays distincts   : 142\nContinents       : ['Africa', 'Americas', 'Asia', 'Europe', 'Oceania']\nAnnees presentes : [np.int64(1952), np.int64(1957), np.int64(1962), np.int64(1967), np.int64(1972), np.int64(1977), np.int64(1982), np.int64(1987), np.int64(1992), np.int64(1997), np.int64(2002), np.int64(2007)]\n\n\n\n# .describe() : statistiques descriptives des colonnes numériques\n# .round(2) arrondit a 2 décimales (purement cosmetique)\ngm.describe().round(2)\n\n\n\n\n\n\n\n\nyear\nlifeExp\npop\ngdpPercap\n\n\n\n\ncount\n1704.00\n1704.00\n1.704000e+03\n1704.00\n\n\nmean\n1979.50\n59.47\n2.960121e+07\n7215.33\n\n\nstd\n17.27\n12.92\n1.061579e+08\n9857.45\n\n\nmin\n1952.00\n23.60\n6.001100e+04\n241.17\n\n\n25%\n1965.75\n48.20\n2.793664e+06\n1202.06\n\n\n50%\n1979.50\n60.71\n7.023596e+06\n3531.85\n\n\n75%\n1993.25\n70.85\n1.958522e+07\n9325.46\n\n\nmax\n2007.00\n82.60\n1.318683e+09\n113523.13\n\n\n\n\n\n\n\n\n# .value_counts() : fréquence de chaque valeur unique\n# Pratique pour les colonnes catégorielles\ngm[\"continent\"].value_counts()\n\ncontinent\nAfrica      624\nAsia        396\nEurope      360\nAmericas    300\nOceania      24\nName: count, dtype: int64",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#filtrer-des-lignes-masque-booleen",
+    "href": "notebooks_executes/module_01_python_pandas.html#filtrer-des-lignes-masque-booleen",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "9. Filtrer des lignes (masque booleen)",
+    "text": "9. Filtrer des lignes (masque booleen)\nLe filtrage utilise un masque booleen : une colonne de True/False qu’on passe entre crochets.\n\nSyntaxe — filtrage\nmasque = df[\"col\"] &gt; seuil          # cree une Series de True/False\nsous_df = df[masque]                # garde les lignes ou masque == True\n\n# Ou en une ligne :\nsous_df = df[df[\"col\"] &gt; seuil]\n\n# Combiner avec ET (&), OU (|), NON (~)\nsous_df = df[(df[\"a\"] &gt; 1) & (df[\"b\"] == \"X\")]\nAttention : il faut & | ~ (pas and or not) et parentheser chaque condition — sinon precedence des opérateurs vous trahira.\n\n\n# La derniere année présente dans le jeu de données\nannee_recente = gm[\"year\"].max()       # .max() renvoie le max\nprint(f\"Annee la plus recente : {annee_recente}\")\n\n# Tous les pays pour l'année la plus récente\n# (le == compare valeur par valeur ; le résultat est une Series booleenne)\nrecent = gm[gm[\"year\"] == annee_recente]\nprint(f\"Nb pays cette annee   : {len(recent)}\")\n\n# Sous-filtrage : continent africain dans cette même année\nafrique_recent = recent[recent[\"continent\"] == \"Africa\"]\nprint(f\"Pays africains        : {len(afrique_recent)}\")\nafrique_recent.head()\n\nAnnee la plus recente : 2007\nNb pays cette annee   : 142\nPays africains        : 52\n\n\n\n\n\n\n\n\n\ncountry\ncontinent\nyear\nlifeExp\npop\ngdpPercap\n\n\n\n\n35\nAlgeria\nAfrica\n2007\n72.301\n33333216\n6223.367465\n\n\n47\nAngola\nAfrica\n2007\n42.731\n12420476\n4797.231267\n\n\n131\nBenin\nAfrica\n2007\n56.728\n8078314\n1441.284873\n\n\n167\nBotswana\nAfrica\n2007\n50.728\n1639131\n12569.851770\n\n\n203\nBurkina Faso\nAfrica\n2007\n52.295\n14326203\n1217.032994\n\n\n\n\n\n\n\n\n# Esperance de vie &lt; 50 ans dans la derniere année\nfaible_ev = recent[recent[\"lifeExp\"] &lt; 50]\nprint(f\"Pays avec EV &lt; 50 ans en {annee_recente} : {len(faible_ev)}\")\n\n# Selection multi-colonnes : double crochet puisque c'est une liste\n# .sort_values(col) trie selon une colonne\nfaible_ev[[\"country\", \"continent\", \"lifeExp\"]].sort_values(\"lifeExp\")\n\nPays avec EV &lt; 50 ans en 2007 : 19\n\n\n\n\n\n\n\n\n\ncountry\ncontinent\nlifeExp\n\n\n\n\n1463\nSwaziland\nAfrica\n39.613\n\n\n1043\nMozambique\nAfrica\n42.082\n\n\n1691\nZambia\nAfrica\n42.384\n\n\n1355\nSierra Leone\nAfrica\n42.568\n\n\n887\nLesotho\nAfrica\n42.592\n\n\n47\nAngola\nAfrica\n42.731\n\n\n1703\nZimbabwe\nAfrica\n43.487\n\n\n11\nAfghanistan\nAsia\n43.828\n\n\n263\nCentral African Republic\nAfrica\n44.741\n\n\n899\nLiberia\nAfrica\n45.678\n\n\n1295\nRwanda\nAfrica\n46.242\n\n\n635\nGuinea-Bissau\nAfrica\n46.388\n\n\n335\nCongo, Dem. Rep.\nAfrica\n46.462\n\n\n1139\nNigeria\nAfrica\n46.859\n\n\n1403\nSomalia\nAfrica\n48.159\n\n\n935\nMalawi\nAfrica\n48.303\n\n\n371\nCote d'Ivoire\nAfrica\n48.328\n\n\n1415\nSouth Africa\nAfrica\n49.339\n\n\n215\nBurundi\nAfrica\n49.580\n\n\n\n\n\n\n\nExemple avec deux conditions — pays africains ET PIB &lt; 1 000 USD :\n\n# Noter les parentheses autour de CHAQUE condition + l'opérateur &\npauvre_africain = recent[\n    (recent[\"continent\"] == \"Africa\")\n    & (recent[\"gdpPercap\"] &lt; 1000)\n]\nprint(f\"Pays africains avec PIB/hab &lt; 1000 USD : {len(pauvre_africain)}\")\npauvre_africain[[\"country\", \"lifeExp\", \"gdpPercap\"]].sort_values(\"lifeExp\")\n\nPays africains avec PIB/hab &lt; 1000 USD : 18\n\n\n\n\n\n\n\n\n\ncountry\nlifeExp\ngdpPercap\n\n\n\n\n1043\nMozambique\n42.082\n823.685621\n\n\n1355\nSierra Leone\n42.568\n862.540756\n\n\n1703\nZimbabwe\n43.487\n469.709298\n\n\n263\nCentral African Republic\n44.741\n706.016537\n\n\n899\nLiberia\n45.678\n414.507341\n\n\n1295\nRwanda\n46.242\n863.088464\n\n\n635\nGuinea-Bissau\n46.388\n579.231743\n\n\n335\nCongo, Dem. Rep.\n46.462\n277.551859\n\n\n1403\nSomalia\n48.159\n926.141068\n\n\n935\nMalawi\n48.303\n759.349910\n\n\n215\nBurundi\n49.580\n430.070692\n\n\n515\nEthiopia\n52.947\n690.805576\n\n\n623\nGuinea\n56.007\n942.654211\n\n\n1127\nNiger\n56.867\n619.676892\n\n\n503\nEritrea\n58.040\n641.369524\n\n\n1547\nTogo\n58.420\n882.969944\n\n\n563\nGambia\n59.448\n752.749726\n\n\n323\nComoros\n65.152\n986.147879",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#trier-et-classer",
+    "href": "notebooks_executes/module_01_python_pandas.html#trier-et-classer",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "10. Trier et classer",
+    "text": "10. Trier et classer\n\nSyntaxe — tri\ndf.sort_values(\"col\")                       # tri croissant (défaut)\ndf.sort_values(\"col\", ascending=False)      # decroissant\ndf.nlargest(n, \"col\")                       # n plus grands\ndf.nsmallest(n, \"col\")                      # n plus petits\n\nQuestion classique : quels sont les pays les mieux/moins bien places sur un indicateur ?\n\n# Les 10 pays avec la plus haute espérance de vie en 2007\n# ascending=False -&gt; ordre decroissant\ntop10 = recent.sort_values(\"lifeExp\", ascending=False).head(10)\n\n# .reset_index(drop=True) remet une numerotation propre 0,1,2,...\ntop10[[\"country\", \"continent\", \"lifeExp\"]].reset_index(drop=True)\n\n\n\n\n\n\n\n\ncountry\ncontinent\nlifeExp\n\n\n\n\n0\nJapan\nAsia\n82.603\n\n\n1\nHong Kong, China\nAsia\n82.208\n\n\n2\nIceland\nEurope\n81.757\n\n\n3\nSwitzerland\nEurope\n81.701\n\n\n4\nAustralia\nOceania\n81.235\n\n\n5\nSpain\nEurope\n80.941\n\n\n6\nSweden\nEurope\n80.884\n\n\n7\nIsrael\nAsia\n80.745\n\n\n8\nFrance\nEurope\n80.657\n\n\n9\nCanada\nAmericas\n80.653",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#groupby-agg-le-geste-pivot-de-pandas",
+    "href": "notebooks_executes/module_01_python_pandas.html#groupby-agg-le-geste-pivot-de-pandas",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "11. groupby + agg — le geste pivot de pandas",
+    "text": "11. groupby + agg — le geste pivot de pandas\nLe patron split-apply-combine :\n\nSplit : couper les lignes en groupes selon une categorie.\nApply : calculer une statistique sur chaque groupe.\nCombine : recoller le tout en une table.\n\n\nSyntaxe — groupby\ndf.groupby(\"col_categ\")[\"col_num\"].mean()             # une fonction\ndf.groupby(\"col_categ\")[\"col_num\"].agg([\"mean\", \"std\"])   # plusieurs\ndf.groupby([\"c1\", \"c2\"])[\"x\"].mean()                  # par croisement\n.agg() accepte une liste de noms de fonctions ou même une fonction personnalisee.\n\n\n# Statistiques d'EV par continent en 2007\n# Methode chainee : on lit de gauche a droite comme une phrase\nresume = (\n    recent                                                # le DataFrame\n    .groupby(\"continent\")[\"lifeExp\"]                     # par continent, colonne EV\n    .agg([\"mean\", \"median\", \"std\", \"min\", \"max\", \"count\"])  # 6 stats\n    .round(1)                                              # arrondi cosmetique\n    .sort_values(\"mean\", ascending=False)                  # tri\n)\nresume\n\n\n\n\n\n\n\n\nmean\nmedian\nstd\nmin\nmax\ncount\n\n\ncontinent\n\n\n\n\n\n\n\n\n\n\nOceania\n80.7\n80.7\n0.7\n80.2\n81.2\n2\n\n\nEurope\n77.6\n78.6\n3.0\n71.8\n81.8\n30\n\n\nAmericas\n73.6\n72.9\n4.4\n60.9\n80.7\n25\n\n\nAsia\n70.7\n72.4\n8.0\n43.8\n82.6\n33\n\n\nAfrica\n54.8\n52.9\n9.6\n39.6\n76.4\n52",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#creer-une-colonne-pd.cut-pour-catégoriser",
+    "href": "notebooks_executes/module_01_python_pandas.html#creer-une-colonne-pd.cut-pour-catégoriser",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "12. Creer une colonne — pd.cut pour catégoriser",
+    "text": "12. Creer une colonne — pd.cut pour catégoriser\nOn veut souvent transformer une variable continue (EV en annees) en catégorie ordonnee (Faible / Moyen / Eleve).\n\nSyntaxe — pd.cut\ndf[\"categ\"] = pd.cut(\n    df[\"col_continue\"],\n    bins=[seuil0, seuil1, seuil2, seuil3],   # 4 bornes -&gt; 3 catégories\n    labels=[\"basse\", \"moyenne\", \"haute\"],   # noms des catégories\n)\nLes bornes sont incluses a droite par défaut (right=True).\n\n\n# .copy() empeche le SettingWithCopyWarning quand on modifie\ngm = gm.copy()\n\n# 4 bornes -&gt; 3 intervalles -&gt; 3 labels\n# [0, 50] -&gt; \"Tres faible\", (50, 65] -&gt; \"Faible\", etc.\ngm[\"categorie_ev\"] = pd.cut(\n    gm[\"lifeExp\"],\n    bins=[0, 50, 65, 75, 100],\n    labels=[\"Tres faible (&lt;50)\", \"Faible (50-65)\",\n            \"Moyen (65-75)\", \"Eleve (&gt;=75)\"],\n)\n\n# .sample(n, random_state=...) tire n lignes au hasard, de manière reproductible\ngm[[\"country\", \"year\", \"lifeExp\", \"categorie_ev\"]].sample(5, random_state=0)\n\n\n\n\n\n\n\n\ncountry\nyear\nlifeExp\ncategorie_ev\n\n\n\n\n249\nCanada\n1997\n78.610\nEleve (&gt;=75)\n\n\n6\nAfghanistan\n1982\n39.854\nTres faible (&lt;50)\n\n\n217\nCambodia\n1957\n41.366\nTres faible (&lt;50)\n\n\n966\nMauritania\n1982\n53.599\nFaible (50-65)\n\n\n1674\nYemen, Rep.\n1982\n49.113\nTres faible (&lt;50)",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#exercices-avec-corriges",
+    "href": "notebooks_executes/module_01_python_pandas.html#exercices-avec-corriges",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "13. Exercices (avec corriges)",
+    "text": "13. Exercices (avec corriges)\n\nExercice 1 — Esperance de vie moyenne par décennie en Afrique\n\nFiltrez sur les pays africains.\nAjoutez une colonne décennie (1950, 1960, …).\nCalculez la moyenne d’EV par décennie.\n\nIndice : pour transformer une année en décennie, on peut faire année // 10 * 10 (le // est la division entiere : 1957 // 10 = 195).\n\n# Votre essai ici\n\n\n# Solution\nafrique = gm[gm[\"continent\"] == \"Africa\"].copy()\n# Division entiere puis multiplication : 1957 // 10 * 10 = 1950\nafrique[\"décennie\"] = (afrique[\"year\"] // 10 * 10).astype(int)\nafrique.groupby(\"décennie\")[\"lifeExp\"].mean().round(1)\n\ndécennie\n1950    40.2\n1960    44.3\n1970    48.5\n1980    52.5\n1990    53.6\n2000    54.1\nName: lifeExp, dtype: float64\n\n\n\n\nExercice 2 — 5 pays africains avec la plus faible EV en 2007\n\n# Votre essai ici\n\n\n# Solution\n# .nsmallest(n, col) : n lignes ayant les plus petites valeurs de col\n(\n    recent[recent[\"continent\"] == \"Africa\"]\n    .nsmallest(5, \"lifeExp\")[[\"country\", \"lifeExp\", \"gdpPercap\"]]\n    .reset_index(drop=True)\n)\n\n\n\n\n\n\n\n\ncountry\nlifeExp\ngdpPercap\n\n\n\n\n0\nSwaziland\n39.613\n4513.480643\n\n\n1\nMozambique\n42.082\n823.685621\n\n\n2\nZambia\n42.384\n1271.211593\n\n\n3\nSierra Leone\n42.568\n862.540756\n\n\n4\nLesotho\n42.592\n1569.331442\n\n\n\n\n\n\n\n\n\nExercice 3 — Tableau croise par groupe de revenu\nDecoupez gdpPercap en quatre groupes (Faible, Inter. bas, Inter. haut, Eleve) puis croisez avec categorie_ev en 2007.\n\nSyntaxe — pd.crosstab\npd.crosstab(df[\"col_ligne\"], df[\"col_colonne\"])   # comptes\npd.crosstab(df[\"col_ligne\"], df[\"col_colonne\"], margins=True)  # avec totaux\n\n\n# Votre essai ici\n\n\n# Solution\nrecent = recent.copy()\nrecent[\"revenu\"] = pd.cut(\n    recent[\"gdpPercap\"],\n    bins=[0, 2000, 10000, 25000, 1e6],          # 5 bornes -&gt; 4 catégories\n    labels=[\"Faible\", \"Inter. bas\", \"Inter. haut\", \"Eleve\"],\n)\nrecent[\"categorie_ev\"] = pd.cut(\n    recent[\"lifeExp\"], bins=[0, 50, 65, 75, 100],\n    labels=[\"Tres faible\", \"Faible\", \"Moyen\", \"Eleve\"],\n)\npd.crosstab(recent[\"revenu\"], recent[\"categorie_ev\"])\n\n\n\n\n\n\n\ncategorie_ev\nTres faible\nFaible\nMoyen\nEleve\n\n\nrevenu\n\n\n\n\n\n\n\n\nFaible\n15\n22\n3\n0\n\n\nInter. bas\n4\n8\n31\n5\n\n\nInter. haut\n0\n3\n12\n11\n\n\nEleve\n0\n0\n0\n28",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#resume",
+    "href": "notebooks_executes/module_01_python_pandas.html#resume",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "Resume",
+    "text": "Resume\nVous savez maintenant :\n\nmanipuler les valeurs en Python (types, listes, dicts, fonctions, boucles) ;\ncharger un CSV avec pandas et inspecter sa structure ;\nfiltrer, trier, grouper et catégoriser — soit ~80 % des analyses de santé publique.\n\nSuite -&gt; Module 2 : nettoyage des données + statistique descriptive (valeurs manquantes, IQR, prévalence, ratio de cotes).",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_01_python_pandas.html#ressources-et-liens-utiles",
+    "href": "notebooks_executes/module_01_python_pandas.html#ressources-et-liens-utiles",
+    "title": "\nModule 1·Python et Pandas\n",
+    "section": "Ressources et liens utiles",
+    "text": "Ressources et liens utiles\n\nDocumentation officielle\n\nPython — https://docs.python.org/fr/3/ (tutoriel officiel en francais)\npandas — https://pandas.pydata.org/docs/user_guide/index.html\nnumpy — https://numpy.org/doc/stable/user/absolute_beginners.html\n\n\n\nTutoriels et livres gratuits\n\nPython Data Science Handbook (Jake VanderPlas) — https://jakevdp.github.io/PythonDataScienceHandbook/ — la référence gratuite en ligne, chapitres 2 (NumPy) et 3 (pandas) pour ce module.\nPython for Data Analysis, 3e edition (Wes McKinney, createur de pandas) — https://wesmckinney.com/book/\nReal Python — https://realpython.com/ (tutoriels par theme, certains en francais).\n\n\n\nAide-mémoire (cheat sheets)\n\npandas — https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf\nPython — https://www.pythoncheatsheet.org/cheatsheet/basics\n\n\n\nJeu de données utilise\n\nGapminder (Jenny Bryan) — https://github.com/jennybc/gapminder. Tire des données ouvertes publiees par la fondation Gapminder (https://www.gapminder.org/data/).\n\n\n\nPour aller plus loin sur Jupyter / Colab\n\nDocumentation Jupyter — https://jupyter.org/documentation\nTutoriel Google Colab — https://colab.research.google.com/notebooks/intro.ipynb\nRaccourcis clavier Jupyter (cheat sheet) — https://raw.githubusercontent.com/datapythonista/pandas-cheat-sheet/master/jupyter_keyboard_shortcuts.pdf\n\n\n\n\n(debut du cours)\n\n\nSommaire du cours\n\n\nModule 2 : Nettoyage et descriptif →",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "1 — Python et Pandas"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html",
+    "href": "notebooks_executes/module_03_visualisation.html",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "",
+    "text": "Analyse de Données avec Python pour Professionnels de la Santé\n\n\n\nVersion condensee 6 heures · Module 3 sur 6 · Duree 60 minutes",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html#setup-matplotlib-seaborn",
+    "href": "notebooks_executes/module_03_visualisation.html#setup-matplotlib-seaborn",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "0. Setup matplotlib + seaborn",
+    "text": "0. Setup matplotlib + seaborn\n\nSyntaxe — figure + axes en matplotlib\nfig, ax = plt.subplots(figsize=(largeur, hauteur))   # 1 figure 1 axes\nfig, axes = plt.subplots(nrows, ncols, figsize=(...))   # grille\nax.plot(x, y)                # méthode du AxesSubplot\nax.set_xlabel(\"...\")\nax.set_ylabel(\"...\")\nax.set_title(\"...\")\nplt.tight_layout()          # rearrange les marges\nplt.show()                  # affiche\nOn préfère l’API orientee objet (fig, ax = ...) a l’API fonctionnelle (plt.plot(...)) : plus claire des qu’on a plusieurs sous-graphes.\n\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt           # convention : plt\nimport seaborn as sns                     # convention : sns\nfrom scipy import stats                   # pour les correlations etc.\n\nnp.random.seed(42)\n\n# set_theme() applique un style coherent a TOUS les graphes seaborn et matplotlib\nsns.set_theme(style=\"whitegrid\", font_scale=1.05)\nplt.rcParams[\"figure.figsize\"] = (8, 5)   # taille par défaut\nplt.rcParams[\"figure.dpi\"] = 100          # densite de pixels\n\n# Palette de 8 couleurs accessible aux daltoniens (Wong, Nature Methods 2011).\n# Les codes commencant par # sont des couleurs hexadecimales (RGB).\nCB = [\"#0072B2\", \"#D55E00\", \"#009E73\",\n      \"#CC79A7\", \"#F0E442\", \"#56B4E9\",\n      \"#E69F00\", \"#999999\"]\nsns.set_palette(CB)\n\n\nimport os\nfrom pathlib import Path\nimport pandas as pd\n\n# Chemins de cache candidats, dans l'ordre :\n#   1. ./data/         (jupyter local, notebook a la racine)\n#   2. ../data/        (jupyter local, notebook dans un sous-dossier)\n#   3. ./             (au pire on cree un cache dans le cwd)\n# En Colab, aucun n'existe : on tombe sur l'URL et on cree ./data/ pour les\n# cellules suivantes.\n_CANDIDATES = [Path(\"data\"), Path(\"../data\")]\nDATA_DIR = next((p for p in _CANDIDATES if p.is_dir()), Path(\"data\"))\nDATA_DIR.mkdir(exist_ok=True)\n\n\ndef load_csv(name: str, url: str, **read_csv_kwargs) -&gt; pd.DataFrame:\n    \"\"\"Charge un CSV : cache local d'abord, sinon URL publique.\n\n    Le cache utilise le meme separateur que la lecture (TSV reste TSV).\n    \"\"\"\n    for candidate_dir in _CANDIDATES:\n        local = candidate_dir / name\n        if local.exists():\n            return pd.read_csv(local, **read_csv_kwargs)\n    df = pd.read_csv(url, **read_csv_kwargs)\n    try:\n        sep = read_csv_kwargs.get(\"sep\", \",\")\n        (DATA_DIR / name).parent.mkdir(parents=True, exist_ok=True)\n        df.to_csv(DATA_DIR / name, index=False, sep=sep)\n    except OSError:\n        pass\n    return df\n\nGAPMINDER_URL = (\n    \"https://raw.githubusercontent.com/jennybc/gapminder/\"\n    \"master/inst/extdata/gapminder.tsv\"\n)\ngm = load_csv(\"gapminder.tsv\", GAPMINDER_URL, sep=\"\\t\")\nrecent = gm[gm[\"year\"] == 2007]\nprint(f\"Gapminder : {len(gm):,} lignes ; focus 2007 ({len(recent)} pays)\")\n\nGapminder : 1,704 lignes ; focus 2007 (142 pays)",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html#distributions-histogramme-et-kde",
+    "href": "notebooks_executes/module_03_visualisation.html#distributions-histogramme-et-kde",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "1. Distributions — histogramme et KDE",
+    "text": "1. Distributions — histogramme et KDE\nUn histogramme montre comment une variable continue est répartie.\nLe nombre de classes (bins) compte : trop peu cache la structure, trop transforme le graphe en bruit. Defaut habituel : \\(k \\approx \\sqrt{n}\\).\nUne estimation de densite (KDE) est une version lissee de l’histogramme. Utile pour comparer plusieurs distributions sur les mêmes axes.\n\nSyntaxe — histogramme matplotlib\nax.hist(données, bins=20, color=\"...\", edgecolor=\"white\")\nax.axvline(x, color=\"red\", ls=\"--\", label=\"...\")  # ligne verticale\nax.legend()              # affiche la legende\n\n\nSyntaxe — KDE seaborn\nsns.kdeplot(data=df, x=\"col\", hue=\"col_categ\", fill=True, ax=ax)\n\n\n# Une figure avec 2 panneaux côte a côte : 1 ligne, 2 colonnes\nfig, axes = plt.subplots(1, 2, figsize=(12, 4))\n\n# ---- Panneau gauche : histogramme + mediane ----\naxes[0].hist(\n    recent[\"lifeExp\"],\n    bins=20,                 # 20 classes\n    edgecolor=\"white\",      # bord blanc entre les barres\n    color=CB[0],             # 1ere couleur de la palette\n)\n# Ligne verticale au niveau de la mediane\naxes[0].axvline(\n    recent[\"lifeExp\"].median(),\n    color=\"red\", ls=\"--\",\n    label=f\"Mediane = {recent['lifeExp'].median():.1f}\",\n)\naxes[0].set_xlabel(\"Esperance de vie (annees)\")     # toujours indiquer l'unite\naxes[0].set_ylabel(\"Nombre de pays\")\naxes[0].set_title(f\"Distribution de l'EV, 2007 (n = {len(recent)})\")\naxes[0].legend()\n\n# ---- Panneau droit : densites par continent ----\nsns.kdeplot(data=recent, x=\"lifeExp\", hue=\"continent\",\n            fill=True, alpha=0.25, ax=axes[1])    # alpha = transparence\naxes[1].set_xlabel(\"Esperance de vie (annees)\")\naxes[1].set_title(\"Densite par continent, 2007\")\n\nplt.tight_layout()        # ajuste les marges automatiquement\nplt.show()                # affiche la figure\n\n\n\n\n\n\n\n\n\nExemple clinique — distribution de la glycémie\nQuand la population est un melange (normaux, pre-diabetiques, diabetiques), l’histogramme suffit a raconter l’histoire et les seuils cliniques (100 et 126 mg/dL) rendent la figure actionnable.\n\n# Simulation d'une population mixte (1000 sujets total)\n# np.random.normal(moyenne, écart-type, n) tire n nombres dans N(mu, sigma)\nnormaux  = np.random.normal(95, 10, 800)     # 800 patients normaux\nprediab  = np.random.normal(115, 8, 150)     # 150 pre-diabétiques\ndiabet   = np.random.normal(180, 40, 50)     # 50 diabétiques\n\n# np.concatenate fusionne plusieurs tableaux en un seul\nall_g = np.concatenate([normaux, prediab, diabet])\n\nfig, ax = plt.subplots(figsize=(9, 4))\nax.hist(all_g, bins=40, edgecolor=\"white\", color=CB[0], alpha=0.85)\nax.axvline(100, color=\"orange\", ls=\"--\", lw=2,\n           label=\"Seuil normal (100 mg/dL)\")     # cut-off pre-diabète\nax.axvline(126, color=\"red\",    ls=\"--\", lw=2,\n           label=\"Seuil diabete (126 mg/dL)\")    # cut-off diabète\nax.set_xlabel(\"Glycemie a jeun (mg/dL)\")\nax.set_ylabel(\"Nombre de patients\")\nax.set_title(f\"Distribution de la glycémie (n = {len(all_g)})\")\nax.legend()\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html#comparer-entre-groupes-boîtes-a-moustaches-boxplot",
+    "href": "notebooks_executes/module_03_visualisation.html#comparer-entre-groupes-boîtes-a-moustaches-boxplot",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "2. Comparer entre groupes — boîtes a moustaches (boxplot)",
+    "text": "2. Comparer entre groupes — boîtes a moustaches (boxplot)\nAnatomie :\n\nla boîte va de Q1 a Q3 (l’IQR) ;\nla barre interieure est la mediane ;\nles moustaches s’etendent au dernier point dans 1,5 x IQR ;\nles points au-dela sont des valeurs aberrantes individuelles.\n\nLes boîtes cachent la bimodalite. En cas de doute, superposer un stripplot ou ajouter un histogramme/KDE en parallele.\n\nSyntaxe — boxplot seaborn\nsns.boxplot(data=df, x=\"col_categ\", y=\"col_num\", ax=ax)\nsns.boxplot(data=df, x=\"c1\", y=\"y\", hue=\"c2\", ax=ax)   # avec couleur par c2\n\n\nfig, ax = plt.subplots(figsize=(9, 5))\n\n# n_cont sert juste a truncate la palette au nombre de groupes\n# (évite un avertissement seaborn)\nn_cont = recent[\"continent\"].nunique()\n\nsns.boxplot(\n    data=recent, x=\"continent\", y=\"lifeExp\", ax=ax,\n    hue=\"continent\", legend=False,      # couleur par continent (sans legende redondante)\n    palette=CB[:n_cont],                # premières n_cont couleurs\n)\nax.set_xlabel(\"\")                       # ici inutile - les noms sont sous les boîtes\nax.set_ylabel(\"Esperance de vie (annees)\")\nax.set_title(f\"EV par continent, 2007 (n = {len(recent)})\")\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html#barres-comparer-des-comptes-ou-des-taux",
+    "href": "notebooks_executes/module_03_visualisation.html#barres-comparer-des-comptes-ou-des-taux",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "3. Barres — comparer des comptes ou des taux",
+    "text": "3. Barres — comparer des comptes ou des taux\nLes barres doivent commencer a zero (sinon : graphique trompeur).\nPour des classements (top-15, bottom-10), des barres horizontales avec la valeur la plus élevée en haut sont plus lisibles : les noms de pays se lisent dans le sens normal de lecture.\n\nSyntaxe — barres horizontales\nax.barh(noms, valeurs, color=\"...\")\nax.invert_yaxis()       # met la 1ere valeur en haut\nax.text(x, y, \"label\")  # texte place a (x, y) en coordonnees données\n\n\n# Les 15 pays avec la PLUS FAIBLE espérance de vie\nbottom15 = recent.nsmallest(15, \"lifeExp\")\n\nfig, ax = plt.subplots(figsize=(9, 7))\nax.barh(bottom15[\"country\"], bottom15[\"lifeExp\"], color=CB[1])\nax.set_xlabel(\"Esperance de vie (annees)\")\nax.set_title(\"15 pays avec la plus faible EV en 2007\")\nax.invert_yaxis()            # 1ere ligne du nsmallest -&gt; tout en haut\n\n# Boucle pour annoter chaque barre avec sa valeur\n# enumerate() donne (indice, valeur)\nfor i, v in enumerate(bottom15[\"lifeExp\"]):\n    ax.text(v + 0.4, i, f\"{v:.1f}\", va=\"center\", fontsize=9)\n\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html#tendance-temporelle-lignes-et-courbes-épidémiques",
+    "href": "notebooks_executes/module_03_visualisation.html#tendance-temporelle-lignes-et-courbes-épidémiques",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "4. Tendance temporelle — lignes et courbes épidémiques",
+    "text": "4. Tendance temporelle — lignes et courbes épidémiques\nLignes pour des series temporelles continues. Toujours preciser ce que la ligne represente : effectif brut, moyenne lissee, taux pour 100 000.\n\nSyntaxe — ligne avec marqueurs\nax.plot(x, y, marker=\"o\", markersize=4, label=\"...\")\n\n\nSyntaxe — boucle sur les groupes uniques\nfor cat in df[\"col_categ\"].unique():\n    sub = df[df[\"col_categ\"] == cat]\n    ax.plot(sub[\"x\"], sub[\"y\"], label=cat)\n\n\n# Moyenne d'EV par année et par continent -&gt; tableau long format\n# .reset_index() transforme le MultiIndex en colonnes normales\ntendance = gm.groupby([\"year\", \"continent\"])[\"lifeExp\"].mean().reset_index()\n\nfig, ax = plt.subplots(figsize=(9, 5))\n\n# Trace une ligne par continent\n# i % len(CB) : modulo - cycle les couleurs si plus de continents que de couleurs\nfor i, cont in enumerate(sorted(tendance[\"continent\"].unique())):\n    sub = tendance[tendance[\"continent\"] == cont]\n    ax.plot(sub[\"year\"], sub[\"lifeExp\"], marker=\"o\", markersize=4,\n            color=CB[i % len(CB)], label=cont)\n\nax.set_xlabel(\"Annee\")\nax.set_ylabel(\"EV moyenne (annees)\")\nax.set_title(\"Tendance de l'espérance de vie par continent, 1952-2007\")\nax.legend(title=\"Continent\")\nplt.tight_layout(); plt.show()\n\n\n\n\n\n\n\n\n\nCourbe épidémique\nPatron standard : barres journalieres + moyenne mobile 7 jours en haut, courbe cumulee en bas.\n\nSyntaxe — series de dates\ndates = pd.date_range(\"2023-01-01\", periods=120, freq=\"D\")  # 120 jours consecutifs\ns.rolling(window=7).mean()                                  # moyenne mobile 7 jours\ns.cumsum()                                                  # somme cumulee\n\n\n# 120 jours a partir du 1er janvier 2023, fréquence quotidienne\njours = pd.date_range(\"2023-01-01\", periods=120, freq=\"D\")\nt = np.arange(120)                                # 0, 1, 2, ..., 119\n\n# Forme gaussienne autour du jour 45 + bruit aléatoire\n# np.maximum(0, x) prend max(0, x) element par element\ncas = np.maximum(0, 200 * np.exp(-0.5 * ((t - 45) / 15) ** 2)\n                   + np.random.normal(0, 10, 120)).astype(int)\n\nepi = pd.DataFrame({\"date\": jours, \"nouveaux_cas\": cas})\nepi[\"mm_7j\"]  = epi[\"nouveaux_cas\"].rolling(7).mean()    # moyenne mobile 7 j\nepi[\"cumule\"] = epi[\"nouveaux_cas\"].cumsum()              # cumul depuis le debut\n\n# 2 lignes 1 colonne, sharex=True : même axe X partage\nfig, axes = plt.subplots(2, 1, figsize=(11, 7), sharex=True)\n\n# Panneau haut : barres + moyenne mobile\naxes[0].bar(epi[\"date\"], epi[\"nouveaux_cas\"], alpha=0.4, color=CB[0],\n            label=\"Cas quotidiens\")\naxes[0].plot(epi[\"date\"], epi[\"mm_7j\"], color=CB[1], lw=2,\n             label=\"Moyenne mobile 7 j\")\naxes[0].set_ylabel(\"Nouveaux cas / jour\")\naxes[0].set_title(\"Courbe épidémique (simulee)\")\naxes[0].legend()\n\n# Panneau bas : cumul\naxes[1].plot(epi[\"date\"], epi[\"cumule\"], color=CB[2], lw=2)\naxes[1].set_xlabel(\"Date\")\naxes[1].set_ylabel(\"Cas cumules\")\n\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html#associations-nuage-de-points-scatter-plot",
+    "href": "notebooks_executes/module_03_visualisation.html#associations-nuage-de-points-scatter-plot",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "5. Associations — nuage de points (scatter plot)",
+    "text": "5. Associations — nuage de points (scatter plot)\nDeux variables continues sur un même plan. L’exemple Gapminder utilise la taille des bulles pour encoder une 3e variable (population) et la couleur pour la 4e (continent).\n\nSyntaxe — scatter\nax.scatter(x, y, s=taille, alpha=0.6, color=\"...\", label=\"...\")\nax.set_xscale(\"log\")     # échelle log sur X (utile pour le PIB)\n\n\nfig, ax = plt.subplots(figsize=(9, 6))\n\n# Boucle sur chaque continent pour pouvoir mettre une couleur + legende\nfor i, cont in enumerate(sorted(recent[\"continent\"].unique())):\n    sub = recent[recent[\"continent\"] == cont]\n    ax.scatter(\n        sub[\"gdpPercap\"],                # X = PIB par habitant\n        sub[\"lifeExp\"],                  # Y = espérance de vie\n        s=sub[\"pop\"] / 1e6,              # taille des bulles ~ population\n        alpha=0.6,                       # transparence pour voir les chevauchements\n        color=CB[i % len(CB)],\n        label=cont,\n    )\n\n# Echelle log sur X : le PIB s'etale sur 4 ordres de grandeur\nax.set_xscale(\"log\")\nax.set_xlabel(\"PIB par habitant (échelle log, USD)\")\nax.set_ylabel(\"Esperance de vie (annees)\")\nax.set_title(\"Richesse vs santé, 2007 (aire bulle = population)\")\nax.legend(title=\"Continent\")\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html#heatmap-matrice-de-correlations",
+    "href": "notebooks_executes/module_03_visualisation.html#heatmap-matrice-de-correlations",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "6. Heatmap — matrice de correlations",
+    "text": "6. Heatmap — matrice de correlations\nOn masque le triangle supérieur (redondant avec l’inférieur).\n\nSyntaxe — heatmap seaborn\ncorr = df.corr()                              # matrice de correlation\nsns.heatmap(corr, annot=True, fmt=\".2f\",       # 2 décimales\n            cmap=\"RdBu_r\", center=0,            # rouge-bleu, centre sur 0\n            vmin=-1, vmax=1, square=True, ax=ax)\n\n\n# Simulation de 300 patients avec 8 indicateurs\nn = 300\nsanté = pd.DataFrame({\n    \"IMC\":         np.random.normal(27, 5, n),\n    \"Systolique\":  np.random.normal(130, 18, n),\n    \"Diastolique\": np.random.normal(82, 10, n),\n    \"Glycemie\":    np.random.normal(105, 25, n),\n    \"Cholesterol\": np.random.normal(200, 40, n),\n    \"HbA1c\":       np.random.normal(5.8, 1.2, n),\n    \"FC\":          np.random.normal(72, 12, n),\n    \"Age\":         np.random.normal(55, 15, n).clip(18, 90),\n})\n\n# Injection de correlations réalistes (en santé les variables sont rarement indépendantes)\nsanté[\"Systolique\"]  += 0.8 * santé[\"IMC\"]\nsanté[\"Glycemie\"]    += 15  * santé[\"HbA1c\"]\nsanté[\"Diastolique\"] += 0.4 * santé[\"Systolique\"]\n\n# .corr() : matrice 8x8 de correlations de Pearson\ncorr = santé.corr()\n\n# Masque pour cacher le triangle SUPERIEUR (info dupliquee)\n# np.triu = 'upper triangle' (1 au-dessus de la diagonale, 0 sinon)\nmasque = np.triu(np.ones_like(corr, dtype=bool))\n\nfig, ax = plt.subplots(figsize=(8, 7))\nsns.heatmap(\n    corr,\n    mask=masque,                  # masque le triangle supérieur\n    annot=True, fmt=\".2f\",         # écrit les coefficients dans les cases\n    cmap=\"RdBu_r\", center=0,       # rouge=positif, bleu=negatif, blanc=0\n    vmin=-1, vmax=1,              # échelle fixee\n    square=True, ax=ax,\n)\nax.set_title(\"Matrice de correlation des indicateurs de santé\")\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html#tableau-de-bord-4-panneaux",
+    "href": "notebooks_executes/module_03_visualisation.html#tableau-de-bord-4-panneaux",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "7. Tableau de bord 4 panneaux",
+    "text": "7. Tableau de bord 4 panneaux\nUne seule figure qui repond a une question (état de la santé mondiale en 2007) avec quatre panneaux complementaires. On la sauvegarde pour la slide deck.\n\nSyntaxe — grille de subplots + sauvegarde\nfig, axes = plt.subplots(2, 2, figsize=(13, 9))   # grille 2x2\naxes[0, 0]   # panneau haut-gauche\naxes[0, 1]   # panneau haut-droite\n# ...\nfig.suptitle(\"Titre global\", fontsize=15, y=1.01)\nfig.savefig(\"figure.png\", dpi=150, bbox_inches=\"tight\")\n\n\nfig, axes = plt.subplots(2, 2, figsize=(13, 9))\nfig.suptitle(\"Tableau de bord : santé mondiale 2007\",\n             fontsize=15, fontweight=\"bold\", y=1.01)\n\n# ---- Panneau A : EV par continent ----\nax = axes[0, 0]\nsns.boxplot(data=recent, x=\"continent\", y=\"lifeExp\",\n            ax=ax, hue=\"continent\", legend=False, palette=\"Set2\")\nax.set_xlabel(\"\"); ax.set_ylabel(\"EV (annees)\")\nax.set_title(\"A. Esperance de vie par continent\")\nax.tick_params(axis=\"x\", rotation=30)\n\n# ---- Panneau B : richesse vs santé ----\nax = axes[0, 1]\nfor i, cont in enumerate(sorted(recent[\"continent\"].unique())):\n    sub = recent[recent[\"continent\"] == cont]\n    ax.scatter(sub[\"gdpPercap\"], sub[\"lifeExp\"],\n               s=sub[\"pop\"] / 2e6, alpha=0.6,\n               color=CB[i % len(CB)], label=cont)\nax.set_xscale(\"log\")\nax.set_xlabel(\"PIB/hab (log USD)\"); ax.set_ylabel(\"EV (annees)\")\nax.set_title(\"B. Richesse vs santé\")\nax.legend(fontsize=7, title=\"Continent\", title_fontsize=8)\n\n# ---- Panneau C : tendance ----\nax = axes[1, 0]\nfor i, cont in enumerate(sorted(tendance[\"continent\"].unique())):\n    sub = tendance[tendance[\"continent\"] == cont]\n    ax.plot(sub[\"year\"], sub[\"lifeExp\"], marker=\"o\", markersize=3,\n            color=CB[i % len(CB)], label=cont)\nax.set_xlabel(\"Annee\"); ax.set_ylabel(\"EV moyenne (annees)\")\nax.set_title(\"C. Tendance 1952-2007\")\nax.legend(fontsize=7, title=\"Continent\", title_fontsize=8)\n\n# ---- Panneau D : 10 pays a plus faible EV ----\nax = axes[1, 1]\nbottom10 = recent.nsmallest(10, \"lifeExp\")\nax.barh(bottom10[\"country\"], bottom10[\"lifeExp\"], color=CB[1])\nax.set_xlabel(\"EV (annees)\"); ax.set_title(\"D. 10 pays a plus faible EV\")\nax.invert_yaxis()\nfor i, v in enumerate(bottom10[\"lifeExp\"]):\n    ax.text(v + 0.3, i, f\"{v:.1f}\", va=\"center\", fontsize=8)\n\nplt.tight_layout()\n\n# Sauvegarde haute qualité (150 dpi suffit pour slides ; 300 pour impression)\nfig.savefig(\"tableau_de_bord_2007.png\", dpi=150, bbox_inches=\"tight\")\nplt.show()\nprint(\"Sauvegarde -&gt; tableau_de_bord_2007.png\")\n\n\n\n\n\n\n\n\nSauvegarde -&gt; tableau_de_bord_2007.png",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html#exercices-avec-corriges",
+    "href": "notebooks_executes/module_03_visualisation.html#exercices-avec-corriges",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "8. Exercices (avec corriges)",
+    "text": "8. Exercices (avec corriges)\n\nExercice 1 — Histogramme de la glycémie chez 500 patients simules\nAvec les seuils 100 et 126 mg/dL annotes.\n\n# Votre essai ici\n\n\n# Solution\n# np.random.normal(mu, sigma, n).clip(lo, hi) tronque les valeurs extremes\ng = np.random.normal(110, 30, 500).clip(50, 350)\n\nfig, ax = plt.subplots(figsize=(8, 4))\nax.hist(g, bins=30, color=CB[0], edgecolor=\"white\")\nax.axvline(100, color=\"orange\", ls=\"--\", label=\"Seuil normal\")\nax.axvline(126, color=\"red\",    ls=\"--\", label=\"Seuil diabète\")\nax.set_xlabel(\"Glycemie a jeun (mg/dL)\")\nax.set_ylabel(\"Nombre\")\nax.set_title(f\"Glycemie (n = 500)\")\nax.legend()\nplt.tight_layout(); plt.show()\n\n\n\n\n\n\n\n\n\n\nExercice 2 — Boites a moustaches : IMC par sexe et tranche d’age\nAvec lignes horizontales aux seuils OMS (25 et 30).\n\n# Votre essai ici\n\n\n# Solution\nn = 500\n# np.random.choice tire au hasard dans une liste, avec proba optionnelle\nclin = pd.DataFrame({\n    \"sexe\":     np.random.choice([\"M\", \"F\"], n),\n    \"age_grp\":  np.random.choice([\"18-39\", \"40-59\", \"60+\"], n,\n                                  p=[0.3, 0.4, 0.3]),    # probas\n    \"imc\":      np.random.normal(27, 5, n).clip(15, 50),\n})\n\nfig, ax = plt.subplots(figsize=(9, 5))\nsns.boxplot(\n    data=clin, x=\"age_grp\", y=\"imc\", hue=\"sexe\",\n    order=[\"18-39\", \"40-59\", \"60+\"],   # ordre force des catégories\n    palette=CB[:2], ax=ax,\n)\nax.axhline(25, color=\"orange\", ls=\"--\", label=\"Surpoids (IMC=25)\")\nax.axhline(30, color=\"red\",    ls=\"--\", label=\"Obesite  (IMC=30)\")\nax.set_xlabel(\"Tranche d'age\")\nax.set_ylabel(\"IMC (kg/m^2)\")\nax.set_title(f\"IMC par sexe et age (n = {n})\")\nax.legend(loc=\"upper left\", fontsize=9)\nplt.tight_layout(); plt.show()\n\n\n\n\n\n\n\n\n\n\nExercice 3 — Tableau de bord clinique 4 panneaux\nDistributions, comparaisons, tendances pour 500 patients simules.\n\n# Votre essai ici\n\n\n# Solution\nn = 500\nsim = pd.DataFrame({\n    \"sexe\":   np.random.choice([\"M\", \"F\"], n),\n    \"age\":    np.random.normal(55, 15, n).clip(18, 90),\n    \"imc\":    np.random.normal(27, 5, n).clip(15, 50),\n    \"sbp\":    np.random.normal(132, 18, n),\n    \"hba1c\":  np.random.normal(5.9, 1.0, n).clip(4.0, 12.0),\n    \"dx\":     np.random.choice([\"HTA\", \"DT2\", \"BPCO\", \"Aucun\"],\n                                n, p=[0.30, 0.18, 0.07, 0.45]),\n})\n\nfig, ax = plt.subplots(2, 2, figsize=(12, 8))\n\n# A. IMC + seuils\nax[0,0].hist(sim[\"imc\"], bins=25, color=CB[0], edgecolor=\"white\")\nax[0,0].axvline(25, color=\"orange\", ls=\"--\")\nax[0,0].axvline(30, color=\"red\",    ls=\"--\")\nax[0,0].set_xlabel(\"IMC\"); ax[0,0].set_title(\"A. Distribution IMC\")\n\n# B. SBP par sexe\nsns.boxplot(data=sim, x=\"sexe\", y=\"sbp\", ax=ax[0,1],\n            hue=\"sexe\", legend=False, palette=CB[:2])\nax[0,1].set_title(\"B. Systolique par sexe\")\n\n# C. Age vs HbA1c\nax[1,0].scatter(sim[\"age\"], sim[\"hba1c\"], alpha=0.4, color=CB[2])\nax[1,0].axhline(6.5, color=\"red\", ls=\"--\", label=\"Diabete\")\nax[1,0].set_xlabel(\"Age\"); ax[1,0].set_ylabel(\"HbA1c (%)\")\nax[1,0].set_title(\"C. Age vs HbA1c\"); ax[1,0].legend()\n\n# D. Frequence diagnostics\nfreq = sim[\"dx\"].value_counts()\nax[1,1].bar(freq.index, freq.values, color=CB[3])\nax[1,1].set_ylabel(\"Patients\"); ax[1,1].set_title(\"D. Frequence diagnostics\")\n\nfig.suptitle(f\"Tableau de bord clinique (n = {n})\", y=1.02, fontweight=\"bold\")\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html#resume",
+    "href": "notebooks_executes/module_03_visualisation.html#resume",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "Resume",
+    "text": "Resume\nVous savez maintenant :\n\nchoisir un type de graphique adapté a votre question ;\nannoter correctement pour une audience clinique ;\ncomposer un tableau de bord multi-panneaux et le sauvegarder.\n\nSuite -&gt; Module 4 : tests d’hypothèses. Memes données, inference formelle.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_03_visualisation.html#ressources-et-liens-utiles",
+    "href": "notebooks_executes/module_03_visualisation.html#ressources-et-liens-utiles",
+    "title": "\nModule 3·Visualisation\n",
+    "section": "Ressources et liens utiles",
+    "text": "Ressources et liens utiles\n\nDocumentation officielle\n\nmatplotlib — https://matplotlib.org/stable/users/index.html\nmatplotlib gallery (exemples avec code) — https://matplotlib.org/stable/gallery/index.html\nseaborn — https://seaborn.pydata.org/\nseaborn gallery — https://seaborn.pydata.org/examples/index.html\n\n\n\nPourquoi pas de 3D, pas de camembert\n\nEdward Tufte The Visual Display of Quantitative Information (1983, reedition 2001) — la bible de la visualisation. Concepts cles : data-ink ratio, chartjunk, small multiples.\nWong, B. (2011) Color blindness. Nature Methods 8: 441. https://www.nature.com/articles/nmeth.1618 — origine de la palette 8-couleurs accessible utilisee ici.\nOkabe, M. & Ito, K. (2008) Color Universal Design (CUD). https://jfly.uni-koeln.de/color/\n\n\n\nTutoriels pratiques\n\nFrom data to viz (https://www.data-to-viz.com/) — arbre de décision : selon le type de variables, quel graphe utiliser ?\nPython Graph Gallery (https://python-graph-gallery.com/) — catalogue de graphes avec code Python copiable.\n\n\n\nPour aller plus loin\n\nplotly (graphiques interactifs) — https://plotly.com/python/\naltair (grammaire graphique declarative) — https://altair-viz.github.io/\nkepler.gl / pydeck (visualisation geospatiale) — voir Module 9 du cours 30 h.\n\n\n\n\n← Module 2 : Nettoyage et descriptif\n\n\nSommaire du cours\n\n\nModule 4 : Tests d’hypothèses →",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "3 — Visualisation"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_05_regression.html",
+    "href": "notebooks_executes/module_05_regression.html",
+    "title": "\nModule 5·Regression\n",
+    "section": "",
+    "text": "Analyse de Données avec Python pour Professionnels de la Santé\n\n\n\nVersion condensee 6 heures · Module 5 sur 6 · Duree 60 minutes",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "5 — Régression"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_05_regression.html#imports",
+    "href": "notebooks_executes/module_05_regression.html#imports",
+    "title": "\nModule 5·Regression\n",
+    "section": "0. Imports",
+    "text": "0. Imports\nDeux bibliothèques de régression sont utilisees ici :\n\nstatsmodels — sortie ‘a la stats classique’ (coefficients, p-values, IC). Convient pour l’inference.\nscikit-learn — sortie ‘a la ML’ (predictions, scores de performance). Convient pour la prediction.\n\nLes deux peuvent se croiser, on prend le meilleur de chaque.\n\nSyntaxe — import statsmodels + sklearn\nimport statsmodels.api as sm                       # convention : sm\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import confusion_matrix, classification_report\n\n\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nfrom scipy import stats\nimport statsmodels.api as sm\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import classification_report, confusion_matrix\n\nnp.random.seed(42)\nsns.set_theme(style=\"whitegrid\", font_scale=1.05)",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "5 — Régression"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_05_regression.html#regression-linéaire-simple",
+    "href": "notebooks_executes/module_05_regression.html#regression-linéaire-simple",
+    "title": "\nModule 5·Regression\n",
+    "section": "1. Regression linéaire simple",
+    "text": "1. Regression linéaire simple\n\\[y_i = \\beta_0 + \\beta_1 x_i + \\varepsilon_i, \\quad \\varepsilon_i \\sim \\mathcal{N}(0, \\sigma^2)\\]\n\n\\(\\beta_1\\) (pente) = changement attendu de \\(y\\) pour une augmentation de 1 unite de \\(x\\).\n\\(\\beta_0\\) (ordonnee a l’origine) = espérance de \\(y\\) quand \\(x = 0\\). A interpréter avec prudence si 0 est en dehors des données.\n\nQuestion. A quelle vitesse la tension systolique augmente-t-elle avec l’age ?\n\nSyntaxe — régression simple avec scipy\nres = stats.linregress(x, y)\nres.slope, res.intercept, res.rvalue, res.pvalue, res.stderr\n\n\n# Simulation : vrai modèle SBP = 90 + 0.7*age + bruit\nn = 200\nage = np.random.uniform(25, 80, n)                # uniforme entre 25 et 80\nsbp = 90 + 0.7 * age + np.random.normal(0, 12, n) # bruit gaussien sigma=12\n\n# Regression linéaire ordinaire\nlr = stats.linregress(age, sbp)\n\nprint(f\"Ordonnee a l'origine : {lr.intercept:.2f}\")\nprint(f\"Pente               : {lr.slope:.2f} mmHg / année d'age\")\n# R^2 = pourcentage de variance de y expliquee par x\nprint(f\"R-deux              : {lr.rvalue ** 2:.3f}\")\nprint(f\"p-value             : {lr.pvalue:.2e}\")\n\n# Visualisation : nuage + droite de régression\nfig, ax = plt.subplots(figsize=(8, 4))\nax.scatter(age, sbp, alpha=0.45, color=\"steelblue\", s=20)\n\n# np.linspace(a, b, n) : n points uniformes entre a et b - pour tracer la droite\nx_line = np.linspace(25, 80, 100)\nax.plot(x_line, lr.intercept + lr.slope * x_line, color=\"red\", lw=2,\n        label=f\"SBP = {lr.intercept:.1f} + {lr.slope:.2f} * Age\")\n\nax.set_xlabel(\"Age (annees)\")\nax.set_ylabel(\"Tension systolique (mmHg)\")\nax.set_title(f\"Regression linéaire simple (R^2 = {lr.rvalue**2:.2f})\")\nax.legend()\nplt.tight_layout(); plt.show()\n\nOrdonnee a l'origine : 91.69\nPente               : 0.68 mmHg / année d'age\nR-deux              : 0.476\np-value             : 1.37e-29",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "5 — Régression"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_05_regression.html#regression-linéaire-multiple-sortie-statsmodels",
+    "href": "notebooks_executes/module_05_regression.html#regression-linéaire-multiple-sortie-statsmodels",
+    "title": "\nModule 5·Regression\n",
+    "section": "2. Regression linéaire multiple — sortie statsmodels",
+    "text": "2. Regression linéaire multiple — sortie statsmodels\nAjouter plusieurs predicteurs :\n\\[y = \\beta_0 + \\beta_1 \\cdot \\text{age} + \\beta_2 \\cdot \\text{IMC} + \\beta_3 \\cdot \\text{tabagisme} + \\varepsilon\\]\nChaque coefficient = effet du predicteur a autres variables constantes — c’est le coeur de l’ajustement pour facteur de confusion.\n\nSyntaxe — OLS statsmodels\nX = sm.add_constant(df[[\"col1\", \"col2\"]])   # ajoute une colonne 'const' = 1\nmodele = sm.OLS(y, X).fit()                  # ajustement\nmodele.summary()                             # sortie complete\nmodele.params                                # coefficients\nmodele.pvalues                               # p-values\nmodele.conf_int()                            # IC 95%\nadd_constant est obligatoire : sans elle l’ordonnee a l’origine est forcee a 0.\n\n\n# Simulation : vrai modèle SBP = 70 + 0.6*age + 0.8*IMC + 5*tabac + bruit\nn = 300\nage      = np.random.uniform(25, 80, n)\nimc      = np.random.normal(27, 5, n)\ntabac    = np.random.binomial(1, 0.25, n)        # 25% de fumeurs (1=fumeur, 0=non)\nsbp      = 70 + 0.6 * age + 0.8 * imc + 5 * tabac + np.random.normal(0, 10, n)\n\n# Construction de la matrice de design X\n# D'abord le DataFrame des predicteurs, puis add_constant pour l'intercept\nX = sm.add_constant(pd.DataFrame({\"age\": age, \"imc\": imc, \"tabac\": tabac}))\n\n# OLS = Ordinary Least Squares ; .fit() ajuste le modèle\nmodele = sm.OLS(sbp, X).fit()\n\n# Sortie classique de regression : R^2, F-stat, coefficients, IC, p-values\nprint(modele.summary())\n\n                            OLS Regression Results                            \n==============================================================================\nDep. Variable:                      y   R-squared:                       0.541\nModel:                            OLS   Adj. R-squared:                  0.537\nMethod:                 Least Squares   F-statistic:                     116.4\nDate:                Mon, 08 Jun 2026   Prob (F-statistic):           8.39e-50\nTime:                        19:52:02   Log-Likelihood:                -1118.8\nNo. Observations:                 300   AIC:                             2246.\nDf Residuals:                     296   BIC:                             2260.\nDf Model:                           3                                         \nCovariance Type:            nonrobust                                         \n==============================================================================\n                 coef    std err          t      P&gt;|t|      [0.025      0.975]\n------------------------------------------------------------------------------\nconst         67.5188      3.838     17.594      0.000      59.966      75.071\nage            0.6166      0.036     16.917      0.000       0.545       0.688\nimc            0.8751      0.119      7.337      0.000       0.640       1.110\ntabac          5.0439      1.338      3.770      0.000       2.411       7.677\n==============================================================================\nOmnibus:                        0.880   Durbin-Watson:                   2.002\nProb(Omnibus):                  0.644   Jarque-Bera (JB):                0.978\nSkew:                           0.079   Prob(JB):                        0.613\nKurtosis:                       2.769   Cond. No.                         397.\n==============================================================================\n\nNotes:\n[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n\n\n\n# Tableau coefficient compact (plus lisible que le summary complet)\ntidy = pd.DataFrame({\n    \"beta\":  modele.params,            # estimations\n    \"IC_lo\": modele.conf_int()[0],     # borne inférieure IC 95%\n    \"IC_hi\": modele.conf_int()[1],     # borne supérieure IC 95%\n    \"p\":     modele.pvalues,           # p-values\n}).round(3)\ntidy\n\n\n\n\n\n\n\n\nbeta\nIC_lo\nIC_hi\np\n\n\n\n\nconst\n67.519\n59.966\n75.071\n0.0\n\n\nage\n0.617\n0.545\n0.688\n0.0\n\n\nimc\n0.875\n0.640\n1.110\n0.0\n\n\ntabac\n5.044\n2.411\n7.677\n0.0\n\n\n\n\n\n\n\nLecture. “A age et tabagisme constants, chaque unite d’IMC est associee a une augmentation d’environ 0,8 mmHg de la tension systolique (IC 95 %…).”",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "5 — Régression"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_05_regression.html#facteur-de-confusion-brute-vs-ajustée",
+    "href": "notebooks_executes/module_05_regression.html#facteur-de-confusion-brute-vs-ajustée",
+    "title": "\nModule 5·Regression\n",
+    "section": "3. Facteur de confusion — brute vs ajustée",
+    "text": "3. Facteur de confusion — brute vs ajustée\nUn facteur de confusion est associe a l’exposition ET a l’outcome, sans être sur le chemin causal entre les deux. Si on l’ignore, l’estimation brute est biaisee.\nDemonstration : le cafe semble être un facteur de risque cardiovasculaire… parce que les fumeurs boivent plus de cafe et que le tabagisme cause la maladie.\n\nSyntaxe — correlation simple\nr, p = stats.pearsonr(x, y)    # coefficient de Pearson + p-value\n\n\n# Simulation d'un confondant : tabac influence cafe ET risque\nn = 500\ntabac  = np.random.binomial(1, 0.3, n)\ncafe   = 1.5 + 2 * tabac + np.random.normal(0, 1.5, n)     # fumeurs boivent + cafe\nrisque = 0.5 * tabac + np.random.normal(0, 0.3, n)         # tabac cause maladie\n# Note : cafe n'a PAS d'effet direct sur risque dans la simulation\n\n# ---- Estimation BRUTE : correlation simple cafe-risque ----\nr_brut, p_brut = stats.pearsonr(cafe, risque)\nprint(f\"Brut    cafe ~ risque : r = {r_brut:.3f}, p = {p_brut:.1e}\")\n\n# ---- Estimation AJUSTEE pour le tabagisme ----\nX = sm.add_constant(pd.DataFrame({\"cafe\": cafe, \"tabac\": tabac}))\nadj = sm.OLS(risque, X).fit()\nprint(\"\\nCoefficients ajustes :\")\n# +.3f = format avec signe explicite + ou -\nprint(f\"  cafe  : {adj.params['cafe']:+.3f}  (p = {adj.pvalues['cafe']:.2f})\")\nprint(f\"  tabac : {adj.params['tabac']:+.3f}  (p = {adj.pvalues['tabac']:.1e})\")\nprint(\"  -&gt; L'effet apparent du cafe s'effondre après ajustement.\")\n\nBrut    cafe ~ risque : r = 0.300, p = 7.5e-12\n\nCoefficients ajustes :\n  cafe  : -0.012  (p = 0.18)\n  tabac : +0.522  (p = 1.0e-45)\n  -&gt; L'effet apparent du cafe s'effondre après ajustement.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "5 — Régression"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_05_regression.html#verification-des-hypothèses-ols",
+    "href": "notebooks_executes/module_05_regression.html#verification-des-hypothèses-ols",
+    "title": "\nModule 5·Regression\n",
+    "section": "4. Verification des hypothèses OLS",
+    "text": "4. Verification des hypothèses OLS\nQuatre conditions :\n\nLinearite — relation linéaire (residus vs predits sans tendance).\nIndependance des observations.\nHomoscedasticite — variance des residus constante (un nuage en entonnoir = mauvais signe).\nNormalite des residus — QQ-plot proche de la ligne.\n\n\nSyntaxe — diagnostics\nmodele.resid                     # residus\nmodele.fittedvalues              # valeurs predites\nstats.probplot(residus, plot=ax) # QQ-plot vs loi normale\n\n\nresidus = modele.resid             # erreurs observees - predites\npredits = modele.fittedvalues       # y predits\n\n# 3 panneaux pour les 3 diagnostics visuels les plus utiles\nfig, axes = plt.subplots(1, 3, figsize=(14, 4))\n\n# Panneau 1 : residus vs predits - on cherche un nuage sans tendance\naxes[0].scatter(predits, residus, alpha=0.45, s=15, color=\"steelblue\")\naxes[0].axhline(0, color=\"red\", ls=\"--\")\naxes[0].set_xlabel(\"Predits\"); axes[0].set_ylabel(\"Residus\")\naxes[0].set_title(\"Residus vs predits\")\n\n# Panneau 2 : distribution des residus - doit être approximativement normale\naxes[1].hist(residus, bins=25, edgecolor=\"white\", color=\"steelblue\")\naxes[1].set_xlabel(\"Residu\"); axes[1].set_title(\"Distribution des residus\")\n\n# Panneau 3 : QQ-plot - points alignes sur la diagonale = normale\nstats.probplot(residus, dist=\"norm\", plot=axes[2])\naxes[2].set_title(\"QQ-plot\")\n\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "5 — Régression"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_05_regression.html#regression-logistique-outcome-binaire",
+    "href": "notebooks_executes/module_05_regression.html#regression-logistique-outcome-binaire",
+    "title": "\nModule 5·Regression\n",
+    "section": "5. Regression logistique — outcome binaire",
+    "text": "5. Regression logistique — outcome binaire\nQuand l’outcome est oui/non, l’OLS predit des valeurs en dehors de \\([0, 1]\\) — non utilisable. La régression logistique modelise la probabilité :\n\\[\\Pr(y = 1 \\mid x) = \\sigma(\\beta_0 + \\beta_1 x_1 + \\ldots), \\quad \\sigma(z) = \\frac{1}{1 + e^{-z}}\\]\nLes coefficients sont des log-odds. Pour des odds ratios : \\(OR = e^{\\beta}\\).\n\nSyntaxe — logistique statsmodels\nX = sm.add_constant(df[predicteurs])\nlogit = sm.Logit(y, X).fit(disp=False)    # disp=False : pas d'output d'iterations\nlogit.summary()\nnp.exp(logit.params)              # odds ratios\nnp.exp(logit.conf_int())          # IC des odds ratios\n\nApplication au jeu Pima Indians Diabetes.\n\nimport os\nfrom pathlib import Path\nimport pandas as pd\n\n# Chemins de cache candidats, dans l'ordre :\n#   1. ./data/         (jupyter local, notebook a la racine)\n#   2. ../data/        (jupyter local, notebook dans un sous-dossier)\n#   3. ./             (au pire on cree un cache dans le cwd)\n# En Colab, aucun n'existe : on tombe sur l'URL et on cree ./data/ pour les\n# cellules suivantes.\n_CANDIDATES = [Path(\"data\"), Path(\"../data\")]\nDATA_DIR = next((p for p in _CANDIDATES if p.is_dir()), Path(\"data\"))\nDATA_DIR.mkdir(exist_ok=True)\n\n\ndef load_csv(name: str, url: str, **read_csv_kwargs) -&gt; pd.DataFrame:\n    \"\"\"Charge un CSV : cache local d'abord, sinon URL publique.\n\n    Le cache utilise le meme separateur que la lecture (TSV reste TSV).\n    \"\"\"\n    for candidate_dir in _CANDIDATES:\n        local = candidate_dir / name\n        if local.exists():\n            return pd.read_csv(local, **read_csv_kwargs)\n    df = pd.read_csv(url, **read_csv_kwargs)\n    try:\n        sep = read_csv_kwargs.get(\"sep\", \",\")\n        (DATA_DIR / name).parent.mkdir(parents=True, exist_ok=True)\n        df.to_csv(DATA_DIR / name, index=False, sep=sep)\n    except OSError:\n        pass\n    return df\n\nPIMA_URL = (\n    \"https://raw.githubusercontent.com/jbrownlee/Datasets/master/\"\n    \"pima-indians-diabetes.data.csv\"\n)\n# Le fichier n'a pas d'en-tête - on fournit les noms via 'names='\nPIMA_COLS = [\"pregnancies\", \"glucose\", \"blood_pressure\",\n             \"skin_thickness\", \"insulin\", \"bmi\",\n             \"diabetes_pedigree\", \"age\", \"outcome\"]\npima = load_csv(\"pima_indians_diabetes.csv\", PIMA_URL,\n                names=PIMA_COLS, header=None)\n\n# Probleme connu du dataset : certaines mesures ont des 0 a la place de NaN.\n# Une glycémie a 0 mg/dL est physiologiquement impossible -&gt; NaN.\nfor col in [\"glucose\", \"blood_pressure\", \"skin_thickness\", \"insulin\", \"bmi\"]:\n    pima[col] = pima[col].replace(0, np.nan)\n\n# Cas complets seulement (en pratique on imputerait)\npima_complete = pima.dropna().copy()\n\nprint(f\"Dimensions (complet) : {pima_complete.shape}\")\nprint(f\"Prevalence diabete   : {pima_complete['outcome'].mean():.1%}\")\npima_complete.head()\n\nDimensions (complet) : (392, 9)\nPrevalence diabete   : 33.2%\n\n\n\n\n\n\n\n\n\npregnancies\nglucose\nblood_pressure\nskin_thickness\ninsulin\nbmi\ndiabetes_pedigree\nage\noutcome\n\n\n\n\n3\n1\n89.0\n66.0\n23.0\n94.0\n28.1\n0.167\n21\n0\n\n\n4\n0\n137.0\n40.0\n35.0\n168.0\n43.1\n2.288\n33\n1\n\n\n6\n3\n78.0\n50.0\n32.0\n88.0\n31.0\n0.248\n26\n1\n\n\n8\n2\n197.0\n70.0\n45.0\n543.0\n30.5\n0.158\n53\n1\n\n\n13\n1\n189.0\n60.0\n23.0\n846.0\n30.1\n0.398\n59\n1\n\n\n\n\n\n\n\n\n# Modele : diabète ~ age + IMC + glycémie\npredicteurs = [\"age\", \"bmi\", \"glucose\"]\nX = sm.add_constant(pima_complete[predicteurs])\ny = pima_complete[\"outcome\"]\n\n# sm.Logit pour la régression logistique\n# disp=False supprime les messages d'iteration\nlogit = sm.Logit(y, X).fit(disp=False)\nprint(logit.summary())\n\n                           Logit Regression Results                           \n==============================================================================\nDep. Variable:                outcome   No. Observations:                  392\nModel:                          Logit   Df Residuals:                      388\nMethod:                           MLE   Df Model:                            3\nDate:                Mon, 08 Jun 2026   Pseudo R-squ.:                  0.2886\nTime:                        19:52:03   Log-Likelihood:                -177.18\nconverged:                       True   LL-Null:                       -249.05\nCovariance Type:            nonrobust   LLR p-value:                 5.925e-31\n==============================================================================\n                 coef    std err          z      P&gt;|z|      [0.025      0.975]\n------------------------------------------------------------------------------\nconst         -9.6773      1.042     -9.288      0.000     -11.719      -7.635\nage            0.0541      0.013      4.085      0.000       0.028       0.080\nbmi            0.0779      0.020      3.870      0.000       0.038       0.117\nglucose        0.0363      0.005      7.391      0.000       0.027       0.046\n==============================================================================\n\n\n\nOdds ratios\nExponentialiser coefficients et bornes des IC.\n\nSyntaxe — np.exp\nnp.exp(x)        # e^x ; fonctionne sur scalaires et tableaux\n\n\n# np.exp() applique element par element\nor_tab = pd.DataFrame({\n    \"OR\":    np.exp(logit.params),\n    \"IC_lo\": np.exp(logit.conf_int()[0]),\n    \"IC_hi\": np.exp(logit.conf_int()[1]),\n    \"p\":     logit.pvalues,\n}).round(3)\nor_tab\n\n\n\n\n\n\n\n\nOR\nIC_lo\nIC_hi\np\n\n\n\n\nconst\n0.000\n0.000\n0.000\n0.0\n\n\nage\n1.056\n1.029\n1.083\n0.0\n\n\nbmi\n1.081\n1.039\n1.124\n0.0\n\n\nglucose\n1.037\n1.027\n1.047\n0.0\n\n\n\n\n\n\n\nLecture. “A age et IMC constants, chaque augmentation de 1 mg/dL de la glycémie multiplie les cotes de diabète par ~1,04.” Sur une plage de 30 mg/dL cela donne \\(1{,}04^{30} \\approx 3\\) — une augmentation substantielle.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "5 — Régression"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_05_regression.html#evaluation-matrice-de-confusion-et-quatre-taux",
+    "href": "notebooks_executes/module_05_regression.html#evaluation-matrice-de-confusion-et-quatre-taux",
+    "title": "\nModule 5·Regression\n",
+    "section": "6. Evaluation — matrice de confusion et quatre taux",
+    "text": "6. Evaluation — matrice de confusion et quatre taux\n\nSyntaxe — train/test split sklearn\nfrom sklearn.model_selection import train_test_split\nX_tr, X_te, y_tr, y_te = train_test_split(\n    X, y,\n    test_size=0.3,           # 30% en test\n    random_state=42,         # reproductibilité\n    stratify=y,              # garde la même prévalence dans les 2 splits\n)\n\nStratifier est essentiel pour les outcomes deseuilibres : sans ca le jeu de test pourrait avoir 5% de positifs au lieu de 35%.\n\nX = pima_complete[predicteurs]\ny = pima_complete[\"outcome\"]\n\n# Split 70/30 stratifié\nX_tr, X_te, y_tr, y_te = train_test_split(\n    X, y, test_size=0.3, random_state=42, stratify=y\n)\n\n# Ajustement avec sklearn (interface ML)\nclf = LogisticRegression(max_iter=1000, random_state=42)\nclf.fit(X_tr, y_tr)\n\n# Predictions binaires (seuil par défaut : 0.5)\ny_hat = clf.predict(X_te)\n\n# Matrice de confusion :\n# [[VN, FP],\n#  [FN, VP]]\ncm = confusion_matrix(y_te, y_hat)\n# .ravel() aplatit la matrice 2x2 en 4 valeurs (lecture lignes puis colonnes)\ntn, fp, fn, tp = cm.ravel()\n\nprint(\"Matrice de confusion :\")\nprint(cm)\nprint()\n# classification_report donne les 4 métriques en un coup\nprint(classification_report(y_te, y_hat,\n                            target_names=[\"Sans diabète\", \"Diabete\"]))\n\nMatrice de confusion :\n[[70  9]\n [14 25]]\n\n              precision    recall  f1-score   support\n\nSans diabète       0.83      0.89      0.86        79\n     Diabete       0.74      0.64      0.68        39\n\n    accuracy                           0.81       118\n   macro avg       0.78      0.76      0.77       118\nweighted avg       0.80      0.81      0.80       118\n\n\n\n\nSensibilite, spécificité, VPP, VPN\n\nSensibilite (TPR) = VP / (VP + FN) — capacite a détecter les malades.\nSpecificite (TNR) = VN / (VN + FP) — capacite a exclure les non-malades.\nVPP = VP / (VP + FP) — quand le test est positif, quelle proba d’être vraiment malade.\nVPN = VN / (VN + FN) — quand le test est negatif, quelle proba d’être vraiment sain.\n\n\n# Les 4 métriques cliniques clés\nsens = tp / (tp + fn)\nspec = tn / (tn + fp)\nvpp  = tp / (tp + fp)\nvpn  = tn / (tn + fn)\n\nprint(f\"Sensibilite (TPR) : {sens:.3f}\")\nprint(f\"Specificite (TNR) : {spec:.3f}\")\nprint(f\"VPP (precision)   : {vpp:.3f}\")\nprint(f\"VPN               : {vpn:.3f}\")\n\nSensibilite (TPR) : 0.641\nSpecificite (TNR) : 0.886\nVPP (precision)   : 0.735\nVPN               : 0.833\n\n\n\n# Visualisation : heatmap de la matrice de confusion\nfig, ax = plt.subplots(figsize=(5, 4))\nsns.heatmap(\n    cm, annot=True, fmt=\"d\",      # fmt='d' : format entier\n    cmap=\"Blues\", ax=ax,\n    xticklabels=[\"Predit : Non\", \"Predit : Oui\"],\n    yticklabels=[\"Reel : Non\", \"Reel : Oui\"],\n)\nax.set_title(\"Matrice de confusion\")\nplt.tight_layout(); plt.show()",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "5 — Régression"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_05_regression.html#exercices-avec-corriges",
+    "href": "notebooks_executes/module_05_regression.html#exercices-avec-corriges",
+    "title": "\nModule 5·Regression\n",
+    "section": "7. Exercices (avec corriges)",
+    "text": "7. Exercices (avec corriges)\n\nExercice 1 — Logistique avec glycémie seule\nQuel est l’OR de la glycémie ?\n\n# Votre essai ici\n\n\n# Solution\n# Modele avec un seul predicteur : glucose\nX = sm.add_constant(pima_complete[[\"glucose\"]])\nm = sm.Logit(pima_complete[\"outcome\"], X).fit(disp=False)\n\n# float() pour convertir Series 1 element -&gt; nombre\nor_g = float(np.exp(m.params[\"glucose\"]))\nic = np.exp(m.conf_int().loc[\"glucose\"])\nprint(f\"OR par 1 mg/dL glycémie : {or_g:.3f}  IC 95% [{ic[0]:.3f}, {ic[1]:.3f}]\")\n\nOR par 1 mg/dL glycémie : 1.043  IC 95% [1.034, 1.053]\n\n\n\n\nExercice 2 — Modele complet : age, IMC, glycémie, BP, pedigree\n\n# Votre essai ici\n\n\n# Solution\nfeat = [\"age\", \"bmi\", \"glucose\", \"blood_pressure\", \"diabetes_pedigree\"]\nX = sm.add_constant(pima_complete[feat])\nm = sm.Logit(pima_complete[\"outcome\"], X).fit(disp=False)\ntbl = pd.DataFrame({\n    \"OR\":    np.exp(m.params),\n    \"IC_lo\": np.exp(m.conf_int()[0]),\n    \"IC_hi\": np.exp(m.conf_int()[1]),\n    \"p\":     m.pvalues,\n}).round(3)\ntbl\n\n\n\n\n\n\n\n\nOR\nIC_lo\nIC_hi\np\n\n\n\n\nconst\n0.000\n0.000\n0.000\n0.000\n\n\nage\n1.055\n1.026\n1.084\n0.000\n\n\nbmi\n1.078\n1.034\n1.123\n0.000\n\n\nglucose\n1.037\n1.027\n1.047\n0.000\n\n\nblood_pressure\n1.000\n0.977\n1.023\n0.966\n\n\ndiabetes_pedigree\n2.963\n1.301\n6.749\n0.010\n\n\n\n\n\n\n\n\n\nExercice 3 — Seuil de classification\nCalculer sensibilité et spécificité aux seuils 0,3 / 0,5 / 0,7.\n\nSyntaxe — predict_proba\nprobs = clf.predict_proba(X_te)         # matrice (n, 2) : proba_0, proba_1\nprobs[:, 1]                             # proba d'être positif\n(probs[:, 1] &gt;= seuil).astype(int)      # décision binaire au seuil donne\n\n\n# Votre essai ici\n\n\n# Solution\n# .predict_proba() : matrice avec une colonne par classe\n# La 2eme colonne ([:, 1]) est la proba de la classe positive\nprobs = clf.predict_proba(X_te)[:, 1]\n\n# Iterer sur plusieurs seuils\nfor seuil in (0.3, 0.5, 0.7):\n    # &gt;= seuil renvoie un tableau de booleens, .astype(int) convertit en 0/1\n    yh = (probs &gt;= seuil).astype(int)\n    tn, fp, fn, tp = confusion_matrix(y_te, yh).ravel()\n    print(f\"seuil = {seuil:.1f}  sens = {tp/(tp+fn):.2f}  spec = {tn/(tn+fp):.2f}\")\n\nseuil = 0.3  sens = 0.77  spec = 0.77\nseuil = 0.5  sens = 0.64  spec = 0.89\nseuil = 0.7  sens = 0.41  spec = 0.95",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "5 — Régression"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_05_regression.html#resume",
+    "href": "notebooks_executes/module_05_regression.html#resume",
+    "title": "\nModule 5·Regression\n",
+    "section": "Resume",
+    "text": "Resume\nVous savez ajuster, interpréter et valider des modèles linéaire et logistique. Estimations ajustees, odds ratios avec IC, sensibilité et spécificité — c’est le vocabulaire que vous lisez dans le NEJM ou The Lancet.\nSuite -&gt; Module 6 : machine learning. Memes sorties binaires que la régression logistique, mais d’autres modeles.",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "5 — Régression"
+    ]
+  },
+  {
+    "objectID": "notebooks_executes/module_05_regression.html#ressources-et-liens-utiles",
+    "href": "notebooks_executes/module_05_regression.html#ressources-et-liens-utiles",
+    "title": "\nModule 5·Regression\n",
+    "section": "Ressources et liens utiles",
+    "text": "Ressources et liens utiles\n\nDocumentation officielle\n\nstatsmodels — Linear Regression — https://www.statsmodels.org/stable/regression.html\nstatsmodels — Logistic Regression — https://www.statsmodels.org/stable/discretemod.html\nscikit-learn — Logistic Regression — https://scikit-learn.org/stable/modules/linear_model.html#logistic-régression\nscikit-learn — Model évaluation — https://scikit-learn.org/stable/modules/model_evaluation.html\n\n\n\nManuels de référence\n\nHarrell FE (2015) Regression Modeling Strategies. 2e ed., Springer — la bible de la régression en biostatistique.\nVittinghoff et al. (2012) Regression Methods in Biostatistics. 2e ed., Springer.\nAn Introduction to Statistical Learning (James, Witten, Hastie, Tibshirani) — version Python, libre en ligne : https://www.statlearning.com/\n\n\n\nConfusion / confounding\n\nVanderWeele TJ (2019) Principles of Confounder Selection. European Journal of Epidemiology 34: 211-219.\nDAGitty (https://www.dagitty.net/) — outil web pour dessiner des DAGs causaux et identifier les confondants.\n\n\n\nJeu de données\n\nPima Indians Diabetes Database — provient initialement de Smith et al. (1988), disponible via https://github.com/jbrownlee/Datasets et https://archive.ics.uci.edu/dataset/34/diabetes (UCI Machine Learning Repository).\n\n\n\nReporting\n\nTRIPOD Statement — https://www.tripod-statement.org/ : checklist pour le rapportage de modèles de prediction multivariables en santé.\n\n\n\n\n← Module 4 : Tests d’hypothèses\n\n\nSommaire du cours\n\n\nModule 6 : ML clinique →",
+    "crumbs": [
+      "Accueil",
+      "Modules",
+      "5 — Régression"
+    ]
+  }
+]

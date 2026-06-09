@@ -35,3 +35,13 @@ Thumbs.db
 # Sources internes de generation des notebooks
 # (utilisees uniquement pour regenerer les .ipynb depuis Python)
 _build/
+
+# Quarto build artifacts (le dossier docs/ est commit pour GitHub Pages)
+.quarto/
+*_files/
+*.html
+!docs/**/*.html
+# Note : on garde docs/ commit pour Pages, mais .quarto/ (cache) est ignore.
+
+/.quarto/
+**/*.quarto_ipynb

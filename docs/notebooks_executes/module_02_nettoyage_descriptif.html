@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>module_02_nettoyage_descriptif – Python pour la Santé</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../notebooks_executes/module_03_visualisation.html" rel="next">
+<link href="../notebooks_executes/module_01_python_pandas.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-342e2d7bd6263f584ef7eaed109ca36f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-4e1e827dfb00e10d6d5fbea74579c33e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-342e2d7bd6263f584ef7eaed109ca36f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Pas de résultats",
+    "search-matching-documents-text": "documents trouvés",
+    "search-copy-link-title": "Copier le lien vers la recherche",
+    "search-hide-matches-text": "Cacher les correspondances additionnelles",
+    "search-more-match-text": "correspondance de plus dans ce document",
+    "search-more-matches-text": "correspondances de plus dans ce document",
+    "search-clear-button-title": "Effacer",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Annuler",
+    "search-submit-button-title": "Envoyer",
+    "search-label": "Recherche"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Python pour la Santé</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Recherche"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Basculer la navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Accueil</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-modules" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Modules</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-modules">    
+        <li>
+    <a class="dropdown-item" href="../notebooks_executes/module_01_python_pandas.html">
+ <span class="dropdown-text">1 — Python et Pandas</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks_executes/module_02_nettoyage_descriptif.html">
+ <span class="dropdown-text">2 — Nettoyage et descriptif</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks_executes/module_03_visualisation.html">
+ <span class="dropdown-text">3 — Visualisation</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks_executes/module_04_tests_hypotheses.html">
+ <span class="dropdown-text">4 — Tests d’hypothèses</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks_executes/module_05_regression.html">
+ <span class="dropdown-text">5 — Régression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../notebooks_executes/module_06_ml_clinique.html">
+ <span class="dropdown-text">6 — ML clinique</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../notes/notes_6h.pdf"> 
+<span class="menu-text">Notes (PDF)</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">À propos</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/gabayae/-python-sante"> <i class="bi bi-github" role="img" aria-label="Voir sur GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Basculer le mode sombre"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks_executes/module_01_python_pandas.html">Modules</a></li><li class="breadcrumb-item"><a href="../notebooks_executes/module_02_nettoyage_descriptif.html">2 — Nettoyage et descriptif</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Basculer la barre latérale" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accueil</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Modules</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks_executes/module_01_python_pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">1 — Python et Pandas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks_executes/module_02_nettoyage_descriptif.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">2 — Nettoyage et descriptif</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks_executes/module_03_visualisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">3 — Visualisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks_executes/module_04_tests_hypotheses.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">4 — Tests d’hypothèses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks_executes/module_05_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">5 — Régression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks_executes/module_06_ml_clinique.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">6 — ML clinique</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Ressources</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Basculer la section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notes/notes_6h.pdf" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notes de cours (PDF)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../notebooks_executes/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sommaire visuel (index)</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">À propos</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Sur cette page</h2>
+   
+  <ul>
+  <li><a href="#imports-et-reproductibilité" id="toc-imports-et-reproductibilité" class="nav-link active" data-scroll-target="#imports-et-reproductibilité">0. Imports et reproductibilité</a></li>
+  <li><a href="#les-trois-mécanismes-de-données-manquantes" id="toc-les-trois-mécanismes-de-données-manquantes" class="nav-link" data-scroll-target="#les-trois-mécanismes-de-données-manquantes">1. Les trois mécanismes de données manquantes</a></li>
+  <li><a href="#detection-avec-pandas" id="toc-detection-avec-pandas" class="nav-link" data-scroll-target="#detection-avec-pandas">2. Detection avec pandas</a></li>
+  <li><a href="#strategies-dimputation" id="toc-strategies-dimputation" class="nav-link" data-scroll-target="#strategies-dimputation">3. Strategies d’imputation</a></li>
+  <li><a href="#validation-plages-cliniquement-plausibles" id="toc-validation-plages-cliniquement-plausibles" class="nav-link" data-scroll-target="#validation-plages-cliniquement-plausibles">4. Validation : plages cliniquement plausibles</a></li>
+  <li><a href="#pipeline-de-nettoyage-reutilisable" id="toc-pipeline-de-nettoyage-reutilisable" class="nav-link" data-scroll-target="#pipeline-de-nettoyage-reutilisable">5. Pipeline de nettoyage reutilisable</a></li>
+  <li><a href="#tendance-centrale-moyenne-mediane-mode" id="toc-tendance-centrale-moyenne-mediane-mode" class="nav-link" data-scroll-target="#tendance-centrale-moyenne-mediane-mode">6. Tendance centrale — moyenne, mediane, mode</a></li>
+  <li><a href="#dispersion-écart-type-iqr-cv" id="toc-dispersion-écart-type-iqr-cv" class="nav-link" data-scroll-target="#dispersion-écart-type-iqr-cv">7. Dispersion — écart-type, IQR, CV</a></li>
+  <li><a href="#mesures-épidémiologiques" id="toc-mesures-épidémiologiques" class="nav-link" data-scroll-target="#mesures-épidémiologiques">8. Mesures épidémiologiques</a>
+  <ul class="collapse">
+  <li><a href="#prevalence" id="toc-prevalence" class="nav-link" data-scroll-target="#prevalence">8.1 Prevalence</a></li>
+  <li><a href="#taux-dincidence-nouveaux-cas-par-personne-temps" id="toc-taux-dincidence-nouveaux-cas-par-personne-temps" class="nav-link" data-scroll-target="#taux-dincidence-nouveaux-cas-par-personne-temps">8.2 Taux d’incidence (nouveaux cas par personne-temps)</a></li>
+  <li><a href="#ratio-de-risque-rr-et-ratio-de-cotes-or" id="toc-ratio-de-risque-rr-et-ratio-de-cotes-or" class="nav-link" data-scroll-target="#ratio-de-risque-rr-et-ratio-de-cotes-or">8.3 Ratio de risque (RR) et ratio de cotes (OR)</a></li>
+  </ul></li>
+  <li><a href="#application-descriptif-sur-gapminder" id="toc-application-descriptif-sur-gapminder" class="nav-link" data-scroll-target="#application-descriptif-sur-gapminder">9. Application — descriptif sur Gapminder</a></li>
+  <li><a href="#exercices-avec-corriges" id="toc-exercices-avec-corriges" class="nav-link" data-scroll-target="#exercices-avec-corriges">10. Exercices (avec corriges)</a>
+  <ul class="collapse">
+  <li><a href="#exercice-1-pipeline-sur-un-jeu-artificiel" id="toc-exercice-1-pipeline-sur-un-jeu-artificiel" class="nav-link" data-scroll-target="#exercice-1-pipeline-sur-un-jeu-artificiel">Exercice 1 — Pipeline sur un jeu artificiel</a></li>
+  <li><a href="#exercice-2-resume-par-continent" id="toc-exercice-2-resume-par-continent" class="nav-link" data-scroll-target="#exercice-2-resume-par-continent">Exercice 2 — Resume par continent</a></li>
+  <li><a href="#exercice-3-prevalence-avec-ic" id="toc-exercice-3-prevalence-avec-ic" class="nav-link" data-scroll-target="#exercice-3-prevalence-avec-ic">Exercice 3 — Prevalence avec IC</a></li>
+  <li><a href="#exercice-4-or-dune-étude-cas-temoin" id="toc-exercice-4-or-dune-étude-cas-temoin" class="nav-link" data-scroll-target="#exercice-4-or-dune-étude-cas-temoin">Exercice 4 — OR d’une étude cas-temoin</a></li>
+  </ul></li>
+  <li><a href="#resume" id="toc-resume" class="nav-link" data-scroll-target="#resume">Resume</a></li>
+  <li><a href="#ressources-et-liens-utiles" id="toc-ressources-et-liens-utiles" class="nav-link" data-scroll-target="#ressources-et-liens-utiles">Ressources et liens utiles</a>
+  <ul class="collapse">
+  <li><a href="#documentation-officielle" id="toc-documentation-officielle" class="nav-link" data-scroll-target="#documentation-officielle">Documentation officielle</a></li>
+  <li><a href="#methodologie" id="toc-methodologie" class="nav-link" data-scroll-target="#methodologie">Methodologie</a></li>
+  <li><a href="#epidemiologie-de-poche" id="toc-epidemiologie-de-poche" class="nav-link" data-scroll-target="#epidemiologie-de-poche">Epidemiologie de poche</a></li>
+  <li><a href="#bibliotheques-utilisees" id="toc-bibliotheques-utilisees" class="nav-link" data-scroll-target="#bibliotheques-utilisees">Bibliotheques utilisees</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/gabayae/-python-sante/blob/main/notebooks_executes/module_02_nettoyage_descriptif.ipynb" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/gabayae/-python-sante/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../notebooks_executes/module_01_python_pandas.html">Modules</a></li><li class="breadcrumb-item"><a href="../notebooks_executes/module_02_nettoyage_descriptif.html">2 — Nettoyage et descriptif</a></li></ol></nav></header>
+
+
+
+
+
+<div style="background: linear-gradient(135deg, #0072B2 0%, #004f7a 100%); color: #ffffff; padding: 32px 38px; border-radius: 12px; margin: 0 0 22px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<div style="font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; opacity: 0.75; margin-bottom: 6px; font-weight: 500;">
+Analyse de Données avec Python pour Professionnels de la Santé
+</div>
+<h1 style="margin: 0; font-size: 30px; font-weight: 600; color: #ffffff; line-height: 1.2; border: none; padding: 0;">
+<span style="opacity: 0.65; font-weight: 400;">Module 2</span><span style="opacity: 0.4; margin: 0 12px;">·</span>Nettoyage et descriptif
+</h1>
+<div style="margin-top: 14px; font-size: 14px; opacity: 0.9;">
+Version condensee 6 heures · Module 2 sur 6 · Duree 60 minutes
+</div>
+</div>
+<div style="margin: 0 0 22px 0;">
+<span style="display: inline-block; background: #e8f4f8; color: #005c8f; padding: 5px 14px; border-radius: 14px; font-size: 12px; margin: 0 6px 6px 0; font-weight: 500; border: 1px solid #b8dde9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Niveau debutant</span><span style="display: inline-block; background: #fff4eb; color: #a64a00; padding: 5px 14px; border-radius: 14px; font-size: 12px; margin: 0 6px 6px 0; font-weight: 500; border: 1px solid #f0c89d; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Duree 60 min</span><span style="display: inline-block; background: #f5f0fa; color: #5a3380; padding: 5px 14px; border-radius: 14px; font-size: 12px; margin: 0 6px 6px 0; font-weight: 500; border: 1px solid #d4c0e8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Prerequis : Module 1</span><span style="display: inline-block; background: #f3f3f3; color: #555555; padding: 5px 14px; border-radius: 14px; font-size: 12px; margin: 0 6px 6px 0; font-weight: 500; border: 1px solid #d0d0d0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Colab compatible</span>
+</div>
+<div style="margin: 0 0 18px 0;">
+<a href="https://colab.research.google.com/github/gabayae/-python-sante/blob/main/notebooks_vierges/module_02_nettoyage_descriptif.ipynb" target="_blank" style="text-decoration: none;"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style="vertical-align: middle;"></a>
+</div>
+<div style="border: 1px solid #e0e0e0; border-left: 4px solid #009E73; background: #fafbfc; padding: 18px 22px; margin: 20px 0; border-radius: 0 6px 6px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<div style="font-size: 11px; letter-spacing: 1.5px; color: #009E73; font-weight: 600; margin-bottom: 10px;">
+OBJECTIFS DU MODULE
+</div>
+<ul style="margin: 0; padding-left: 22px; color: #333; font-size: 14px;">
+<li style="margin: 6px 0; line-height: 1.5;">
+Diagnostiquer les <strong>valeurs manquantes</strong> (MCAR / MAR / MNAR) et choisir une strategie défendable.
+</li>
+<li style="margin: 6px 0; line-height: 1.5;">
+Standardiser des données incoherentes (dates, codes, unites).
+</li>
+<li style="margin: 6px 0; line-height: 1.5;">
+Valider les valeurs contre des <strong>plages cliniquement plausibles</strong>.
+</li>
+<li style="margin: 6px 0; line-height: 1.5;">
+Construire un <strong>pipeline de nettoyage</strong> reutilisable.
+</li>
+<li style="margin: 6px 0; line-height: 1.5;">
+Calculer les mesures de <strong>tendance centrale</strong> et de <strong>dispersion</strong>.
+</li>
+<li style="margin: 6px 0; line-height: 1.5;">
+Calculer les mesures <strong>épidémiologiques</strong> de base : prévalence, incidence, RR, OR avec leurs IC.
+</li>
+</ul>
+</div>
+<div style="border-left: 4px solid #D55E00; background: #fff4eb; padding: 14px 18px; margin: 18px 0; border-radius: 0 6px 6px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<div style="font-weight: 600; color: #a64a00; font-size: 11px; letter-spacing: 1.2px; margin-bottom: 6px;">
+POURQUOI CE MODULE EST CENTRAL
+</div>
+<div style="color: #333; font-size: 14px; line-height: 1.5;">
+Le nettoyage est un <strong>raisonnement clinique</strong> écrit en code. Chaque décision (supprimer, imputer, signaler) deplace l’analyse. La discipline consiste a <strong>documenter chaque choix</strong> pour qu’un relecteur puisse le reproduire.<br><br>Reference fondatrice : Rubin DB, <em>Inference and Missing Data</em>, Biometrika 1976.
+</div>
+</div>
+<section id="imports-et-reproductibilité" class="level2">
+<h2 class="anchored" data-anchor-id="imports-et-reproductibilité">0. Imports et reproductibilité</h2>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — import multiple</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> a, b              <span class="co"># rare, évite par convention</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> a                 <span class="co"># une ligne par module - préfère</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> b</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<p>On regroupe les imports en tête : standard library d’abord, puis tierces parties.</p>
+</blockquote>
+<div id="186df987" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:06.981342Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:06.980610Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.491597Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.488733Z&quot;}}" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math                            <span class="co"># fonctions mathématiques scalaires</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np                     <span class="co"># tableaux numériques</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd                    <span class="co"># tables</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt        <span class="co"># graphiques</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats                <span class="co"># stats inferentielles</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">42</span>)                     <span class="co"># graine reproductibilité</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">"display.width"</span>, <span class="dv">100</span>)    <span class="co"># largeur d'affichage console</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="les-trois-mécanismes-de-données-manquantes" class="level2">
+<h2 class="anchored" data-anchor-id="les-trois-mécanismes-de-données-manquantes">1. Les trois mécanismes de données manquantes</h2>
+<p>Tout traitement des valeurs manquantes depend de leur <strong>mécanisme</strong> (Rubin 1976) :</p>
+<ul>
+<li><strong>MCAR — Missing Completely At Random.</strong> Independant du reste. Exemple : un tube de prelevement casse. Supprimer est sans biais.</li>
+<li><strong>MAR — Missing At Random.</strong> Depend de variables <strong>observees</strong>. Exemple : le cholesterol n’est pas mesure chez les jeunes. Imputer en tenant compte de l’age est sans biais.</li>
+<li><strong>MNAR — Missing Not At Random.</strong> Depend de la valeur <strong>non observee</strong>. Exemple : les patients les plus malades ratent leurs rendez-vous. Supprimer biaise vers les patients en bonne santé.</li>
+</ul>
+<blockquote class="blockquote">
+<p>Dans les dossiers electroniques, MNAR est la <strong>règle</strong>, pas l’exception. Toujours vérifier si l’issue differe entre lignes completes et lignes a données manquantes.</p>
+</blockquote>
+<p>Lecture recommandée : Little RJA &amp; Rubin DB, <em>Statistical Analysis with Missing Data</em>, 3e ed., Wiley 2019.</p>
+</section>
+<section id="detection-avec-pandas" class="level2">
+<h2 class="anchored" data-anchor-id="detection-avec-pandas">2. Detection avec pandas</h2>
+<p>Pandas utilise <strong><code>NaN</code></strong> (Not a Number) pour les valeurs manquantes numériques, et <code>None</code> pour les objets. Les deux sont détectés par <code>.isnull()</code> (alias : <code>.isna()</code>).</p>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — creer un DataFrame a la main</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"col1"</span>: [v1, v2, v3, ...],</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"col2"</span>: [w1, w2, w3, ...],</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Chaque clé du dictionnaire devient un nom de colonne, chaque liste les valeurs de la colonne.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — détection NaN</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.isnull()           <span class="co"># DataFrame de True/False, même taille</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">sum</span>()     <span class="co"># nb manquant par colonne</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df.isnull().<span class="bu">any</span>(axis<span class="op">=</span><span class="dv">1</span>)   <span class="co"># True/False par ligne (au moins un NaN)</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</blockquote>
+<div id="c7690735" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.503186Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.501347Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.549609Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.548394Z&quot;}}" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Petit DataFrame clinique avec des manquements deliberes</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># np.nan est la valeur 'NaN' (Not a Number) de numpy.</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>données <span class="op">=</span> {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"patient_id"</span>:  [<span class="st">"P001"</span>, <span class="st">"P002"</span>, <span class="st">"P003"</span>, <span class="st">"P004"</span>, <span class="st">"P005"</span>, <span class="st">"P006"</span>],</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"age"</span>:         [<span class="dv">45</span>, <span class="dv">67</span>, <span class="dv">34</span>, np.nan, <span class="dv">71</span>, <span class="dv">52</span>],          <span class="co"># 1 manquant</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"sexe"</span>:        [<span class="st">"M"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, np.nan, <span class="st">"F"</span>],   <span class="co"># 1 manquant</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tension"</span>:     [<span class="dv">128</span>, <span class="dv">158</span>, np.nan, <span class="dv">145</span>, <span class="dv">162</span>, np.nan],   <span class="co"># 2 manquants</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hba1c"</span>:       [<span class="fl">5.4</span>, <span class="fl">7.8</span>, <span class="fl">5.1</span>, np.nan, <span class="fl">8.2</span>, <span class="fl">6.3</span>],      <span class="co"># 1 manquant</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(données)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">patient_id</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">sexe</th>
+<th data-quarto-table-cell-role="th">tension</th>
+<th data-quarto-table-cell-role="th">hba1c</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>P001</td>
+<td>45.0</td>
+<td>M</td>
+<td>128.0</td>
+<td>5.4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>P002</td>
+<td>67.0</td>
+<td>F</td>
+<td>158.0</td>
+<td>7.8</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>P003</td>
+<td>34.0</td>
+<td>F</td>
+<td>NaN</td>
+<td>5.1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>P004</td>
+<td>NaN</td>
+<td>M</td>
+<td>145.0</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>P005</td>
+<td>71.0</td>
+<td>NaN</td>
+<td>162.0</td>
+<td>8.2</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>P006</td>
+<td>52.0</td>
+<td>F</td>
+<td>NaN</td>
+<td>6.3</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="09d19367" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.553804Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.553398Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.569247Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.567941Z&quot;}}" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Construire un petit tableau de diagnostic</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># .isnull() donne un DataFrame booleen, .sum() somme True/False par colonne</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (True compte comme 1, False comme 0)</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>manquant <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"n_manquant"</span>:   df.isnull().<span class="bu">sum</span>(),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"pct_manquant"</span>: (df.isnull().<span class="bu">sum</span>() <span class="op">/</span> <span class="bu">len</span>(df) <span class="op">*</span> <span class="dv">100</span>).<span class="bu">round</span>(<span class="dv">1</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>manquant</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">n_manquant</th>
+<th data-quarto-table-cell-role="th">pct_manquant</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">patient_id</th>
+<td>0</td>
+<td>0.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">age</th>
+<td>1</td>
+<td>16.7</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">sexe</th>
+<td>1</td>
+<td>16.7</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">tension</th>
+<td>2</td>
+<td>33.3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">hba1c</th>
+<td>1</td>
+<td>16.7</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="strategies-dimputation" class="level2">
+<h2 class="anchored" data-anchor-id="strategies-dimputation">3. Strategies d’imputation</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 73%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Methode</th>
+<th>Quand l’utiliser</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Mediane</strong></td>
+<td>Variables continues asymétriques (lab, tension, IMC)</td>
+</tr>
+<tr class="even">
+<td><strong>Moyenne</strong></td>
+<td>Variables continues symétriques (taille adulte)</td>
+</tr>
+<tr class="odd">
+<td><strong>Mode</strong></td>
+<td>Variables catégorielles</td>
+</tr>
+<tr class="even">
+<td><strong>Par sous-groupe</strong></td>
+<td>Bonne valeur dependant d’un groupe connu (sexe, age)</td>
+</tr>
+<tr class="odd">
+<td><strong>KNN</strong></td>
+<td>Plusieurs colonnes correlees avec manquements partages</td>
+</tr>
+</tbody>
+</table>
+<p>Toujours <strong>documenter</strong> la méthode utilisee. Pour les variables critiques, garder un <strong>indicateur de manquement</strong> avant d’imputer.</p>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — fillna</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"col"</span>] <span class="op">=</span> df[<span class="st">"col"</span>].fillna(valeur)             <span class="co"># remplace par valeur fixe</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"col"</span>] <span class="op">=</span> df[<span class="st">"col"</span>].fillna(df[<span class="st">"col"</span>].median())   <span class="co"># par mediane</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.fillna({<span class="st">"a"</span>: <span class="dv">0</span>, <span class="st">"b"</span>: <span class="st">"inconnu"</span>})        <span class="co"># plusieurs colonnes</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.copy()                                   <span class="co"># éviter SettingWithCopyWarning</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</blockquote>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — dropna</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df.dropna()                              <span class="co"># supprime toute ligne avec NaN</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df.dropna(subset<span class="op">=</span>[<span class="st">"col1"</span>, <span class="st">"col2"</span>])       <span class="co"># seulement si NaN dans ces colonnes</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>df.dropna(thresh<span class="op">=</span><span class="dv">3</span>)                      <span class="co"># garde lignes avec &gt;= 3 non-NaN</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</blockquote>
+<div id="80a54fab" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.576700Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.575859Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.600075Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.597048Z&quot;}}" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_imp <span class="op">=</span> df.copy()                             <span class="co"># toujours travailler sur une copie</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Mediane pour les valeurs lab (robuste aux extremes)</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>df_imp[<span class="st">"tension"</span>] <span class="op">=</span> df_imp[<span class="st">"tension"</span>].fillna(df_imp[<span class="st">"tension"</span>].median())</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>df_imp[<span class="st">"hba1c"</span>] <span class="op">=</span> df_imp[<span class="st">"hba1c"</span>].fillna(df_imp[<span class="st">"hba1c"</span>].median())</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Moyenne pour l'age (a peu près symétrique dans cette cohorte adulte)</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>df_imp[<span class="st">"age"</span>] <span class="op">=</span> df_imp[<span class="st">"age"</span>].fillna(df_imp[<span class="st">"age"</span>].mean())</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Mode pour la catégorielle</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># .mode() peut renvoyer plusieurs valeurs si égalité, on prend la 1ere : [0]</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>df_imp[<span class="st">"sexe"</span>] <span class="op">=</span> df_imp[<span class="st">"sexe"</span>].fillna(df_imp[<span class="st">"sexe"</span>].mode()[<span class="dv">0</span>])</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>df_imp</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">patient_id</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">sexe</th>
+<th data-quarto-table-cell-role="th">tension</th>
+<th data-quarto-table-cell-role="th">hba1c</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>P001</td>
+<td>45.0</td>
+<td>M</td>
+<td>128.0</td>
+<td>5.4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>P002</td>
+<td>67.0</td>
+<td>F</td>
+<td>158.0</td>
+<td>7.8</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>P003</td>
+<td>34.0</td>
+<td>F</td>
+<td>151.5</td>
+<td>5.1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>P004</td>
+<td>53.8</td>
+<td>M</td>
+<td>145.0</td>
+<td>6.3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>P005</td>
+<td>71.0</td>
+<td>F</td>
+<td>162.0</td>
+<td>8.2</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>P006</td>
+<td>52.0</td>
+<td>F</td>
+<td>151.5</td>
+<td>6.3</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="validation-plages-cliniquement-plausibles" class="level2">
+<h2 class="anchored" data-anchor-id="validation-plages-cliniquement-plausibles">4. Validation : plages cliniquement plausibles</h2>
+<p>On enumere les bornes attendues dans un <strong>dictionnaire</strong> (<code>col -&gt; (min, max)</code>) puis on les applique systematiquement.</p>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — definition de fonction avec docstring</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ma_fonction(arg1, arg2):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Une ligne qui resume."""</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... corps ...</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> résultat</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</blockquote>
+<div id="44dc0654" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.604537Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.604019Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.625800Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.622240Z&quot;}}" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dictionnaire de plages cliniquement acceptables</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>PLAGES <span class="op">=</span> {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"age"</span>:     (<span class="dv">0</span>, <span class="dv">120</span>),         <span class="co"># tuple (min, max)</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tension"</span>: (<span class="dv">60</span>, <span class="dv">300</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hba1c"</span>:   (<span class="fl">2.0</span>, <span class="fl">20.0</span>),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> valider_plage(df, colonne, lo, hi):</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Renvoie le sous-DataFrame des lignes hors plage [lo, hi]."""</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Operateur | == OR booleen vectorise pour pandas</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    hors <span class="op">=</span> df[(df[colonne] <span class="op">&lt;</span> lo) <span class="op">|</span> (df[colonne] <span class="op">&gt;</span> hi)]</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(hors):</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  '</span><span class="sc">{</span>colonne<span class="sc">}</span><span class="ss">' : </span><span class="sc">{</span><span class="bu">len</span>(hors)<span class="sc">}</span><span class="ss"> valeur(s) hors [</span><span class="sc">{</span>lo<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>hi<span class="sc">}</span><span class="ss">]"</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hors</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co"># .items() : iterer sur (cle, valeur) d'un dictionnaire</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co"># (lo, hi) : 'unpacking' d'un tuple en 2 variables</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col, (lo, hi) <span class="kw">in</span> PLAGES.items():</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> col <span class="kw">in</span> df_imp.columns:           <span class="co"># seulement si la colonne existe</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>        valider_plage(df_imp, col, lo, hi)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Validation terminee."</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Validation terminee.</code></pre>
+</div>
+</div>
+</section>
+<section id="pipeline-de-nettoyage-reutilisable" class="level2">
+<h2 class="anchored" data-anchor-id="pipeline-de-nettoyage-reutilisable">5. Pipeline de nettoyage reutilisable</h2>
+<p>On combine tout dans une seule fonction. Patron : chaque étape prend un DataFrame et en renvoie un. C’est testable, debuggable et explicite sur chaque choix.</p>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — argument par défaut</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x, y<span class="op">=</span><span class="dv">10</span>):       <span class="co"># y vaut 10 si non spécifie</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    ...</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>f(<span class="dv">5</span>)                  <span class="co"># appel avec x=5, y=10</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>f(<span class="dv">5</span>, y<span class="op">=</span><span class="dv">20</span>)            <span class="co"># appel avec x=5, y=20</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</blockquote>
+<div id="c39bb717" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.634594Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.632674Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.666271Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.663502Z&quot;}}" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> nettoyer_clinique(df, plages<span class="op">=</span>PLAGES):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Pipeline de base : noms, doublons, plages, imputation.</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Parametres</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">    ----------</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">    df : pd.DataFrame</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">        Données brutes.</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">    plages : dict[str, tuple[float, float]]</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">        Bornes attendues pour chaque colonne numérique.</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.copy()                       <span class="co"># toujours une copie</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ---- 1) Noms de colonnes propres ----</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># .str.strip() supprime les espaces aux extremites</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># .str.lower() passe en minuscules</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># .str.replace(" ", "_") remplace espaces par underscores</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    df.columns <span class="op">=</span> df.columns.<span class="bu">str</span>.strip().<span class="bu">str</span>.lower().<span class="bu">str</span>.replace(<span class="st">" "</span>, <span class="st">"_"</span>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ---- 2) Supprimer les doublons exacts ----</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    avant <span class="op">=</span> <span class="bu">len</span>(df)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.drop_duplicates()</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  doublons supprimes : </span><span class="sc">{</span>avant <span class="op">-</span> <span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ---- 3) Hors plage -&gt; NaN ----</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col, (lo, hi) <span class="kw">in</span> plages.items():</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> col <span class="kw">in</span> df.columns:</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>            masque <span class="op">=</span> (df[col] <span class="op">&lt;</span> lo) <span class="op">|</span> (df[col] <span class="op">&gt;</span> hi)</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> masque.<span class="bu">any</span>():</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>                <span class="bu">print</span>(<span class="ss">f"  '</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss">' hors plage -&gt; NaN : </span><span class="sc">{</span><span class="bu">int</span>(masque.<span class="bu">sum</span>())<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>                <span class="co"># df.loc[ligne, colonne] = valeur</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>                df.loc[masque, col] <span class="op">=</span> np.nan</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ---- 4) Imputation mediane sur les colonnes numériques ----</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># .select_dtypes(include="number") garde seulement int/float</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> df.select_dtypes(include<span class="op">=</span><span class="st">"number"</span>).columns:</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>        df[col] <span class="op">=</span> df[col].fillna(df[col].median())</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Demo sur un DataFrame deliberement sale</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>messy <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"AGE"</span>:     [<span class="dv">45</span>, <span class="dv">67</span>, <span class="op">-</span><span class="dv">3</span>, <span class="dv">52</span>, <span class="dv">200</span>, <span class="dv">38</span>],            <span class="co"># -3 et 200 invalides</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tension"</span>: [<span class="dv">128</span>, <span class="dv">158</span>, <span class="dv">112</span>, <span class="dv">450</span>, <span class="dv">135</span>, np.nan],   <span class="co"># 450 invalide, 1 NaN</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hba1c"</span>:   [<span class="fl">5.4</span>, <span class="fl">7.8</span>, <span class="fl">5.1</span>, <span class="fl">6.3</span>, np.nan, <span class="fl">5.8</span>],</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>nettoyer_clinique(messy)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  doublons supprimes : 0
+  'age' hors plage -&gt; NaN : 2
+  'tension' hors plage -&gt; NaN : 1</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">tension</th>
+<th data-quarto-table-cell-role="th">hba1c</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>45.0</td>
+<td>128.0</td>
+<td>5.4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>67.0</td>
+<td>158.0</td>
+<td>7.8</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>48.5</td>
+<td>112.0</td>
+<td>5.1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>52.0</td>
+<td>131.5</td>
+<td>6.3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>48.5</td>
+<td>135.0</td>
+<td>5.8</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>38.0</td>
+<td>131.5</td>
+<td>5.8</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="tendance-centrale-moyenne-mediane-mode" class="level2">
+<h2 class="anchored" data-anchor-id="tendance-centrale-moyenne-mediane-mode">6. Tendance centrale — moyenne, mediane, mode</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Mesure</th>
+<th>Quand l’utiliser</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Moyenne</td>
+<td>Distribution approximativement symétrique</td>
+</tr>
+<tr class="even">
+<td>Mediane</td>
+<td>Distribution asymétrique (lab, duree de sejour)</td>
+</tr>
+<tr class="odd">
+<td>Mode</td>
+<td>Variable catégorielle</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Regle pratique.</strong> Si une valeur extreme deplace la moyenne de plus de quelques pourcents, <strong>rapporter la mediane</strong>.</p>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — Series pandas</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> pd.Series([v1, v2, v3])      <span class="co"># liste -&gt; Series (vecteur 1D)</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>s.mean(), s.median(), s.std()    <span class="co"># moyenne, mediane, écart-type</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>s.drop(index)                    <span class="co"># supprime un element par index</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</blockquote>
+<div id="7d7f8e2d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.671200Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.670597Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.684735Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.683189Z&quot;}}" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Glycemie a jeun avec une valeur aberrante (saisie erronee : 340)</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>glycémie <span class="op">=</span> pd.Series([<span class="dv">92</span>, <span class="dv">98</span>, <span class="dv">104</span>, <span class="dv">95</span>, <span class="dv">88</span>, <span class="dv">110</span>, <span class="dv">97</span>, <span class="dv">340</span>, <span class="dv">101</span>, <span class="dv">93</span>])</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparer moyenne et mediane montre la sensibilité a l'outlier</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Moyenne : </span><span class="sc">{</span>glyc<span class="sc">é</span>mie<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss">  &lt;- tiree par 340"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mediane : </span><span class="sc">{</span>glyc<span class="sc">é</span>mie<span class="sc">.</span>median()<span class="sc">:.1f}</span><span class="ss">  &lt;- robuste"</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># .drop(7) supprime l'element a l'index 7 (la valeur 340)</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Sans la valeur aberrante : moyenne = </span><span class="sc">{</span>glyc<span class="sc">é</span>mie<span class="sc">.</span>drop(<span class="dv">7</span>)<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Moyenne : 121.8  &lt;- tiree par 340
+Mediane : 97.5  &lt;- robuste
+Sans la valeur aberrante : moyenne = 97.6</code></pre>
+</div>
+</div>
+</section>
+<section id="dispersion-écart-type-iqr-cv" class="level2">
+<h2 class="anchored" data-anchor-id="dispersion-écart-type-iqr-cv">7. Dispersion — écart-type, IQR, CV</h2>
+<p>L’<strong>IQR</strong> (Q3 - Q1) est la dispersion des 50 % du milieu. Robuste aux valeurs extremes, c’est le bon résumé pour les distributions asymétriques (duree de sejour, couts hospitaliers).</p>
+<p>Le <strong>coefficient de variation</strong> <span class="math inline">\(CV = \sigma / \mu\)</span> (en %) est sans unite : utile pour comparer la dispersion de variables aux unites différentes.</p>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — quantile</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>s.quantile(<span class="fl">0.5</span>)                  <span class="co"># mediane (50e percentile)</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>s.quantile([<span class="fl">0.25</span>, <span class="fl">0.75</span>])         <span class="co"># plusieurs en même temps</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>q1, q3 <span class="op">=</span> s.quantile([<span class="fl">0.25</span>, <span class="fl">0.75</span>])  <span class="co"># unpacking</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</blockquote>
+<div id="273f6bc2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.691435Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.690980Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.700904Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.698895Z&quot;}}" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Duree moyenne de sejour (DMS), distribution asymétrique a droite</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>dms <span class="op">=</span> pd.Series([<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">12</span>, <span class="dv">28</span>, <span class="dv">45</span>])</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Recuperation des quartiles en une ligne (unpacking d'une Series)</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>q1, q3 <span class="op">=</span> dms.quantile([<span class="fl">0.25</span>, <span class="fl">0.75</span>])</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mediane : </span><span class="sc">{</span>dms<span class="sc">.</span>median()<span class="sc">:.0f}</span><span class="ss"> jours"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IQR     : </span><span class="sc">{</span>q1<span class="sc">:.0f}</span><span class="ss">-</span><span class="sc">{</span>q3<span class="sc">:.0f}</span><span class="ss"> jours"</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Moyenne : </span><span class="sc">{</span>dms<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss"> jours  &lt;- gonflee par 28 et 45"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mediane : 5 jours
+IQR     : 4-8 jours
+Moyenne : 10.2 jours  &lt;- gonflee par 28 et 45</code></pre>
+</div>
+</div>
+</section>
+<section id="mesures-épidémiologiques" class="level2">
+<h2 class="anchored" data-anchor-id="mesures-épidémiologiques">8. Mesures épidémiologiques</h2>
+<section id="prevalence" class="level3">
+<h3 class="anchored" data-anchor-id="prevalence">8.1 Prevalence</h3>
+<p><span class="math display">\[P = \frac{\text{cas existants au temps }t}{\text{population au temps }t}\]</span></p>
+<p>Toujours accompagner d’un <strong>intervalle de confiance</strong>. L’approximation normale convient quand <span class="math inline">\(n p (1-p) &gt; 5\)</span>.</p>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — math.sqrt et puissance</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>math.sqrt(x)        <span class="co"># racine carree</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">**</span> <span class="fl">0.5</span>            <span class="co"># équivalent</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">**</span> <span class="dv">2</span>              <span class="co"># x au carre</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</blockquote>
+<div id="aa54319b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.704860Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.704460Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.711030Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.710166Z&quot;}}" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Données : 625 diabétiques sur 5,000 enquetes</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>n_total, n_diabetique <span class="op">=</span> <span class="dv">5_000</span>, <span class="dv">625</span>    <span class="co"># _ comme separateur de milliers</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> n_diabetique <span class="op">/</span> n_total            <span class="co"># proportion brute</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>se <span class="op">=</span> math.sqrt(p <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> p) <span class="op">/</span> n_total) <span class="co"># erreur standard (formule binomiale)</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># IC 95% normal : p +/- 1.96 * SE</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>ci_lo <span class="op">=</span> (p <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> se) <span class="op">*</span> <span class="dv">100</span>         <span class="co"># en pourcentage</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>ci_hi <span class="op">=</span> (p <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> se) <span class="op">*</span> <span class="dv">100</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Prevalence du diabete : </span><span class="sc">{</span>p <span class="op">*</span> <span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">%   IC 95% [</span><span class="sc">{</span>ci_lo<span class="sc">:.1f}</span><span class="ss">%, </span><span class="sc">{</span>ci_hi<span class="sc">:.1f}</span><span class="ss">%]"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Prevalence du diabete : 12.5%   IC 95% [11.6%, 13.4%]</code></pre>
+</div>
+</div>
+</section>
+<section id="taux-dincidence-nouveaux-cas-par-personne-temps" class="level3">
+<h3 class="anchored" data-anchor-id="taux-dincidence-nouveaux-cas-par-personne-temps">8.2 Taux d’incidence (nouveaux cas par personne-temps)</h3>
+<p><span class="math display">\[IR = \frac{\text{nouveaux cas pendant la période}}{\text{personnes-années suivies}}\]</span></p>
+<p>Les nouveaux cas suivent une loi de Poisson, d’ou <span class="math inline">\(\text{SE}(IR) = \sqrt{\text{cas}} / \text{PA}\)</span>.</p>
+<div id="8e76f501" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.715808Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.715366Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.724186Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.722770Z&quot;}}" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cohorte TB : 18 nouveaux cas, 850 personnes-années suivies</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>nouveaux_tb, personne_annees <span class="op">=</span> <span class="dv">18</span>, <span class="dv">850</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>ir <span class="op">=</span> nouveaux_tb <span class="op">/</span> personne_annees</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>se <span class="op">=</span> math.sqrt(nouveaux_tb) <span class="op">/</span> personne_annees    <span class="co"># SE Poisson</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co"># On multiplie par 1000 pour une lecture habituelle 'pour 1,000 PA'</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>ci_lo, ci_hi <span class="op">=</span> (ir <span class="op">-</span> <span class="fl">1.96</span> <span class="op">*</span> se) <span class="op">*</span> <span class="dv">1000</span>, (ir <span class="op">+</span> <span class="fl">1.96</span> <span class="op">*</span> se) <span class="op">*</span> <span class="dv">1000</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Incidence TB : </span><span class="sc">{</span>ir <span class="op">*</span> <span class="dv">1000</span><span class="sc">:.1f}</span><span class="ss"> pour 1,000 PA"</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"IC 95%       : [</span><span class="sc">{</span>ci_lo<span class="sc">:.1f}</span><span class="ss">, </span><span class="sc">{</span>ci_hi<span class="sc">:.1f}</span><span class="ss">]"</span>)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Incidence TB : 21.2 pour 1,000 PA
+IC 95%       : [11.4, 31.0]</code></pre>
+</div>
+</div>
+</section>
+<section id="ratio-de-risque-rr-et-ratio-de-cotes-or" class="level3">
+<h3 class="anchored" data-anchor-id="ratio-de-risque-rr-et-ratio-de-cotes-or">8.3 Ratio de risque (RR) et ratio de cotes (OR)</h3>
+<p>Tableau 2x2 :</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Malade +</th>
+<th>Malade -</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Expose</strong></td>
+<td>a</td>
+<td>b</td>
+</tr>
+<tr class="even">
+<td><strong>Non expose</strong></td>
+<td>c</td>
+<td>d</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[RR = \frac{a/(a+b)}{c/(c+d)} \qquad OR = \frac{a \cdot d}{b \cdot c}\]</span></p>
+<p>On passe par <span class="math inline">\(\ln\)</span> pour les IC (la distribution de <span class="math inline">\(\ln RR\)</span> et <span class="math inline">\(\ln OR\)</span> est approximativement normale).</p>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — fonction qui renvoie un dictionnaire</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f():</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">"résultat"</span>: x, <span class="st">"ic"</span>: (lo, hi)}    <span class="co"># dict</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> f()</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>r[<span class="st">"résultat"</span>], r[<span class="st">"ic"</span>]</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</blockquote>
+<div id="007f0d69" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.728037Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.727659Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.741401Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.738793Z&quot;}}" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ratio_risque(a, b, c, d, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Risk ratio avec IC Wald sur l'échelle log."""</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># stats.norm.ppf(p) = quantile p de la loi normale standard</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> stats.norm.ppf(<span class="dv">1</span> <span class="op">-</span> alpha <span class="op">/</span> <span class="dv">2</span>)         <span class="co"># ~1.96 pour alpha=0.05</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    rr <span class="op">=</span> (a <span class="op">/</span> (a <span class="op">+</span> b)) <span class="op">/</span> (c <span class="op">/</span> (c <span class="op">+</span> d))</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    se <span class="op">=</span> math.sqrt(<span class="dv">1</span><span class="op">/</span>a <span class="op">-</span> <span class="dv">1</span><span class="op">/</span>(a<span class="op">+</span>b) <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>c <span class="op">-</span> <span class="dv">1</span><span class="op">/</span>(c<span class="op">+</span>d))</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"RR"</span>:    <span class="bu">round</span>(rr, <span class="dv">3</span>),</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># math.exp() = e^x, inverse de math.log()</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"IC_lo"</span>: <span class="bu">round</span>(math.exp(math.log(rr) <span class="op">-</span> z <span class="op">*</span> se), <span class="dv">3</span>),</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"IC_hi"</span>: <span class="bu">round</span>(math.exp(math.log(rr) <span class="op">+</span> z <span class="op">*</span> se), <span class="dv">3</span>),</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ratio_cotes(a, b, c, d, alpha<span class="op">=</span><span class="fl">0.05</span>):</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Odds ratio avec IC Wald sur l'échelle log."""</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> stats.norm.ppf(<span class="dv">1</span> <span class="op">-</span> alpha <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    or_ <span class="op">=</span> (a <span class="op">*</span> d) <span class="op">/</span> (b <span class="op">*</span> c)</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    se <span class="op">=</span> math.sqrt(<span class="dv">1</span><span class="op">/</span>a <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>b <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>c <span class="op">+</span> <span class="dv">1</span><span class="op">/</span>d)</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"OR"</span>:    <span class="bu">round</span>(or_, <span class="dv">3</span>),</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"IC_lo"</span>: <span class="bu">round</span>(math.exp(math.log(or_) <span class="op">-</span> z <span class="op">*</span> se), <span class="dv">3</span>),</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"IC_hi"</span>: <span class="bu">round</span>(math.exp(math.log(or_) <span class="op">+</span> z <span class="op">*</span> se), <span class="dv">3</span>),</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Tabagisme et cancer du poumon (cohorte hypothetique)</span></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a><span class="co"># a = fumeurs avec cancer ; b = fumeurs sans cancer</span></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a><span class="co"># c = non-fumeurs avec cancer ; d = non-fumeurs sans cancer</span></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RR (cohorte)    :"</span>, ratio_risque(<span class="dv">80</span>, <span class="dv">920</span>, <span class="dv">10</span>, <span class="dv">990</span>))</span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Obesite et arthrose du genou (cas-temoin)</span></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"OR (cas-temoin) :"</span>, ratio_cotes(<span class="dv">120</span>, <span class="dv">60</span>, <span class="dv">80</span>, <span class="dv">140</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>RR (cohorte)    : {'RR': 8.0, 'IC_lo': 4.17, 'IC_hi': 15.348}
+OR (cas-temoin) : {'OR': 3.5, 'IC_lo': 2.313, 'IC_hi': 5.296}</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="application-descriptif-sur-gapminder" class="level2">
+<h2 class="anchored" data-anchor-id="application-descriptif-sur-gapminder">9. Application — descriptif sur Gapminder</h2>
+<p>Tableau résumé de l’espérance de vie par continent en 2007.</p>
+<blockquote class="blockquote">
+<p><strong>Syntaxe — describe et sélection de colonnes par liste</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df.describe()                          <span class="co"># toutes les colonnes num.</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>df.describe(percentiles<span class="op">=</span>[<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>])  <span class="co"># quartiles</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>df_sub <span class="op">=</span> df[[<span class="st">"col1"</span>, <span class="st">"col2"</span>, <span class="st">"col3"</span>]]   <span class="co"># sélection multi-colonnes</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</blockquote>
+<div id="6c984b4f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.745466Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.745099Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.808076Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.805260Z&quot;}}" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Chemins de cache candidats, dans l'ordre :</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   1. ./data/         (jupyter local, notebook a la racine)</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   2. ../data/        (jupyter local, notebook dans un sous-dossier)</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   3. ./             (au pire on cree un cache dans le cwd)</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="co"># En Colab, aucun n'existe : on tombe sur l'URL et on cree ./data/ pour les</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># cellules suivantes.</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>_CANDIDATES <span class="op">=</span> [Path(<span class="st">"data"</span>), Path(<span class="st">"../data"</span>)]</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>DATA_DIR <span class="op">=</span> <span class="bu">next</span>((p <span class="cf">for</span> p <span class="kw">in</span> _CANDIDATES <span class="cf">if</span> p.is_dir()), Path(<span class="st">"data"</span>))</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>DATA_DIR.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_csv(name: <span class="bu">str</span>, url: <span class="bu">str</span>, <span class="op">**</span>read_csv_kwargs) <span class="op">-&gt;</span> pd.DataFrame:</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Charge un CSV : cache local d'abord, sinon URL publique.</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a><span class="co">    Le cache utilise le meme separateur que la lecture (TSV reste TSV).</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> candidate_dir <span class="kw">in</span> _CANDIDATES:</span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>        local <span class="op">=</span> candidate_dir <span class="op">/</span> name</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> local.exists():</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> pd.read_csv(local, <span class="op">**</span>read_csv_kwargs)</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(url, <span class="op">**</span>read_csv_kwargs)</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>        sep <span class="op">=</span> read_csv_kwargs.get(<span class="st">"sep"</span>, <span class="st">","</span>)</span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>        (DATA_DIR <span class="op">/</span> name).parent.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a>        df.to_csv(DATA_DIR <span class="op">/</span> name, index<span class="op">=</span><span class="va">False</span>, sep<span class="op">=</span>sep)</span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">OSError</span>:</span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>GAPMINDER_URL <span class="op">=</span> (</span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://raw.githubusercontent.com/jennybc/gapminder/"</span></span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"master/inst/extdata/gapminder.tsv"</span></span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>gm <span class="op">=</span> load_csv(<span class="st">"gapminder.tsv"</span>, GAPMINDER_URL, sep<span class="op">=</span><span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>recent <span class="op">=</span> gm[gm[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2007</span>].copy()</span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a><span class="co"># .describe() suit le groupby pour produire un tableau par groupe</span></span>
+<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a>resume <span class="op">=</span> (recent.groupby(<span class="st">"continent"</span>)[<span class="st">"lifeExp"</span>]</span>
+<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a>                .describe(percentiles<span class="op">=</span>[<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>]).<span class="bu">round</span>(<span class="dv">1</span>))</span>
+<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a><span class="co"># On sélectionné les colonnes utiles</span></span>
+<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a>resume[[<span class="st">"count"</span>, <span class="st">"mean"</span>, <span class="st">"std"</span>, <span class="st">"min"</span>, <span class="st">"25%"</span>, <span class="st">"50%"</span>, <span class="st">"75%"</span>, <span class="st">"max"</span>]]</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">count</th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">std</th>
+<th data-quarto-table-cell-role="th">min</th>
+<th data-quarto-table-cell-role="th">25%</th>
+<th data-quarto-table-cell-role="th">50%</th>
+<th data-quarto-table-cell-role="th">75%</th>
+<th data-quarto-table-cell-role="th">max</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">continent</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Africa</th>
+<td>52.0</td>
+<td>54.8</td>
+<td>9.6</td>
+<td>39.6</td>
+<td>47.8</td>
+<td>52.9</td>
+<td>59.4</td>
+<td>76.4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Americas</th>
+<td>25.0</td>
+<td>73.6</td>
+<td>4.4</td>
+<td>60.9</td>
+<td>71.8</td>
+<td>72.9</td>
+<td>76.4</td>
+<td>80.7</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Asia</th>
+<td>33.0</td>
+<td>70.7</td>
+<td>8.0</td>
+<td>43.8</td>
+<td>65.5</td>
+<td>72.4</td>
+<td>75.6</td>
+<td>82.6</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Europe</th>
+<td>30.0</td>
+<td>77.6</td>
+<td>3.0</td>
+<td>71.8</td>
+<td>75.0</td>
+<td>78.6</td>
+<td>79.8</td>
+<td>81.8</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Oceania</th>
+<td>2.0</td>
+<td>80.7</td>
+<td>0.7</td>
+<td>80.2</td>
+<td>80.5</td>
+<td>80.7</td>
+<td>81.0</td>
+<td>81.2</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="exercices-avec-corriges" class="level2">
+<h2 class="anchored" data-anchor-id="exercices-avec-corriges">10. Exercices (avec corriges)</h2>
+<section id="exercice-1-pipeline-sur-un-jeu-artificiel" class="level3">
+<h3 class="anchored" data-anchor-id="exercice-1-pipeline-sur-un-jeu-artificiel">Exercice 1 — Pipeline sur un jeu artificiel</h3>
+<p>Appliquez <code>nettoyer_clinique</code> sur le DataFrame ci-dessous. Verifiez le rapport et les valeurs imputees.</p>
+<div id="f35de62f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.812659Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.812108Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.819717Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.818671Z&quot;}}" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre essai ici</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="1d3efdc2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.826289Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.825849Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.852355Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.851299Z&quot;}}" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>messy <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"age"</span>:     [<span class="dv">45</span>, <span class="dv">67</span>, <span class="op">-</span><span class="dv">3</span>, <span class="dv">52</span>, <span class="dv">67</span>, <span class="dv">200</span>, <span class="dv">38</span>, np.nan, <span class="dv">71</span>, <span class="dv">44</span>],</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"tension"</span>: [<span class="dv">128</span>, <span class="dv">158</span>, <span class="dv">112</span>, <span class="dv">450</span>, <span class="dv">158</span>, <span class="dv">135</span>, <span class="dv">122</span>, np.nan, <span class="dv">162</span>, <span class="dv">118</span>],</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hba1c"</span>:   [<span class="fl">5.4</span>, <span class="fl">7.8</span>, <span class="fl">5.1</span>, <span class="fl">6.3</span>, <span class="fl">7.8</span>, np.nan, <span class="fl">5.8</span>, <span class="fl">6.1</span>, <span class="fl">5.2</span>, <span class="fl">5.2</span>],</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>nettoyer_clinique(messy)</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  doublons supprimes : 1
+  'age' hors plage -&gt; NaN : 2
+  'tension' hors plage -&gt; NaN : 1</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">tension</th>
+<th data-quarto-table-cell-role="th">hba1c</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>45.0</td>
+<td>128.0</td>
+<td>5.4</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>67.0</td>
+<td>158.0</td>
+<td>7.8</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>48.5</td>
+<td>112.0</td>
+<td>5.1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>52.0</td>
+<td>128.0</td>
+<td>6.3</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">5</th>
+<td>48.5</td>
+<td>135.0</td>
+<td>5.6</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">6</th>
+<td>38.0</td>
+<td>122.0</td>
+<td>5.8</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">7</th>
+<td>48.5</td>
+<td>128.0</td>
+<td>6.1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">8</th>
+<td>71.0</td>
+<td>162.0</td>
+<td>5.2</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">9</th>
+<td>44.0</td>
+<td>118.0</td>
+<td>5.2</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="exercice-2-resume-par-continent" class="level3">
+<h3 class="anchored" data-anchor-id="exercice-2-resume-par-continent">Exercice 2 — Resume par continent</h3>
+<p>Pour Gapminder en 2007 : moyenne, mediane et IQR de l’EV par continent.</p>
+<p>Indice : on peut passer une <strong>fonction personnalisee</strong> a <code>.agg()</code>.</p>
+<div id="f4cd4d06" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.859279Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.858821Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.865806Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.862890Z&quot;}}" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre essai ici</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="ff60a87e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.870018Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.869617Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.899953Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.896939Z&quot;}}" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Fonction personnalisee pour l'IQR</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> iqr(s):</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> s.quantile(<span class="fl">0.75</span>) <span class="op">-</span> s.quantile(<span class="fl">0.25</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># .agg accepte une liste qui melange noms de stats et fonctions</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>(recent.groupby(<span class="st">"continent"</span>)[<span class="st">"lifeExp"</span>]</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>        .agg([<span class="st">"mean"</span>, <span class="st">"median"</span>, iqr]).<span class="bu">round</span>(<span class="dv">2</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">mean</th>
+<th data-quarto-table-cell-role="th">median</th>
+<th data-quarto-table-cell-role="th">iqr</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">continent</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Africa</th>
+<td>54.81</td>
+<td>52.93</td>
+<td>11.61</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Americas</th>
+<td>73.61</td>
+<td>72.90</td>
+<td>4.63</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Asia</th>
+<td>70.73</td>
+<td>72.40</td>
+<td>10.15</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Europe</th>
+<td>77.65</td>
+<td>78.61</td>
+<td>4.78</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Oceania</th>
+<td>80.72</td>
+<td>80.72</td>
+<td>0.52</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="exercice-3-prevalence-avec-ic" class="level3">
+<h3 class="anchored" data-anchor-id="exercice-3-prevalence-avec-ic">Exercice 3 — Prevalence avec IC</h3>
+<p>Une enquete de 2 000 personnes détecté 250 cas. Calculez la prévalence et son IC 95%. Ecrivez une fonction reutilisable.</p>
+<div id="947b99fe" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.905261Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.904520Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.911661Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.910669Z&quot;}}" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre essai ici</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="f680e2fd" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.917055Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.916517Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.926359Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.925423Z&quot;}}" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prevalence_ic(cas, total, confiance<span class="op">=</span><span class="fl">0.95</span>):</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Prevalence et IC normal a un niveau de confiance donne."""</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> cas <span class="op">/</span> total</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># stats.norm.ppf : quantile de la loi normale</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> stats.norm.ppf(<span class="fl">0.5</span> <span class="op">+</span> confiance <span class="op">/</span> <span class="dv">2</span>)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    se <span class="op">=</span> math.sqrt(p <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> p) <span class="op">/</span> total)</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"prévalence"</span>: <span class="bu">round</span>(p, <span class="dv">4</span>),</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"IC_lo"</span>:      <span class="bu">round</span>(<span class="bu">max</span>(<span class="fl">0.0</span>, p <span class="op">-</span> z <span class="op">*</span> se), <span class="dv">4</span>),   <span class="co"># borne &gt;= 0</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"IC_hi"</span>:      <span class="bu">round</span>(<span class="bu">min</span>(<span class="fl">1.0</span>, p <span class="op">+</span> z <span class="op">*</span> se), <span class="dv">4</span>),   <span class="co"># borne &lt;= 1</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(prevalence_ic(<span class="dv">250</span>, <span class="dv">2000</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'prévalence': 0.125, 'IC_lo': np.float64(0.1105), 'IC_hi': np.float64(0.1395)}</code></pre>
+</div>
+</div>
+</section>
+<section id="exercice-4-or-dune-étude-cas-temoin" class="level3">
+<h3 class="anchored" data-anchor-id="exercice-4-or-dune-étude-cas-temoin">Exercice 4 — OR d’une étude cas-temoin</h3>
+<p>200 cas / 200 temoins ; 140 cas et 80 temoins sont exposes. Calculez l’OR et son IC 95%.</p>
+<div id="6529226f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.930065Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.929671Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.934658Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.933384Z&quot;}}" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Votre essai ici</span></span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="512286a7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-06-09T01:51:10.939555Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-06-09T01:51:10.939198Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-06-09T01:51:10.944999Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-06-09T01:51:10.944062Z&quot;}}" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Solution</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="co"># a = cas exposes (140), b = temoins exposes (80),</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># c = cas non exposes (200-140=60), d = temoins non exposes (200-80=120)</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ratio_cotes(<span class="dv">140</span>, <span class="dv">80</span>, <span class="dv">60</span>, <span class="dv">120</span>))</span></code></pre></div><button title="Copier vers le presse-papier" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'OR': 3.5, 'IC_lo': 2.313, 'IC_hi': 5.296}</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="resume" class="level2">
+<h2 class="anchored" data-anchor-id="resume">Resume</h2>
+<p>Vous savez maintenant :</p>
+<ul>
+<li>diagnostiquer le <strong>mécanisme</strong> des données manquantes ;</li>
+<li>choisir une strategie d’imputation et la documenter ;</li>
+<li>construire un <strong>pipeline de nettoyage</strong> reutilisable ;</li>
+<li>calculer les mesures descriptives et <strong>épidémiologiques</strong> de base (prévalence, incidence, RR/OR) avec leurs IC.</li>
+</ul>
+<p><strong>Suite -&gt; Module 3</strong> : visualisation. Memes données, autre langage.</p>
+</section>
+<section id="ressources-et-liens-utiles" class="level2">
+<h2 class="anchored" data-anchor-id="ressources-et-liens-utiles">Ressources et liens utiles</h2>
+<section id="documentation-officielle" class="level3">
+<h3 class="anchored" data-anchor-id="documentation-officielle">Documentation officielle</h3>
+<ul>
+<li><strong>pandas — Working with missing data</strong> — https://pandas.pydata.org/docs/user_guide/missing_data.html</li>
+<li><strong>pandas — Group by: split-apply-combine</strong> — https://pandas.pydata.org/docs/user_guide/groupby.html</li>
+<li><strong>scipy.stats</strong> — https://docs.scipy.org/doc/scipy/référence/stats.html</li>
+</ul>
+</section>
+<section id="methodologie" class="level3">
+<h3 class="anchored" data-anchor-id="methodologie">Methodologie</h3>
+<ul>
+<li><strong>Rubin, D.B. (1976)</strong> <em>Inference and Missing Data</em>. Biometrika 63(3): 581-592 — texte fondateur des mécanismes MCAR/MAR/MNAR.</li>
+<li><strong>Little &amp; Rubin (2019)</strong> <em>Statistical Analysis with Missing Data</em>, 3e ed., Wiley — manuel de reference.</li>
+<li><strong>Weiskopf &amp; Weng (2013)</strong> <em>Methods and dimensions of electronic health record data quality assessment</em>, JAMIA 20(1): 144-151 — revue des problèmes de qualité dans les DPI.</li>
+<li><strong>STROBE Statement</strong> — https://www.strobe-statement.org/ : checklist de rapportage pour études d’observation (cohorte, cas-temoin, transversale).</li>
+</ul>
+</section>
+<section id="epidemiologie-de-poche" class="level3">
+<h3 class="anchored" data-anchor-id="epidemiologie-de-poche">Epidemiologie de poche</h3>
+<ul>
+<li><strong>CDC — Principles of Epidemiology in Public Health Practice</strong> (cours en ligne gratuit) — https://www.cdc.gov/csels/dsepd/ss1978/index.html</li>
+<li><strong>OMS — Indicators of public health</strong> — https://www.who.int/data/gho</li>
+</ul>
+</section>
+<section id="bibliotheques-utilisees" class="level3">
+<h3 class="anchored" data-anchor-id="bibliotheques-utilisees">Bibliotheques utilisees</h3>
+<ul>
+<li>pandas, numpy, scipy.stats, matplotlib</li>
+<li>Pour des imputations multivariees plus poussees : <code>sklearn.impute.IterativeImputer</code> (https://scikit-learn.org/stable/modules/impute.html).</li>
+</ul>
+<hr style="margin: 40px 0 16px 0; border: none; border-top: 1px solid #e0e0e0;">
+<div style="display: flex; justify-content: space-between; align-items: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+<div style="flex: 1; text-align: left;">
+<a href="../notebooks_executes/module_01_python_pandas.html" style="text-decoration: none; color: #0072B2; font-weight: 500;">← Module 1 : Python et Pandas</a>
+</div>
+<div style="flex: 0; text-align: center; padding: 0 12px;">
+<a href="../notebooks_executes/index.html" style="text-decoration: none; color: #666666; font-size: 12px;">Sommaire du cours</a>
+</div>
+<div style="flex: 1; text-align: right;">
+<a href="../notebooks_executes/module_03_visualisation.html" style="text-decoration: none; color: #0072B2; font-weight: 500;">Module 3 : Visualisation →</a>
+</div>
+</div>
+
+
+</section>
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Retour au sommet</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copié");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copié");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/gabayae\.github\.io\/-python-sante\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../notebooks_executes/module_01_python_pandas.html" class="pagination-link" aria-label="1 — Python et Pandas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">1 — Python et Pandas</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../notebooks_executes/module_03_visualisation.html" class="pagination-link" aria-label="3 — Visualisation">
+        <span class="nav-page-text">3 — Visualisation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 <a href="https://github.com/gabayae">Yaé Ulrich Gaba</a> · Distribué sous <a href="https://github.com/gabayae/-python-sante/blob/main/LICENSE">CC BY-SA 4.0</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/gabayae/-python-sante/blob/main/notebooks_executes/module_02_nettoyage_descriptif.ipynb" class="toc-action"><i class="bi bi-github"></i>Modifier cette page</a></li><li><a href="https://github.com/gabayae/-python-sante/issues/new" class="toc-action"><i class="bi empty"></i>Faire part d'un problème</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Construit avec <a href="https://quarto.org">Quarto</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
