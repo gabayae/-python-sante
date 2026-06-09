@@ -1,0 +1,286 @@
+---
+title: "L'écosystème Python scientifique"
+subtitle: "La boîte à outils du cours en détail"
+toc: true
+toc-depth: 2
+---
+
+Ce cours s'appuie sur huit bibliothèques **open source**, gratuites, et
+qui ensemble couvrent à peu près toute l'analyse de données scientifique
+en Python. Cette page les présente une par une : à quoi elles servent,
+qui les maintient, et où aller pour en apprendre davantage.
+
+::: {.callout-tip}
+## Conseil de lecture
+
+Lisez cette page **avant** de commencer le Module 1. Vous comprendrez
+mieux pourquoi on importe chaque bibliothèque et ce qu'elle apporte.
+Revenez-y quand vous voulez en approfondir une.
+:::
+
+## Le socle scientifique
+
+Trois bibliothèques constituent le **socle** sur lequel tout le reste
+est construit. Apprendre Python pour la science, c'est d'abord apprendre
+ces trois-là.
+
+::: {.grid .gap-3}
+
+::: {.g-col-12 .g-col-md-4}
+::: {.module-card}
+[<i class="bi bi-stack"></i> SOCLE]{.module-number}
+
+#### NumPy
+
+**NumPy** (Numerical Python) fournit les tableaux multidimensionnels
+performants (`ndarray`) sur lesquels tout le reste de l'écosystème
+scientifique est construit. C'est l'équivalent en Python d'un MATLAB ou
+d'un R sur le plan numérique brut.
+
+<small>
+**Utilisé dans** : tous les modules (en arrière-plan de pandas)<br/>
+**Docs** : [numpy.org/doc](https://numpy.org/doc/stable/)<br/>
+**Tutoriel débutant** : [NumPy Quickstart](https://numpy.org/doc/stable/user/quickstart.html)<br/>
+**Mainteneur** : NumFOCUS, sponsorisé par CZI, Tidelift, Quansight
+</small>
+
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.module-card}
+[<i class="bi bi-table"></i> SOCLE]{.module-number}
+
+#### pandas
+
+**pandas** est la bibliothèque de manipulation de tables (`DataFrame`,
+`Series`) en Python. Pensez « Excel programmable et 1000× plus
+puissant ». C'est avec elle que vous chargerez, filtrerez, grouperez
+et nettoierez vos données cliniques tout au long du cours.
+
+<small>
+**Utilisé dans** : tous les modules<br/>
+**Docs** : [pandas.pydata.org](https://pandas.pydata.org/docs/)<br/>
+**Tutoriel** : [10 minutes to pandas](https://pandas.pydata.org/docs/user_guide/10min.html) · [Cours intensif Kaggle](https://www.kaggle.com/learn/pandas)<br/>
+**Mainteneur** : Wes McKinney + NumFOCUS
+</small>
+
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.module-card}
+[<i class="bi bi-bar-chart"></i> SOCLE]{.module-number}
+
+#### Matplotlib
+
+**Matplotlib** est la bibliothèque de **visualisation fondamentale** de
+Python. Toute autre lib de plot (seaborn, plotly, pandas.plot) en dépend
+ou s'en inspire. API verbose mais maximale flexibilité — quand vous
+voulez exactement le graphique de votre publication.
+
+<small>
+**Utilisé dans** : tous les modules<br/>
+**Docs** : [matplotlib.org](https://matplotlib.org/stable/users/index.html)<br/>
+**Tutoriel** : [Gallery officielle](https://matplotlib.org/stable/gallery/index.html) · [Cheat sheets](https://matplotlib.org/cheatsheets/)<br/>
+**Mainteneur** : John Hunter (†) + NumFOCUS
+</small>
+
+:::
+:::
+
+:::
+
+## Statistique et visualisation avancée
+
+Trois bibliothèques par-dessus le socle pour la statistique inférentielle
+et la visualisation statistique haut-niveau.
+
+::: {.grid .gap-3}
+
+::: {.g-col-12 .g-col-md-4}
+::: {.module-card}
+[<i class="bi bi-palette"></i> VIZ]{.module-number}
+
+#### seaborn
+
+**seaborn** est une couche **statistique** au-dessus de matplotlib. Quand
+vous voulez « le boxplot par groupe en une ligne », c'est elle. Inspirée
+de ggplot2 (R), avec des thèmes propres et une intégration native pandas.
+
+<small>
+**Utilisé dans** : Modules 3, 4, 5, 6<br/>
+**Docs** : [seaborn.pydata.org](https://seaborn.pydata.org/)<br/>
+**Tutoriel** : [Tutorial officiel](https://seaborn.pydata.org/tutorial.html) · [Gallery](https://seaborn.pydata.org/examples/index.html)<br/>
+**Mainteneur** : Michael Waskom
+</small>
+
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.module-card}
+[<i class="bi bi-graph-up"></i> STATS]{.module-number}
+
+#### SciPy
+
+**SciPy** rassemble la boîte à outils scientifique générale : tests
+statistiques (`scipy.stats`), optimisation, traitement du signal, algèbre
+linéaire de plus haut niveau, etc. Vous utiliserez surtout `scipy.stats`
+pour les t-test, χ², Mann-Whitney et lois de probabilité.
+
+<small>
+**Utilisé dans** : Modules 2, 3, 4, 5, 6<br/>
+**Docs** : [docs.scipy.org](https://docs.scipy.org/doc/scipy/)<br/>
+**Tutoriel** : [Statistics tutorial](https://docs.scipy.org/doc/scipy/tutorial/stats.html)<br/>
+**Mainteneur** : NumFOCUS
+</small>
+
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.module-card}
+[<i class="bi bi-graph-up-arrow"></i> STATS]{.module-number}
+
+#### statsmodels
+
+**statsmodels** est la bibliothèque de **modèles statistiques inférentiels**
+en Python — analogue à R en termes de richesse. Régression OLS, GLM
+(dont logistique), modèles mixtes, série temporelle, tests de Wald. Sortie
+en tableau de résultats à la `summary()` familier aux utilisateurs R.
+
+<small>
+**Utilisé dans** : Modules 4, 5, 6<br/>
+**Docs** : [statsmodels.org](https://www.statsmodels.org/stable/index.html)<br/>
+**Tutoriel** : [User Guide](https://www.statsmodels.org/stable/user-guide.html) · [Notebooks d'exemples](https://www.statsmodels.org/stable/examples/index.html)<br/>
+**Mainteneur** : NumFOCUS<br/>
+**Compatibilité** : exige `>= 0.14.6` avec scipy `>= 1.17`
+</small>
+
+:::
+:::
+
+:::
+
+## Machine learning et analyse de survie
+
+::: {.grid .gap-3}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.module-card}
+[<i class="bi bi-cpu"></i> ML]{.module-number}
+
+#### scikit-learn
+
+**scikit-learn** est *la* bibliothèque de machine learning « classique »
+de Python. API uniforme (`fit`, `predict`, `score`, `transform`), des
+dizaines d'algorithmes (régression, classification, clustering,
+réduction de dimension), pipelines, validation croisée, métriques. Vous
+l'utiliserez pour les forêts aléatoires et l'évaluation ROC/calibration.
+
+<small>
+**Utilisé dans** : Modules 5, 6<br/>
+**Docs** : [scikit-learn.org](https://scikit-learn.org/stable/)<br/>
+**Tutoriel** : [User Guide](https://scikit-learn.org/stable/user_guide.html) · [Glossary](https://scikit-learn.org/stable/glossary.html)<br/>
+**Livre gratuit** : [Introduction to Statistical Learning (édition Python)](https://www.statlearning.com/)<br/>
+**Mainteneur** : INRIA + NumFOCUS
+</small>
+
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.module-card}
+[<i class="bi bi-clock-history"></i> SURVIE]{.module-number}
+
+#### lifelines
+
+**lifelines** est la bibliothèque dédiée à l'**analyse de survie** en
+Python — Kaplan-Meier, Cox PH, modèles paramétriques (Weibull,
+log-logistique, etc.), tests log-rank. Indispensable pour les essais
+cliniques, les cohortes longitudinales et toute analyse « temps avant
+événement ».
+
+<small>
+**Utilisé dans** : Module 5 (intro Cox)<br/>
+**Docs** : [lifelines.readthedocs.io](https://lifelines.readthedocs.io/)<br/>
+**Tutoriel** : [Survival analysis intro](https://lifelines.readthedocs.io/en/latest/Survival%20Analysis%20intro.html)<br/>
+**Mainteneur** : Cameron Davidson-Pilon
+</small>
+
+:::
+:::
+
+:::
+
+## L'environnement de travail
+
+Deux outils qui ne sont pas des bibliothèques mais qui font la différence.
+
+::: {.grid .gap-3}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.module-card}
+[<i class="bi bi-journal-code"></i> ENV]{.module-number}
+
+#### Jupyter / JupyterLab
+
+L'environnement de notebook interactif standard. Mélange texte (Markdown),
+code, sorties (tableaux, figures, animations) dans un même document
+exécutable. C'est *le* format de la science computationnelle moderne.
+
+<small>
+**Docs** : [jupyter.org/documentation](https://jupyter.org/documentation)<br/>
+**Mode d'emploi** : [Notebook Basics](https://jupyter-notebook.readthedocs.io/)<br/>
+**Mainteneur** : Projet Jupyter (Fernando Pérez et al.) + NumFOCUS
+</small>
+
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.module-card}
+[<i class="bi bi-cloud"></i> ENV]{.module-number}
+
+#### Google Colab
+
+Plateforme cloud qui exécute des notebooks Jupyter gratuitement avec
+toutes les bibliothèques scientifiques préinstallées. Aucune installation,
+GPU gratuit pour les tâches modérées. **C'est la façon recommandée de
+suivre ce cours.**
+
+<small>
+**Lancer un module** : badges *Open In Colab* sur la [page d'accueil](index.qmd) ou en haut de chaque notebook<br/>
+**Tutoriel** : [Notebook d'intro Colab](https://colab.research.google.com/notebooks/intro.ipynb)<br/>
+**Mainteneur** : Google
+</small>
+
+:::
+:::
+
+:::
+
+## Pour aller plus loin
+
+### Manuels gratuits en ligne
+
+- **[Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)** par Jake VanderPlas — le manuel de référence, gratuit, couvre NumPy, pandas, matplotlib, scikit-learn.
+- **[Python for Data Analysis, 3e](https://wesmckinney.com/book/)** par Wes McKinney (créateur de pandas) — focalisé pandas, gratuit en ligne.
+- **[An Introduction to Statistical Learning](https://www.statlearning.com/)** par James, Witten, Hastie & Tibshirani — édition Python 2023, gratuite — pour le ML statistique.
+
+### Cheat sheets imprimables
+
+- [pandas](https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf) · [matplotlib](https://matplotlib.org/cheatsheets/) · [NumPy](https://numpy.org/devdocs/user/quickstart.html) · [scikit-learn](https://scikit-learn.org/stable/tutorial/machine_learning_map/) (arbre de décision pour choisir l'algorithme)
+
+### Communauté francophone
+
+- **[PyData France](https://pydata.org/)** — conférences annuelles, talks rejouables.
+- **[CalcMonAge](https://github.com/topics/biostatistique)** — biostats francophone sur GitHub.
+
+### NumFOCUS
+
+La plupart des bibliothèques de cette page sont sponsorisées par
+[NumFOCUS](https://numfocus.org/), une fondation à but non lucratif qui
+garantit la durabilité de l'écosystème scientifique open source.
+Soutenir NumFOCUS = soutenir Python pour la recherche.

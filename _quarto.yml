@@ -10,6 +10,7 @@ project:
   render:
     - "index.qmd"
     - "about.qmd"
+    - "ecosysteme.qmd"
     - "404.qmd"
     - "notebooks_executes/index.ipynb"
     - "notebooks_executes/module_01_python_pandas.ipynb"
@@ -74,6 +75,8 @@ website:
             href: notebooks_executes/module_05_regression.ipynb
           - text: "6 — ML clinique"
             href: notebooks_executes/module_06_ml_clinique.ipynb
+      - href: ecosysteme.qmd
+        text: Boîte à outils
       - href: notes/notes_6h.pdf
         text: Notes (PDF)
       - href: about.qmd
@@ -106,6 +109,8 @@ website:
             href: notebooks_executes/module_06_ml_clinique.ipynb
       - section: "Ressources"
         contents:
+          - text: "Boîte à outils Python"
+            href: ecosysteme.qmd
           - text: "Notes de cours (PDF)"
             href: notes/notes_6h.pdf
           - text: "Sommaire visuel (index)"
