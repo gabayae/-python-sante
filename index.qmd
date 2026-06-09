@@ -12,10 +12,28 @@ description: "Cours condensé 6 h en français — analyse de données avec Pyth
 ## pour Professionnels de la Santé
 
 Six modules d'une heure — du Python de base au machine learning clinique,
-pensé pour les professionnels de santé, épidémiologistes et étudiants en
-santé publique sans pré-requis en programmation.
+pensé pour les professionnels de santé qui veulent analyser leurs données
+eux-mêmes, sans pré-requis en programmation.
 
 :::
+
+## À propos du cours
+
+Ce cours s'adresse aux **professionnels de santé** qui veulent analyser
+leurs données **eux-mêmes**, sans avoir à sous-traiter chaque question à
+un statisticien.
+
+Que vous travailliez sur la **surveillance épidémiologique** (VIH,
+paludisme, tuberculose, choléra), la **santé environnementale** (pollution
+de l'air, qualité de l'eau, exposition au climat), l'**évaluation des
+risques sanitaires**, les **programmes d'élimination** de maladies, la
+**recherche clinique**, ou la **santé publique programmatique** au sens
+large — les outils analytiques sont les mêmes : Python, pandas,
+matplotlib, scipy, scikit-learn, statsmodels.
+
+Aucune expérience de programmation n'est requise pour démarrer le Module 1.
+Des notions de base en statistique (moyenne, intervalle de confiance) aident
+pour les Modules 4 à 6 mais ne sont pas obligatoires.
 
 ## En un coup d'œil
 

@@ -5,11 +5,9 @@ toc: true
 
 ## Objectif
 
-Ce cours est conçu pour les **professionnels de santé** (médecins,
-soignants, sage-femmes, pharmaciens), les **épidémiologistes** et les
-**étudiants en santé publique** qui veulent analyser leurs données
-**eux-mêmes**, sans avoir à sous-traiter chaque question à un
-statisticien.
+Ce cours est conçu pour les **professionnels de santé** qui veulent
+analyser leurs données **eux-mêmes**, sans avoir à sous-traiter chaque
+question à un statisticien.
 
 La version 6 h se concentre sur l'épine dorsale analytique :
 
@@ -21,6 +19,27 @@ La version 6 h se concentre sur l'épine dorsale analytique :
 6. Machine learning clinique
 
 ## Pour qui ?
+
+L'audience est volontairement large. Le cours s'adresse autant aux
+cliniciens qu'aux personnes qui travaillent sur :
+
+- **Surveillance épidémiologique** — VIH, paludisme, tuberculose,
+  choléra, dengue, COVID-19, programmes nationaux de surveillance.
+- **Santé environnementale** — pollution de l'air, qualité de l'eau,
+  exposition au climat, sécurité alimentaire.
+- **Évaluation des risques sanitaires** — analyse de risque, études
+  cas-témoin, cohortes professionnelles.
+- **Programmes d'élimination** — paludisme, lèpre, dracunculose,
+  filariose lymphatique, schistosomiase.
+- **Recherche clinique et essais** — analyses descriptives, tests,
+  régression, suivi de cohortes.
+- **Santé publique programmatique** — couverture vaccinale, santé
+  maternelle et infantile, planification familiale, nutrition.
+- **Économie de la santé et systèmes de santé** — analyse de coûts,
+  équité d'accès, qualité des soins.
+
+Les outils analytiques sont les mêmes dans tous ces domaines : Python,
+pandas, matplotlib, scipy, scikit-learn, statsmodels.
 
 Aucune expérience de programmation n'est requise pour démarrer le
 Module 1. Des notions de base en statistique (moyenne, intervalle de
