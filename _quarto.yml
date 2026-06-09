@@ -24,8 +24,8 @@ execute:
   enabled: false
 
 website:
-  title: "Stéthoscope Numérique"
-  description: "Cours condensé 6 h en français — analyse de données avec Python pour professionnels de la santé. L'analyse de données comme nouveau stéthoscope du clinicien."
+  title: "Python pour la Santé"
+  description: "Cours condensé 6 h en français — analyse de données avec Python pour professionnels de la santé."
   site-url: "https://gabayae.github.io/-python-sante/"
   repo-url: "https://github.com/gabayae/-python-sante"
   repo-actions: [edit, issue]

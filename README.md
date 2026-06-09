@@ -30,9 +30,20 @@
   en santé publique, sans pré-requis en programmation.
 </p>
 
+<br/>
+
 <p align="center">
-  <b>Site web complet</b> :
-  <a href="https://gabayae.github.io/-python-sante/">https://gabayae.github.io/-python-sante/</a>
+  <a href="https://gabayae.github.io/-python-sante/">
+    <img src="https://img.shields.io/badge/-Ouvrir%20le%20site%20web%20du%20cours-0072B2?style=for-the-badge&logo=quarto&logoColor=white" alt="Ouvrir le site web du cours" height="48"/>
+  </a>
+</p>
+
+<p align="center">
+  <sub>
+    Notebooks navigables, recherche full-text, mode sombre, badges Colab par module
+    <br/>
+    <a href="https://gabayae.github.io/-python-sante/">https://gabayae.github.io/-python-sante/</a>
+  </sub>
 </p>
 
 ---
