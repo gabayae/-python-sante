@@ -61,6 +61,8 @@ website:
     left:
       - href: index.qmd
         text: Accueil
+      - href: about.qmd
+        text: À propos
       - text: Modules
         menu:
           - text: "1 — Python et Pandas"
@@ -79,8 +81,6 @@ website:
         text: Boîte à outils
       - href: notes/notes_6h.pdf
         text: Notes (PDF)
-      - href: about.qmd
-        text: À propos
     right:
       - icon: github
         href: https://github.com/gabayae/-python-sante
@@ -93,6 +93,8 @@ website:
     contents:
       - text: "Accueil"
         href: index.qmd
+      - text: "À propos"
+        href: about.qmd
       - section: "Modules"
         contents:
           - text: "1 — Python et Pandas"
@@ -115,8 +117,6 @@ website:
             href: notes/notes_6h.pdf
           - text: "Sommaire visuel (index)"
             href: notebooks_executes/index.ipynb
-      - text: "À propos"
-        href: about.qmd
 
   page-footer:
     border: true

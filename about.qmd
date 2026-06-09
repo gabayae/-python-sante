@@ -5,9 +5,12 @@ toc: true
 
 ## Objectif
 
-Ce cours est conçu pour les **professionnels de santé** qui veulent
-analyser leurs données **eux-mêmes**, sans avoir à sous-traiter chaque
-question à un statisticien.
+Cette formation s'inscrit dans une logique de **renforcement de
+capacités** : elle vise à doter les professionnels de santé d'une
+autonomie analytique sur leurs données. À la fin des six heures, un
+participant doit pouvoir charger, nettoyer, visualiser, tester et
+modéliser un jeu de données de santé sans dépendre d'un statisticien
+externe pour chaque étape.
 
 La version 6 h se concentre sur l'épine dorsale analytique :
 
@@ -17,6 +20,99 @@ La version 6 h se concentre sur l'épine dorsale analytique :
 4. Tests d'hypothèses
 5. Régression (linéaire + logistique)
 6. Machine learning clinique
+
+## Objectifs pédagogiques
+
+Les objectifs sont formulés selon la **taxonomie de Bloom révisée**
+(Anderson & Krathwohl 2001). À la fin de la formation, le participant
+sera capable de :
+
+| Niveau Bloom | Objectif | Module(s) |
+|---|---|:---:|
+| **Comprendre** | Expliquer la différence entre statistique descriptive et inférentielle, et le rôle de Python dans le pipeline analytique | 1, 2 |
+| **Comprendre** | Identifier les trois mécanismes de données manquantes (MCAR/MAR/MNAR) et leurs implications | 2 |
+| **Appliquer** | Charger un jeu de données, le nettoyer, calculer prévalence/incidence avec IC, produire un graphique commenté | 1, 2, 3 |
+| **Appliquer** | Choisir et exécuter le bon test d'hypothèse selon la question de recherche et le type de variables | 4 |
+| **Analyser** | Décomposer un résultat de régression (coefficients, IC, p-values) et identifier les facteurs de confusion | 5 |
+| **Analyser** | Diagnostiquer le sur-apprentissage et la mauvaise calibration d'un modèle ML | 6 |
+| **Évaluer** | Critiquer la qualité d'une analyse (effet vs significativité, biais d'audit d'équité, AUC vs calibration) | 4, 5, 6 |
+| **Créer** | Composer un rapport reproductible (notebook + commentaires) sur un jeu de données issu de son propre programme | tous |
+
+## Pour qui ?
+
+L'audience est volontairement large. Le cours s'adresse autant aux
+cliniciens qu'aux personnes qui travaillent sur :
+
+- **Surveillance épidémiologique** — VIH, paludisme, tuberculose,
+  choléra, dengue, COVID-19, programmes nationaux de surveillance.
+- **Santé environnementale** — pollution de l'air, qualité de l'eau,
+  exposition au climat, sécurité alimentaire.
+- **Évaluation des risques sanitaires** — analyse de risque, études
+  cas-témoin, cohortes professionnelles.
+- **Programmes d'élimination** — paludisme, lèpre, dracunculose,
+  filariose lymphatique, schistosomiase.
+- **Recherche clinique et essais** — analyses descriptives, tests,
+  régression, suivi de cohortes.
+- **Santé publique programmatique** — couverture vaccinale, santé
+  maternelle et infantile, planification familiale, nutrition.
+- **Économie de la santé et systèmes de santé** — analyse de coûts,
+  équité d'accès, qualité des soins.
+
+Les outils analytiques sont les mêmes dans tous ces domaines : Python,
+pandas, matplotlib, scipy, scikit-learn, statsmodels.
+
+## Prérequis
+
+::: {.grid .gap-3}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.module-card}
+[OBLIGATOIRE]{.module-number}
+
+#### Aucun prérequis en programmation
+
+Si vous savez ce qu'est un tableur, vous avez assez de bagage mental pour
+commencer le Module 1. Tout le reste est introduit progressivement avec
+des encarts **Syntaxe** et des exemples cliniques.
+
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.module-card}
+[UTILE]{.module-number}
+
+#### Notions de base en statistique
+
+Comprendre intuitivement **moyenne**, **médiane**, **écart-type**,
+**intervalle de confiance**. Pas obligatoire pour les Modules 1–3 mais
+fortement utile pour les Modules 4–6.
+
+:::
+:::
+
+:::
+
+### Équipement matériel
+
+- Un ordinateur portable connecté à Internet (Colab fait tout le travail).
+- Pour suivre en local : Python 3.10+ + Jupyter, ou Anaconda
+  (voir [README local](https://github.com/gabayae/-python-sante#option-b--jupyter-en-local)).
+
+## Modalités d'évaluation et certification
+
+> **En développement.** Les éléments suivants sont prévus pour la prochaine
+> itération du matériel et seront intégrés à cette page :
+
+- **Pré-test et post-test** (~15 questions QCM) pour mesurer le gain de
+  capacité entre l'arrivée et la fin du cours.
+- **Rubrique d'évaluation des exercices** par module, pour les
+  formateurs qui notent les rendus.
+- **Attestation de participation** PDF générée automatiquement avec nom
+  du participant, dates et modules complétés.
+
+En attendant, un formateur peut s'appuyer sur les exercices avec
+corrigés de chaque notebook pour évaluer la maîtrise.
 
 ## Pour qui ?
 
@@ -73,6 +169,17 @@ auteurs originaux.
 **Yaé U. Gaba** ·
 [LinkedIn](https://www.linkedin.com/in/gabayae/) ·
 [GitHub](https://github.com/gabayae)
+
+## Organiser une session
+
+Vous souhaitez **organiser une session** de cette formation pour votre
+équipe, votre institution, votre programme de santé ?
+
+Le matériel étant distribué sous CC BY-SA 4.0, vous pouvez l'utiliser
+librement. Pour bénéficier d'un appui à la facilitation (calage de la
+durée, adaptation au contexte, animation, évaluation), contactez
+l'instructeur via LinkedIn ou en
+[ouvrant une issue GitHub](https://github.com/gabayae/-python-sante/issues/new).
 
 ## Licence
 
