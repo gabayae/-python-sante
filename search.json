@@ -684,7 +684,7 @@
     "href": "about.html",
     "title": "À propos du cours",
     "section": "",
-    "text": "Ce cours est conçu pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nLa version 6 h se concentre sur l’épine dorsale analytique :\n\nPython et Pandas pour la santé\nNettoyage et statistique descriptive\nVisualisation pour données de santé\nTests d’hypothèses\nRégression (linéaire + logistique)\nMachine learning clinique",
+    "text": "Cette formation s’inscrit dans une logique de renforcement de capacités : elle vise à doter les professionnels de santé d’une autonomie analytique sur leurs données. À la fin des six heures, un participant doit pouvoir charger, nettoyer, visualiser, tester et modéliser un jeu de données de santé sans dépendre d’un statisticien externe pour chaque étape.\nLa version 6 h se concentre sur l’épine dorsale analytique :\n\nPython et Pandas pour la santé\nNettoyage et statistique descriptive\nVisualisation pour données de santé\nTests d’hypothèses\nRégression (linéaire + logistique)\nMachine learning clinique",
     "crumbs": [
       "Accueil",
       "À propos"
@@ -695,7 +695,18 @@
     "href": "about.html#objectif",
     "title": "À propos du cours",
     "section": "",
-    "text": "Ce cours est conçu pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nLa version 6 h se concentre sur l’épine dorsale analytique :\n\nPython et Pandas pour la santé\nNettoyage et statistique descriptive\nVisualisation pour données de santé\nTests d’hypothèses\nRégression (linéaire + logistique)\nMachine learning clinique",
+    "text": "Cette formation s’inscrit dans une logique de renforcement de capacités : elle vise à doter les professionnels de santé d’une autonomie analytique sur leurs données. À la fin des six heures, un participant doit pouvoir charger, nettoyer, visualiser, tester et modéliser un jeu de données de santé sans dépendre d’un statisticien externe pour chaque étape.\nLa version 6 h se concentre sur l’épine dorsale analytique :\n\nPython et Pandas pour la santé\nNettoyage et statistique descriptive\nVisualisation pour données de santé\nTests d’hypothèses\nRégression (linéaire + logistique)\nMachine learning clinique",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#objectifs-pédagogiques",
+    "href": "about.html#objectifs-pédagogiques",
+    "title": "À propos du cours",
+    "section": "Objectifs pédagogiques",
+    "text": "Objectifs pédagogiques\nLes objectifs sont formulés selon la taxonomie de Bloom révisée (Anderson & Krathwohl 2001). À la fin de la formation, le participant sera capable de :\n\n\n\n\n\n\n\n\nNiveau Bloom\nObjectif\nModule(s)\n\n\n\n\nComprendre\nExpliquer la différence entre statistique descriptive et inférentielle, et le rôle de Python dans le pipeline analytique\n1, 2\n\n\nComprendre\nIdentifier les trois mécanismes de données manquantes (MCAR/MAR/MNAR) et leurs implications\n2\n\n\nAppliquer\nCharger un jeu de données, le nettoyer, calculer prévalence/incidence avec IC, produire un graphique commenté\n1, 2, 3\n\n\nAppliquer\nChoisir et exécuter le bon test d’hypothèse selon la question de recherche et le type de variables\n4\n\n\nAnalyser\nDécomposer un résultat de régression (coefficients, IC, p-values) et identifier les facteurs de confusion\n5\n\n\nAnalyser\nDiagnostiquer le sur-apprentissage et la mauvaise calibration d’un modèle ML\n6\n\n\nÉvaluer\nCritiquer la qualité d’une analyse (effet vs significativité, biais d’audit d’équité, AUC vs calibration)\n4, 5, 6\n\n\nCréer\nComposer un rapport reproductible (notebook + commentaires) sur un jeu de données issu de son propre programme\ntous",
     "crumbs": [
       "Accueil",
       "À propos"
@@ -704,6 +715,39 @@
   {
     "objectID": "about.html#pour-qui",
     "href": "about.html#pour-qui",
+    "title": "À propos du cours",
+    "section": "Pour qui ?",
+    "text": "Pour qui ?\nL’audience est volontairement large. Le cours s’adresse autant aux cliniciens qu’aux personnes qui travaillent sur :\n\nSurveillance épidémiologique — VIH, paludisme, tuberculose, choléra, dengue, COVID-19, programmes nationaux de surveillance.\nSanté environnementale — pollution de l’air, qualité de l’eau, exposition au climat, sécurité alimentaire.\nÉvaluation des risques sanitaires — analyse de risque, études cas-témoin, cohortes professionnelles.\nProgrammes d’élimination — paludisme, lèpre, dracunculose, filariose lymphatique, schistosomiase.\nRecherche clinique et essais — analyses descriptives, tests, régression, suivi de cohortes.\nSanté publique programmatique — couverture vaccinale, santé maternelle et infantile, planification familiale, nutrition.\nÉconomie de la santé et systèmes de santé — analyse de coûts, équité d’accès, qualité des soins.\n\nLes outils analytiques sont les mêmes dans tous ces domaines : Python, pandas, matplotlib, scipy, scikit-learn, statsmodels.",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#prérequis",
+    "href": "about.html#prérequis",
+    "title": "À propos du cours",
+    "section": "Prérequis",
+    "text": "Prérequis\n\n\n\nOBLIGATOIRE\n\nAucun prérequis en programmation\nSi vous savez ce qu’est un tableur, vous avez assez de bagage mental pour commencer le Module 1. Tout le reste est introduit progressivement avec des encarts Syntaxe et des exemples cliniques.\n\n\n\n\n\nUTILE\n\nNotions de base en statistique\nComprendre intuitivement moyenne, médiane, écart-type, intervalle de confiance. Pas obligatoire pour les Modules 1–3 mais fortement utile pour les Modules 4–6.\n\n\n\n\n\nÉquipement matériel\n\nUn ordinateur portable connecté à Internet (Colab fait tout le travail).\nPour suivre en local : Python 3.10+ + Jupyter, ou Anaconda (voir README local).",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#modalités-dévaluation-et-certification",
+    "href": "about.html#modalités-dévaluation-et-certification",
+    "title": "À propos du cours",
+    "section": "Modalités d’évaluation et certification",
+    "text": "Modalités d’évaluation et certification\n\nEn développement. Les éléments suivants sont prévus pour la prochaine itération du matériel et seront intégrés à cette page :\n\n\nPré-test et post-test (~15 questions QCM) pour mesurer le gain de capacité entre l’arrivée et la fin du cours.\nRubrique d’évaluation des exercices par module, pour les formateurs qui notent les rendus.\nAttestation de participation PDF générée automatiquement avec nom du participant, dates et modules complétés.\n\nEn attendant, un formateur peut s’appuyer sur les exercices avec corrigés de chaque notebook pour évaluer la maîtrise.",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#pour-qui-1",
+    "href": "about.html#pour-qui-1",
     "title": "À propos du cours",
     "section": "Pour qui ?",
     "text": "Pour qui ?\nL’audience est volontairement large. Le cours s’adresse autant aux cliniciens qu’aux personnes qui travaillent sur :\n\nSurveillance épidémiologique — VIH, paludisme, tuberculose, choléra, dengue, COVID-19, programmes nationaux de surveillance.\nSanté environnementale — pollution de l’air, qualité de l’eau, exposition au climat, sécurité alimentaire.\nÉvaluation des risques sanitaires — analyse de risque, études cas-témoin, cohortes professionnelles.\nProgrammes d’élimination — paludisme, lèpre, dracunculose, filariose lymphatique, schistosomiase.\nRecherche clinique et essais — analyses descriptives, tests, régression, suivi de cohortes.\nSanté publique programmatique — couverture vaccinale, santé maternelle et infantile, planification familiale, nutrition.\nÉconomie de la santé et systèmes de santé — analyse de coûts, équité d’accès, qualité des soins.\n\nLes outils analytiques sont les mêmes dans tous ces domaines : Python, pandas, matplotlib, scipy, scikit-learn, statsmodels.\nAucune expérience de programmation n’est requise pour démarrer le Module 1. Des notions de base en statistique (moyenne, intervalle de confiance) aident pour les Modules 4 à 6 mais ne sont pas obligatoires.",
@@ -740,6 +784,17 @@
     "title": "À propos du cours",
     "section": "Instructeur",
     "text": "Instructeur\nYaé U. Gaba · LinkedIn · GitHub",
+    "crumbs": [
+      "Accueil",
+      "À propos"
+    ]
+  },
+  {
+    "objectID": "about.html#organiser-une-session",
+    "href": "about.html#organiser-une-session",
+    "title": "À propos du cours",
+    "section": "Organiser une session",
+    "text": "Organiser une session\nVous souhaitez organiser une session de cette formation pour votre équipe, votre institution, votre programme de santé ?\nLe matériel étant distribué sous CC BY-SA 4.0, vous pouvez l’utiliser librement. Pour bénéficier d’un appui à la facilitation (calage de la durée, adaptation au contexte, animation, évaluation), contactez l’instructeur via LinkedIn ou en ouvrant une issue GitHub.",
     "crumbs": [
       "Accueil",
       "À propos"
