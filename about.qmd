@@ -68,9 +68,10 @@ confiance) aident pour les Modules 4 à 6 mais ne sont pas obligatoires.
 Tous sont des jeux **publics**, distribués sous licence ouverte par leurs
 auteurs originaux.
 
-## Auteur
+## Instructeur
 
-**Yaé Ulrich Gaba** ·
+**Yaé U. Gaba** ·
+[LinkedIn](https://www.linkedin.com/in/gabayae/) ·
 [GitHub](https://github.com/gabayae)
 
 ## Licence
