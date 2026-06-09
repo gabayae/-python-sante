@@ -1,22 +1,39 @@
 /*-- scss:defaults --*/
 
-// --- Palette dark mode (variantes adoucies pour le contraste) ---
+// =====================================================================
+// PALETTE dark — bleu nuit profond + ambre adouci
+// Garde la coherence Wong, applique la chaleur en dark
+// =====================================================================
+
+// --- Bleus Wong (adoucis pour dark) ---
 $primary:         #56B4E9;
 $primary-light:   #7DC7F0;
 $primary-dark:    #0072B2;
+$primary-darker:  #004F7A;
+
 $secondary:       #34D399;
 
-$body-color:      #e4e7eb;
-$body-bg:         #14171c;
-$soft-bg:         #1d2128;
-$border-soft:     #2c333c;
+// --- Ambre dark mode (encore plus chaud) ---
+$accent-warm:        #E4B584;
+$accent-warm-light:  #F0C99A;
+$accent-warm-dark:   #C68642;
+$accent-warm-bg:     rgba(228, 181, 132, 0.08);
+
+// --- Canvas (bleu nuit chaud, pas glacial) ---
+$body-color:      #e8e4dc;
+$body-bg:         #161922;
+$soft-bg:         #1d2230;
+$soft-bg-cool:    #1a1f2a;
+$border-soft:     #2d3445;
+$border-cool:     #2a3140;
 
 $link-color:           $primary;
 $link-hover-color:     lighten($primary, 8%);
 
-$code-bg:         #232831;
-$code-color:      #ff7eb6;
-$pre-bg:          #1a1e25;
+// --- Code ---
+$code-bg:         #1f242e;
+$code-color:      #B794F4;
+$pre-bg:          #1a1f29;
 
 $border-radius:       12px;
 $border-radius-sm:    8px;
@@ -24,19 +41,23 @@ $border-radius-lg:    18px;
 $border-radius-xl:    24px;
 $border-radius-pill:  999px;
 
-$box-shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.3);
-$box-shadow:      0 4px 12px rgba(0, 0, 0, 0.35);
-$box-shadow-lg:   0 12px 32px rgba(0, 0, 0, 0.45);
+$box-shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.35);
+$box-shadow:      0 4px 12px rgba(0, 0, 0, 0.4);
+$box-shadow-lg:   0 12px 32px rgba(0, 0, 0, 0.5);
 
 
 /*-- scss:rules --*/
+
+body {
+  background: $body-bg;
+}
 
 .hero-banner {
   background: linear-gradient(
     135deg,
     #{$primary-dark} 0%,
-    #1a2530 60%,
-    #14171c 100%
+    #1a2a3e 60%,
+    #161922 100%
   );
   background-size: 200% 200%;
   animation: heroShift 18s ease-in-out infinite;
@@ -44,6 +65,14 @@ $box-shadow-lg:   0 12px 32px rgba(0, 0, 0, 0.45);
   border-radius: $border-radius-xl;
   box-shadow: $box-shadow-lg;
   border: 1px solid rgba(86, 180, 233, 0.15);
+
+  &::after {
+    background: radial-gradient(
+      circle,
+      rgba(228, 181, 132, 0.15) 0%,
+      transparent 70%
+    );
+  }
 
   h1, h2, h3 { color: #ffffff; }
 }
@@ -54,13 +83,21 @@ $box-shadow-lg:   0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
 .module-card {
-  background: #1d2128;
-  border-color: #2c333c;
+  background: $soft-bg;
+  border-color: $border-soft;
   box-shadow: $box-shadow-sm;
 
   &:hover {
     box-shadow: $box-shadow-lg;
-    border-color: rgba(86, 180, 233, 0.3);
+    border-color: rgba(228, 181, 132, 0.3);
+
+    &::before {
+      width: 4px;
+    }
+  }
+
+  &::before {
+    background: linear-gradient(180deg, $accent-warm 0%, $accent-warm-light 100%);
   }
 
   .module-number {
@@ -74,61 +111,122 @@ $box-shadow-lg:   0 12px 32px rgba(0, 0, 0, 0.45);
     &:hover { color: lighten($primary, 12%); }
   }
 
-  p { color: #a8b0b9; }
-  small { color: #8b939c; }
+  p { color: #b8b3a8; }
+  small { color: #8b8578; }
+}
+
+.btn-warm {
+  background: linear-gradient(135deg, #{$accent-warm-dark} 0%, #{$accent-warm} 100%);
+  color: #161922;
+  font-weight: 600;
+
+  &:hover, &:focus {
+    background: linear-gradient(135deg, #{$accent-warm} 0%, #{$accent-warm-light} 100%);
+    color: #161922;
+  }
 }
 
 table {
   background: $soft-bg;
-  border-color: #2c333c;
+  border-color: $border-soft;
 
   thead th {
-    background: linear-gradient(135deg, rgba(86, 180, 233, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(86, 180, 233, 0.1) 0%,
+      rgba(228, 181, 132, 0.08) 100%
+    );
     color: $primary;
     border-bottom: 2px solid $primary !important;
   }
 
-  tbody tr:hover { background-color: rgba(86, 180, 233, 0.05); }
+  tbody tr:hover { background-color: $accent-warm-bg; }
 }
 
 pre.sourceCode, div.sourceCode {
-  border: 1px solid #2c333c;
+  border: 1px solid $border-cool;
   background: $pre-bg;
 }
 
+code:not(pre code) {
+  background: $code-bg;
+  color: $code-color;
+  border: 1px solid rgba(183, 148, 244, 0.15);
+}
+
 .navbar {
-  background-color: #0d1115 !important;
-  border-bottom: 1px solid #2c333c;
+  background-color: #0d111a !important;
+  border-bottom: 1px solid $border-soft;
+}
+
+.sidebar {
+  background: $body-bg;
+  border-right: 1px solid $border-soft;
+
+  .sidebar-item.active, .sidebar-item:hover {
+    background-color: $accent-warm-bg;
+  }
+}
+
+.callout {
+  background: $soft-bg;
+}
+
+.callout-note .callout-header {
+  background: rgba(86, 180, 233, 0.12) !important;
+}
+
+.callout-important {
+  border-left-color: $accent-warm !important;
+
+  .callout-header {
+    background: $accent-warm-bg !important;
+  }
 }
 
 h2 {
-  border-bottom-color: rgba(86, 180, 233, 0.18);
+  border-bottom-color: rgba(228, 181, 132, 0.25);
+}
+
+h3 {
+  color: $primary;
 }
 
 kbd {
-  background: linear-gradient(180deg, #2c333c 0%, #1d2128 100%);
-  border: 1px solid #3d4651;
-  color: #e4e7eb;
+  background: linear-gradient(180deg, #2d3445 0%, #1f2530 100%);
+  border: 1px solid #3d4456;
+  color: $body-color;
+}
+
+.page-footer {
+  background: $soft-bg;
+  color: #8b8578;
 }
 
 .panel-tabset {
   .nav-link {
-    color: #a8b0b9;
+    color: #b8b3a8;
 
     &:hover {
       background-color: $soft-bg;
-      border-color: #2c333c;
+      border-color: $border-soft;
     }
 
     &.active {
       background: $body-bg;
-      border-color: #2c333c;
+      border-color: $border-soft;
       border-bottom-color: $body-bg;
       color: $primary;
     }
   }
 
   .tab-content {
-    border-color: #2c333c;
+    border-color: $border-soft;
+    background: $soft-bg;
   }
+}
+
+::selection {
+  background: rgba(228, 181, 132, 0.35);
+  color: $body-color;
 }
