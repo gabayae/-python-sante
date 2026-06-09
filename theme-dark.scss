@@ -1,39 +1,134 @@
 /*-- scss:defaults --*/
 
-$primary:        #56B4E9;  // bleu Wong plus clair pour dark mode
-$primary-dark:   #0072B2;
-$secondary:      #009E73;
+// --- Palette dark mode (variantes adoucies pour le contraste) ---
+$primary:         #56B4E9;
+$primary-light:   #7DC7F0;
+$primary-dark:    #0072B2;
+$secondary:       #34D399;
 
-$body-color:      #e6e7e8;
-$body-bg:         #1a1d21;
-$link-color:      $primary;
-$link-hover-color: lighten($primary, 8%);
+$body-color:      #e4e7eb;
+$body-bg:         #14171c;
+$soft-bg:         #1d2128;
+$border-soft:     #2c333c;
 
-$code-bg:         #2a2e33;
+$link-color:           $primary;
+$link-hover-color:     lighten($primary, 8%);
+
+$code-bg:         #232831;
 $code-color:      #ff7eb6;
+$pre-bg:          #1a1e25;
+
+$border-radius:       12px;
+$border-radius-sm:    8px;
+$border-radius-lg:    18px;
+$border-radius-xl:    24px;
+$border-radius-pill:  999px;
+
+$box-shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.3);
+$box-shadow:      0 4px 12px rgba(0, 0, 0, 0.35);
+$box-shadow-lg:   0 12px 32px rgba(0, 0, 0, 0.45);
+
 
 /*-- scss:rules --*/
 
 .hero-banner {
-  background: linear-gradient(135deg, #{$primary-dark} 0%, #1a1d21 100%);
+  background: linear-gradient(
+    135deg,
+    #{$primary-dark} 0%,
+    #1a2530 60%,
+    #14171c 100%
+  );
+  background-size: 200% 200%;
+  animation: heroShift 18s ease-in-out infinite;
   color: #ffffff;
+  border-radius: $border-radius-xl;
+  box-shadow: $box-shadow-lg;
+  border: 1px solid rgba(86, 180, 233, 0.15);
 
   h1, h2, h3 { color: #ffffff; }
 }
 
-.module-card {
-  background: #22262b;
-  border-color: #353a40;
-
-  &:hover {
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
-  }
-
-  h4 a { color: $primary; }
-  h4 a:hover { color: lighten($primary, 10%); }
+@keyframes heroShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
 }
 
-table thead th {
-  border-bottom: 2px solid $primary !important;
-  background: rgba(86, 180, 233, 0.08);
+.module-card {
+  background: #1d2128;
+  border-color: #2c333c;
+  box-shadow: $box-shadow-sm;
+
+  &:hover {
+    box-shadow: $box-shadow-lg;
+    border-color: rgba(86, 180, 233, 0.3);
+  }
+
+  .module-number {
+    background: linear-gradient(135deg, #{$primary-dark} 0%, #{$primary} 100%);
+    box-shadow: 0 2px 6px rgba(86, 180, 233, 0.25);
+  }
+
+  h4 a {
+    color: $primary;
+
+    &:hover { color: lighten($primary, 12%); }
+  }
+
+  p { color: #a8b0b9; }
+  small { color: #8b939c; }
+}
+
+table {
+  background: $soft-bg;
+  border-color: #2c333c;
+
+  thead th {
+    background: linear-gradient(135deg, rgba(86, 180, 233, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%);
+    color: $primary;
+    border-bottom: 2px solid $primary !important;
+  }
+
+  tbody tr:hover { background-color: rgba(86, 180, 233, 0.05); }
+}
+
+pre.sourceCode, div.sourceCode {
+  border: 1px solid #2c333c;
+  background: $pre-bg;
+}
+
+.navbar {
+  background-color: #0d1115 !important;
+  border-bottom: 1px solid #2c333c;
+}
+
+h2 {
+  border-bottom-color: rgba(86, 180, 233, 0.18);
+}
+
+kbd {
+  background: linear-gradient(180deg, #2c333c 0%, #1d2128 100%);
+  border: 1px solid #3d4651;
+  color: #e4e7eb;
+}
+
+.panel-tabset {
+  .nav-link {
+    color: #a8b0b9;
+
+    &:hover {
+      background-color: $soft-bg;
+      border-color: #2c333c;
+    }
+
+    &.active {
+      background: $body-bg;
+      border-color: #2c333c;
+      border-bottom-color: $body-bg;
+      color: $primary;
+    }
+  }
+
+  .tab-content {
+    border-color: #2c333c;
+  }
 }

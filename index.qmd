@@ -48,9 +48,9 @@ notebooks bilingues code + commentaires en français.
 
 ::: {.g-col-12 .g-col-md-6}
 ::: {.module-card}
-[MODULE 1]{.module-number}
+[<i class="bi bi-1-circle-fill"></i> MODULE 1]{.module-number}
 
-#### [Python et Pandas](notebooks_executes/module_01_python_pandas.ipynb)
+#### [<i class="bi bi-code-slash"></i> Python et Pandas](notebooks_executes/module_01_python_pandas.ipynb)
 
 Variables, listes, dictionnaires, fonctions, boucles. Charger un CSV
 public, l'inspecter. Filtrer, trier, grouper avec pandas.
@@ -63,9 +63,9 @@ public, l'inspecter. Filtrer, trier, grouper avec pandas.
 
 ::: {.g-col-12 .g-col-md-6}
 ::: {.module-card}
-[MODULE 2]{.module-number}
+[<i class="bi bi-2-circle-fill"></i> MODULE 2]{.module-number}
 
-#### [Nettoyage et descriptif](notebooks_executes/module_02_nettoyage_descriptif.ipynb)
+#### [<i class="bi bi-funnel"></i> Nettoyage et descriptif](notebooks_executes/module_02_nettoyage_descriptif.ipynb)
 
 Valeurs manquantes (MCAR/MAR/MNAR), pipeline de nettoyage réutilisable,
 mesures épidémiologiques : prévalence, incidence, RR, OR avec IC.
@@ -78,9 +78,9 @@ mesures épidémiologiques : prévalence, incidence, RR, OR avec IC.
 
 ::: {.g-col-12 .g-col-md-6}
 ::: {.module-card}
-[MODULE 3]{.module-number}
+[<i class="bi bi-3-circle-fill"></i> MODULE 3]{.module-number}
 
-#### [Visualisation](notebooks_executes/module_03_visualisation.ipynb)
+#### [<i class="bi bi-bar-chart"></i> Visualisation](notebooks_executes/module_03_visualisation.ipynb)
 
 Histogramme, boîte à moustaches, barres, ligne, scatter, heatmap.
 Palette accessible aux daltoniens. Tableau de bord 4 panneaux.
@@ -93,9 +93,9 @@ Palette accessible aux daltoniens. Tableau de bord 4 panneaux.
 
 ::: {.g-col-12 .g-col-md-6}
 ::: {.module-card}
-[MODULE 4]{.module-number}
+[<i class="bi bi-4-circle-fill"></i> MODULE 4]{.module-number}
 
-#### [Tests d'hypothèses](notebooks_executes/module_04_tests_hypotheses.ipynb)
+#### [<i class="bi bi-clipboard2-pulse"></i> Tests d'hypothèses](notebooks_executes/module_04_tests_hypotheses.ipynb)
 
 t-test (un / deux échantillons / apparié), χ², Mann-Whitney U.
 Taille d'effet, IC, correction pour tests multiples (Bonferroni, FDR).
@@ -108,9 +108,9 @@ Taille d'effet, IC, correction pour tests multiples (Bonferroni, FDR).
 
 ::: {.g-col-12 .g-col-md-6}
 ::: {.module-card}
-[MODULE 5]{.module-number}
+[<i class="bi bi-5-circle-fill"></i> MODULE 5]{.module-number}
 
-#### [Régression](notebooks_executes/module_05_regression.ipynb)
+#### [<i class="bi bi-graph-up-arrow"></i> Régression](notebooks_executes/module_05_regression.ipynb)
 
 Régression linéaire simple et multiple. Confounding, ajustement.
 Régression logistique et odds ratios. Sensibilité, spécificité, VPP, VPN.
@@ -123,9 +123,9 @@ Régression logistique et odds ratios. Sensibilité, spécificité, VPP, VPN.
 
 ::: {.g-col-12 .g-col-md-6}
 ::: {.module-card}
-[MODULE 6]{.module-number}
+[<i class="bi bi-6-circle-fill"></i> MODULE 6]{.module-number}
 
-#### [Machine learning clinique](notebooks_executes/module_06_ml_clinique.ipynb)
+#### [<i class="bi bi-cpu"></i> Machine learning clinique](notebooks_executes/module_06_ml_clinique.ipynb)
 
 Train/test stratifié, CV 5-folds. Arbres et forêts aléatoires.
 ROC + AUC, calibration, audit d'équité par sexe.
