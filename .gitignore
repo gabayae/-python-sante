@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter
+.ipynb_checkpoints/
+
+# LaTeX build artifacts
+notes/*.aux
+notes/*.log
+notes/*.out
+notes/*.toc
+notes/*.fls
+notes/*.fdb_latexmk
+notes/*.synctex.gz
+notes/_minted-*/
+notes/*.bbl
+notes/*.blg
+notes/_minted/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor junk
+.vscode/
+.idea/
+*.swp
+*~
+
+# Build scratch
+.build/
+
+# Sources internes de generation des notebooks
+# (utilisees uniquement pour regenerer les .ipynb depuis Python)
+_build/

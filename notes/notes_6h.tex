@@ -1,0 +1,1605 @@
+% ============================================================
+%  ANALYSE DE DONNEES DE SANTE AVEC PYTHON
+%  Notes de cours -- VERSION CONDENSEE 6 HEURES
+%  Compilation : xelatex -shell-escape notes_6h.tex (2 passes)
+% ============================================================
+
+\documentclass[11pt,a4paper]{article}
+
+% --- Encodage et langue ---
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{french}
+\setotherlanguage{english}
+
+% --- Mise en page ---
+\usepackage[margin=2.4cm,top=2.8cm,bottom=2.8cm]{geometry}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.7em}
+
+% --- Headers and footers ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\itshape Analyse de donn\'ees avec Python pour professionnels de la sant\'e}
+\fancyhead[R]{\small\itshape Version condens\'ee 6 heures}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+\renewcommand{\headrulewidth}{0.3pt}
+
+% --- Math ---
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+% --- Quotes francaises + citations bibliographiques ---
+\usepackage{csquotes}
+\usepackage[round,authoryear]{natbib}
+
+% Polyglossia ne definit pas \og / \fg (contrairement a babel-french).
+% On les definit pour rester compatible avec la syntaxe habituelle.
+\providecommand{\og}{\guillemotleft\,}
+\providecommand{\fg}{\,\guillemotright}
+
+% --- Tables ---
+\usepackage{booktabs,array,longtable}
+
+% --- Couleurs ---
+\usepackage[svgnames,dvipsnames]{xcolor}
+\definecolor{primary}{HTML}{0072B2}
+\definecolor{primarydark}{HTML}{004F7A}
+\definecolor{accent}{HTML}{009E73}
+\definecolor{warn}{HTML}{D55E00}
+\definecolor{codebg}{HTML}{F5F7F9}
+
+% --- Code (minted) ---
+\usepackage{minted}
+\setminted{
+  fontsize=\small,
+  bgcolor=codebg,
+  frame=none,
+  framesep=2mm,
+  breaklines=true,
+  breakanywhere=true,
+  python3=true,
+  tabsize=2,
+}
+\setminted[python]{python3=true}
+
+% --- Callout boxes (tcolorbox) ---
+\usepackage{tcolorbox}
+\tcbuselibrary{theorems,breakable,skins}
+
+\newtcolorbox{astuce}{
+  enhanced,colback=accent!4,colframe=accent!75,
+  left=8pt,right=8pt,top=6pt,bottom=6pt,
+  boxrule=0pt,leftrule=3pt,arc=2pt,
+  title={\bfseries ASTUCE},
+  fonttitle=\small\bfseries\sffamily,
+  attach boxed title to top left={xshift=0pt,yshift=-3pt},
+  boxed title style={colback=accent,colframe=accent,sharp corners},
+  breakable
+}
+
+\newtcolorbox{attention}{
+  enhanced,colback=warn!5,colframe=warn!75,
+  left=8pt,right=8pt,top=6pt,bottom=6pt,
+  boxrule=0pt,leftrule=3pt,arc=2pt,
+  title={\bfseries ATTENTION},
+  fonttitle=\small\bfseries\sffamily,
+  attach boxed title to top left={xshift=0pt,yshift=-3pt},
+  boxed title style={colback=warn,colframe=warn,sharp corners},
+  breakable
+}
+
+\newtcolorbox{notebox}{
+  enhanced,colback=primary!4,colframe=primary!75,
+  left=8pt,right=8pt,top=6pt,bottom=6pt,
+  boxrule=0pt,leftrule=3pt,arc=2pt,
+  title={\bfseries NOTE},
+  fonttitle=\small\bfseries\sffamily,
+  attach boxed title to top left={xshift=0pt,yshift=-3pt},
+  boxed title style={colback=primary,colframe=primary,sharp corners},
+  breakable
+}
+
+\newtcolorbox{clinique}{
+  enhanced,colback=accent!4,colframe=accent!60,
+  left=8pt,right=8pt,top=6pt,bottom=6pt,
+  boxrule=0pt,leftrule=3pt,arc=2pt,
+  title={\bfseries CONTEXTE CLINIQUE},
+  fonttitle=\small\bfseries\sffamily,
+  attach boxed title to top left={xshift=0pt,yshift=-3pt},
+  boxed title style={colback=accent!80!black,colframe=accent!80!black,sharp corners},
+  breakable
+}
+
+% --- Section formatting ---
+\usepackage{titlesec}
+\titleformat{\section}
+  {\Large\bfseries\color{primarydark}}
+  {\thesection.}{0.6em}{}
+\titleformat{\subsection}
+  {\large\bfseries\color{primary}}
+  {\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.8em}{0.8em}
+\titlespacing*{\subsection}{0pt}{1.4em}{0.5em}
+
+% --- Liens ---
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=primarydark,
+  citecolor=accent,
+  urlcolor=primarydark,
+  pdfauthor={Notes de cours},
+  pdftitle={Analyse de donnees avec Python pour professionnels de la sante -- Version 6h}
+}
+
+% --- TOC formatting ---
+\usepackage{tocloft}
+\renewcommand{\cftsecfont}{\bfseries}
+\renewcommand{\cftsecpagefont}{\bfseries\color{primary}}
+
+\begin{document}
+
+% ============================================================
+% PAGE DE GARDE
+% ============================================================
+
+\thispagestyle{empty}
+\vspace*{2cm}
+
+\begin{center}
+
+% --- Banner-style header block ---
+\begin{tcolorbox}[
+  enhanced,
+  colback=primary,
+  colframe=primary,
+  boxrule=0pt,
+  arc=8pt,
+  left=22pt,right=22pt,top=20pt,bottom=20pt,
+  width=\linewidth,
+]
+\color{white}
+\begin{flushleft}
+{\small\sffamily\bfseries\uppercase{Notes de cours}\hfill\uppercase{Version condens\'ee 6 heures}}\\[12pt]
+{\Huge\bfseries Analyse de Donn\'ees avec Python}\\[4pt]
+{\LARGE\bfseries pour Professionnels de la Sant\'e}\\[18pt]
+{\large\itshape Six modules d'une heure -- du Python de base au machine learning clinique}
+\end{flushleft}
+\end{tcolorbox}
+
+\vspace{2.2cm}
+
+\begin{tabular}{rl}
+\bfseries Public cibl\'e   & Professionnels de sant\'e, \'epid\'emiologistes, \\
+                           & \'etudiants en sant\'e publique \\[6pt]
+\bfseries Pr\'erequis      & Aucun en programmation. Quelques notions \\
+                           & de statistique de base sont utiles. \\[6pt]
+\bfseries Format           & Notes accompagnant 6 notebooks Jupyter \\[6pt]
+\bfseries Langue           & Fran\c{c}ais \\[6pt]
+\bfseries Outils           & Python 3.10+, Jupyter / Google Colab \\
+\end{tabular}
+
+\vfill
+
+{\small\color{gray!70}
+Mat\'eriel p\'edagogique libre. Si vous le r\'eutilisez, citez la source.
+}
+
+\end{center}
+
+\newpage
+
+% ============================================================
+% TABLE DES MATIERES
+% ============================================================
+
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+
+% ============================================================
+% AVANT-PROPOS
+% ============================================================
+
+\section*{Avant-propos}
+\addcontentsline{toc}{section}{Avant-propos}
+
+\subsection*{Ce que ces notes sont -- et ne sont pas}
+
+Ces notes accompagnent les six notebooks Jupyter de la \textbf{version
+condens\'ee 6 heures} du cours \emph{Analyse de donn\'ees de sant\'e
+avec Python}. Elles d\'eveloppent la mati\`ere th\'eorique et
+m\'ethodologique. Les notebooks contiennent le code complet et
+ex\'ecutable ; ces notes contiennent les \textbf{concepts}, les
+\textbf{formules}, les \textbf{contextes d'usage} et les
+\textbf{pi\`eges} -- avec seulement quelques courts extraits de code
+pour illustrer.
+
+Si vous lisez ces pages \emph{avant} la s\'eance, vous saurez de quoi
+on va parler et pourquoi. Si vous les relisez \emph{apr\`es}, elles
+servent d'aide-m\'emoire compact.
+
+\subsection*{Pourquoi 6 heures}
+
+Un cours d\'etaill\'e de 30 heures existe (dossier \texttt{code/notebooks/}
+du d\'ep\^ot). Mais pour une journ\'ee de formation, un atelier de trois
+demi-journ\'ees, ou un cours d'introduction, six heures sont souvent ce
+qu'on peut donner -- et ce qu'un apprenant peut absorber en un seul bloc.
+
+La version 6 h se concentre sur \textbf{l'\'epine dorsale analytique} :
+
+\begin{enumerate}
+  \item \textbf{Python et Pandas} -- le socle pour les cinq modules suivants.
+  \item \textbf{Nettoyage et statistique descriptive} -- la base de toute
+        analyse cr\'edible.
+  \item \textbf{Visualisation} -- communiquer un r\'esultat.
+  \item \textbf{Tests d'hypoth\`eses} -- l'inf\'erence formelle.
+  \item \textbf{R\'egression} -- l'ajustement multivariable.
+  \item \textbf{Machine learning clinique} -- pr\'ediction, ROC, calibration,
+        \'equit\'e.
+\end{enumerate}
+
+Trois sujets de la version 30 h ne sont \textbf{pas} couverts ici :
+analyse temporelle approfondie, analyse spatiale (g\'eopandas), et projet
+capstone. Une br\`eve mention de ces sujets en fin de document indique
+o\`u les trouver.
+
+\subsection*{Comment utiliser ce document avec les notebooks}
+
+Le ratio recommand\'e est \textbf{15-20 minutes de lecture pour 40 minutes
+de manipulation du notebook}. Pour chaque module :
+
+\begin{enumerate}
+  \item Lire la section correspondante de ces notes (environ 6-8 pages).
+  \item Ouvrir le notebook \texttt{module\_0N\_*.ipynb} dans Jupyter ou
+        Colab.
+  \item Ex\'ecuter chaque cellule en lisant les commentaires.
+  \item Faire les exercices, puis comparer avec les cellules
+        \emph{Solution}.
+\end{enumerate}
+
+\begin{notebox}
+Les notebooks sont rep\'er\'es par un en-t\^ete graphique qui indique le
+num\'ero du module, la dur\'ee, et le niveau. La page d'accueil
+\texttt{index.ipynb} liste les 6 modules avec un bouton
+\og Ouvrir dans Colab \fg{} pour chacun.
+\end{notebox}
+
+\subsection*{Conventions typographiques}
+
+\begin{itemize}
+  \item \texttt{code} -- terme technique, nom de variable, fonction Python.
+  \item \emph{italique} -- mise en relief d'un concept la premi\`ere fois
+        qu'il est introduit.
+  \item Les encarts color\'es signalent : \textbf{Astuce} (vert),
+        \textbf{Attention} (orange), \textbf{Note} (bleu),
+        \textbf{Contexte clinique} (vert plus dense).
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% MODULE 1
+% ============================================================
+
+\section{Module 1 -- Python et Pandas pour la sant\'e}
+
+\subsection{Pourquoi Python pour les donn\'ees de sant\'e}
+
+Trois raisons font que Python s'est impos\'e comme l'outil par d\'efaut
+dans la recherche en sant\'e contemporaine :
+
+\textbf{Reproductibilit\'e.} Un script documente chaque \'etape de votre
+analyse. Quand un examinateur demande \og comment avez-vous trait\'e les
+valeurs de laboratoire manquantes ? \fg{}, vous montrez le code -- pas
+une description de clics dans des menus. Les revues exp\'erimentales
+s'orientent toutes dans cette direction.
+
+\textbf{\'Echelle.} Excel commence \`a peiner sur 100\,000 lignes. Pandas
+en traite des millions sans difficult\'e. Plus important encore :
+\og l'analyse est s\'epar\'ee des donn\'ees \fg{}, vous pouvez ex\'ecuter
+le m\^eme script sur un \'echantillon de 1 000 patients puis sur la base
+enti\`ere sans rien changer.
+
+\textbf{\'Ecosyst\`eme.} Des biblioth\`eques telles que \texttt{lifelines}
+(analyse de survie), \texttt{statsmodels} (mod\`eles statistiques),
+\texttt{scikit-learn} (machine learning), \texttt{geopandas}
+(cartographie), \texttt{pingouin} (statistiques cliniques en fran\c{c}ais)
+offrent des outils que SPSS ou Stata n'\'egalent pas. Et le tout est
+gratuit.
+
+\subsection{Variables et les quatre types fondamentaux}
+
+Une \emph{variable} est un nom qui pointe vers une valeur. Vous n'avez
+\textbf{pas \`a d\'eclarer} le type : Python le devine \`a partir de la
+valeur affect\'ee.
+
+\begin{minted}{python}
+age = 45                           # int   -- nombre entier
+temperature = 37.2                 # float -- nombre a virgule
+diagnostic = "Diabete de type 2"   # str   -- texte entre guillemets
+hospitalise = True                 # bool  -- True ou False
+\end{minted}
+
+Les quatre types couvrent l'essentiel des donn\'ees de sant\'e :
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\bfseries Type & \bfseries Stocke & \bfseries Exemple clinique \\
+\midrule
+\texttt{int}   & Nombre entier         & \^Age, nombre d'admissions, parit\'e \\
+\texttt{float} & Nombre \`a virgule    & Temp\'erature, HbA1c, cr\'eatinine \\
+\texttt{str}   & Texte                 & Code CIM-10, identifiant patient \\
+\texttt{bool}  & Vrai / Faux           & Fumeur ? Hospitalis\'e ? Grossesse ? \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Collections : listes et dictionnaires}
+
+Une \emph{liste} range plusieurs valeurs \textbf{dans l'ordre}. Une
+s\'erie de tensions chez un m\^eme patient, par exemple, est naturellement
+une liste.
+
+\begin{minted}{python}
+tensions = [120, 135, 128, 142, 118]   # mmHg, syst.
+\end{minted}
+
+L'indexation commence \`a \textbf{z\'ero} : \texttt{tensions[0]} est la
+premi\`ere valeur, \texttt{tensions[-1]} la derni\`ere. La syntaxe
+\texttt{tensions[1:3]} extrait les indices 1 et 2 (la borne droite est
+exclue, c'est une convention math\'ematique cl\'e en Python).
+
+Un \emph{dictionnaire} associe des \textbf{cl\'es} \`a des \textbf{valeurs}
+-- exactement la forme d'une fiche patient.
+
+\begin{minted}{python}
+patient = {
+    "id": "PAT-0042",
+    "age": 58,
+    "sexe": "F",
+    "tension_systolique": 148,
+    "medicaments": ["Amlodipine", "HCTZ"],
+}
+patient["age"]   # -> 58
+\end{minted}
+
+\begin{notebox}
+Une \textbf{cohorte} = une \textbf{liste de dictionnaires}. C'est
+exactement la forme que pandas convertit en \texttt{DataFrame} : la
+fonction \texttt{pd.DataFrame(cohorte)} construit le tableau directement.
+\end{notebox}
+
+\subsection{Conditions et boucles : appliquer une r\`egle clinique}
+
+Une \emph{conditionnelle} encode une r\`egle de d\'ecision. Une
+\emph{boucle} l'applique \`a chaque patient d'une cohorte.
+
+\begin{minted}{python}
+for p in cohorte:
+    if p["hba1c"] >= 6.5:
+        statut = "Diabetique"
+    elif p["hba1c"] >= 5.7:
+        statut = "Pre-diabetique"
+    else:
+        statut = "Normal"
+\end{minted}
+
+L'\textbf{indentation} -- quatre espaces -- est la fa\c{c}on de Python de
+d\'elimiter les blocs. Pas d'accolades, contrairement \`a C, Java ou R.
+Une indentation incorrecte l\`eve une \texttt{IndentationError}.
+
+L'ordre des conditions importe. On teste d'abord la plus stricte
+($\geq 6{,}5$), puis la suivante. L'invers\'e classerait tout patient
+avec HbA1c $\geq 5{,}7$ comme \og pr\'e-diab\'etique \fg{} -- y compris
+les diab\'etiques av\'er\'es.
+
+\subsection{Fonctions : emballer une formule clinique}
+
+Une \emph{fonction} est un bloc de code nomm\'e, qui prend des
+\textbf{arguments} et renvoie une \textbf{valeur}. Une fois \'ecrite,
+on l'utilise comme une formule.
+
+\begin{minted}{python}
+def imc(poids_kg: float, taille_m: float) -> float:
+    """Indice de Masse Corporelle en kg/m^2."""
+    return poids_kg / (taille_m ** 2)
+\end{minted}
+
+Trois bonnes pratiques :
+
+\begin{enumerate}
+  \item \textbf{Docstring}. La cha\^ine entre triple guillemets juste
+        apr\`es \texttt{def} documente la fonction. \texttt{help(imc)}
+        l'affiche.
+  \item \textbf{Annotations de type}
+        (\texttt{poids\_kg: float}). Elles documentent l'intention
+        sans rien forcer \`a l'ex\'ecution. Vivement recommand\'ees en
+        contexte clinique.
+  \item \textbf{Appels par mot-cl\'e}. Pr\'ef\'erez
+        \texttt{imc(poids\_kg=82, taille\_m=1{.}75)} \`a
+        \texttt{imc(82, 1{.}75)}.
+\end{enumerate}
+
+\begin{attention}
+Pour toute fonction de calcul m\'edical (dosage, eGFR, scores), les
+appels positionnels sont une source d'erreur grave. Une inversion entre
+\texttt{poids\_kg} et \texttt{age} dans une formule de dosage mg/kg peut
+\^etre dramatique. \textbf{Toujours} pr\'ef\'erer les appels par mot-cl\'e.
+\end{attention}
+
+\subsection{Pandas : passer du Python pur \`a la table}
+
+\emph{Pandas} est la biblioth\`eque standard pour manipuler des tableaux
+en Python. L'objet central est le \texttt{DataFrame} : pensez \`a un
+tableur, mais programmable.
+
+\begin{minted}{python}
+import pandas as pd
+gm = pd.read_csv("gapminder.tsv", sep="\t")
+\end{minted}
+
+Avant toute analyse, ex\'ecuter \textbf{les cinq m\'ethodes d'inspection}
+fait gagner des heures :
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+\bfseries M\'ethode & \bfseries Ce qu'elle vous dit \\
+\midrule
+\texttt{df.head(n)}      & Les $n$ premi\`eres lignes \\
+\texttt{df.shape}        & (nb lignes, nb colonnes) \\
+\texttt{df.dtypes}       & Type de chaque colonne \\
+\texttt{df.describe()}   & Moyenne, $\sigma$, quartiles \\
+\texttt{df['x'].value\_counts()} & Fr\'equences d'une colonne cat\'egorielle \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Filtrer, trier, grouper}
+
+Le \textbf{filtrage} utilise un \emph{masque bool\'een} -- une colonne de
+\texttt{True}/\texttt{False} qu'on place entre crochets.
+
+\begin{minted}{python}
+afrique = gm[gm["continent"] == "Africa"]
+\end{minted}
+
+Pour combiner deux conditions, utilisez \texttt{\&} (et), \texttt{|} (ou),
+\texttt{\~{}} (non), et \textbf{paranth\'esez chaque condition}. Cette
+derni\`ere obligation est non-n\'egociable : sans parenth\`eses,
+Python applique les op\'erateurs dans le mauvais ordre.
+
+\begin{minted}{python}
+pauvre_africain = gm[
+    (gm["continent"] == "Africa")
+    & (gm["gdpPercap"] < 1000)
+]
+\end{minted}
+
+Le \textbf{tri} se fait avec \texttt{.sort\_values("col")}. Pour obtenir
+les $n$ plus grandes/petites valeurs directement,
+\texttt{.nlargest(n, "col")} / \texttt{.nsmallest(n, "col")}.
+
+Le \textbf{groupby} est le \emph{geste pivot} de pandas. Le patron est
+\textbf{\og split, apply, combine \fg{}} (McKinney, 2017) :
+
+\begin{enumerate}
+  \item \textbf{Split} -- couper les lignes en groupes selon une
+        cat\'egorie.
+  \item \textbf{Apply} -- calculer une statistique sur chaque groupe.
+  \item \textbf{Combine} -- recoller le tout en une table.
+\end{enumerate}
+
+\begin{minted}{python}
+gm.groupby("continent")["lifeExp"].mean()
+\end{minted}
+
+\subsection{Cr\'eer une colonne calcul\'ee}
+
+Pandas est \emph{vectoris\'e} : on ne fait pas de boucle pour remplir une
+colonne. L'op\'eration est appliqu\'ee \`a toutes les lignes en m\^eme
+temps.
+
+\begin{minted}{python}
+gm["gdp_milliards"] = gm["pop"] * gm["gdpPercap"] / 1e9
+\end{minted}
+
+Pour transformer une variable continue en cat\'egories ordonn\'ees,
+\texttt{pd.cut} :
+
+\begin{minted}{python}
+gm["categorie_ev"] = pd.cut(
+    gm["lifeExp"],
+    bins=[0, 50, 65, 75, 100],
+    labels=["Tres faible", "Faible", "Moyen", "Eleve"],
+)
+\end{minted}
+
+\subsection{Points cl\'es du Module 1}
+
+\begin{itemize}
+  \item Quatre types Python suffisent pour 95 \% des donn\'ees cliniques.
+  \item Une cohorte = liste de dictionnaires = \texttt{DataFrame}.
+  \item Pandas se manipule par \emph{m\'ethodes encha\^in\'ees} :
+        \texttt{df.filter(...).groupby(...).agg(...)}.
+  \item Les masques bool\'eens demandent toujours des \textbf{parenth\`eses}
+        autour de chaque condition.
+  \item \texttt{pd.cut} est l'outil universel pour cat\'egoriser une
+        variable continue (seuils cliniques, tranches d'\^age).
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% MODULE 2
+% ============================================================
+
+\section{Module 2 -- Nettoyage et statistique descriptive}
+
+\subsection{Le nettoyage des donn\'ees est un raisonnement clinique}
+
+Aucune base de donn\'ees r\'eelle n'est propre. Dans les dossiers patient
+informatis\'es (DPI), une \'etude de r\'ef\'erence
+\citep{weiskopf2013methods} estime qu'environ 18 \% des valeurs de
+laboratoire pr\'esentent un probl\`eme de qualit\'e : doublon,
+incoh\'erence d'unit\'e, valeur impossible.
+
+Nettoyer, c'est \textbf{prendre des d\'ecisions}. Supprimer une ligne ?
+Imputer une valeur ? Marquer un \emph{flag} ? Chaque choix d\'eplace
+l'analyse. La discipline consiste \`a \textbf{documenter chaque
+d\'ecision} pour qu'un relecteur puisse les reproduire.
+
+\subsection{Les trois m\'ecanismes de donn\'ees manquantes}
+
+Le cadre conceptuel a \'et\'e \'etabli par \citet{rubin1976inference} et
+n'a pas chang\'e depuis. Trois m\'ecanismes :
+
+\textbf{MCAR -- Missing Completely At Random.} Le manquement est
+ind\'ependant de tout. Un tube de pr\'el\`evement qui casse, par exemple.
+Supprimer les lignes concern\'ees est \textbf{sans biais} ; on perd
+seulement de la puissance.
+
+\textbf{MAR -- Missing At Random.} Le manquement d\'epend de variables
+\textbf{observ\'ees}. Exemple : le cholest\'erol n'est pas mesur\'e chez
+les patients jeunes (l'\^age est observ\'e). L'imputation
+\textbf{conditionnelle \`a l'\^age} est sans biais.
+
+\textbf{MNAR -- Missing Not At Random.} Le manquement d\'epend de la
+valeur \textbf{non observ\'ee} elle-m\^eme. Les patients les plus malades
+ratent leur consultation de suivi, donc on n'a pas leur tension a
+six mois. \textbf{C'est le cas le plus dangereux} : supprimer biaise
+syst\'ematiquement vers les patients en meilleure sant\'e.
+
+\begin{attention}
+Dans les DPI, MNAR est la \textbf{r\`egle}, pas l'exception. Avant
+d'imputer ou de supprimer, v\'erifiez \textbf{toujours} si l'issue (la
+variable dont vous voulez parler) diff\`ere entre les lignes compl\`etes
+et les lignes \`a donn\'ees manquantes. Si oui, le manquement est
+informatif : il faut le mod\'eliser, pas le balayer.
+\end{attention}
+
+\subsection{D\'etecter et compter les valeurs manquantes}
+
+Pandas utilise \texttt{NaN} (Not a Number) pour le num\'erique manquant
+et \texttt{None} pour les objets. Les deux sont d\'etect\'es par
+\texttt{.isnull()}.
+
+\begin{minted}{python}
+df.isnull().sum()          # nb manquant par colonne
+df.isnull().any(axis=1)    # True/False par ligne
+\end{minted}
+
+Un point souvent n\'eglig\'e : v\'erifier les manquements
+\textbf{simultan\'es}. La corr\'elation de la matrice
+\texttt{df.isnull()} r\'ev\`ele si deux colonnes manquent
+\textbf{ensemble}, indice possible d'une cause commune (la m\^eme
+consultation rat\'ee, le m\^eme automate en panne).
+
+\subsection{Strat\'egies d'imputation}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{ll}
+\toprule
+\bfseries M\'ethode & \bfseries Quand l'utiliser \\
+\midrule
+M\'ediane           & Continu asym\'etrique (lab, tension, IMC) \\
+Moyenne             & Continu sym\'etrique (taille adulte) \\
+Mode                & Cat\'egoriel (sexe, statut tabagique) \\
+Par sous-groupe     & Valeur attendue d\'epend d'un groupe connu \\
+KNN                 & Plusieurs colonnes corr\'el\'ees manquent ensemble \\
+MICE / IterativeImputer & Imputation multivari\'ee, plusieurs runs \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+R\`egle pratique : \textbf{m\'ediane par d\'efaut} pour tout ce qui est
+clinique. La majorit\'e des variables de laboratoire ont des queues
+droites (cr\'eatinine, prot\'eine C-r\'eactive, ferritine). La moyenne y
+est tir\'ee par les extr\^emes.
+
+Pour les variables critiques (issue principale, exposition cl\'e), gardez
+un \textbf{indicateur de manquement} \emph{avant} d'imputer :
+
+\begin{minted}{python}
+df["tension_manquait"] = df["tension"].isnull().astype(int)
+df["tension"] = df["tension"].fillna(df["tension"].median())
+\end{minted}
+
+L'indicateur peut ensuite servir de pr\'edicteur dans un mod\`ele (le
+fait que la valeur ait \'et\'e absente peut \^etre pronostique en soi).
+
+\subsection{Validation par plages cliniquement plausibles}
+
+Toute base de donn\'ees a des valeurs \textbf{absurdes} : un \^age de
+$-3$ ans, une tension de 450 mmHg, une HbA1c de 55 (lue comme NGSP
+alors qu'elle est en IFCC). Codez vos plages de plausibilit\'e en tant
+que dictionnaire, appliquez-les syst\'ematiquement :
+
+\begin{minted}{python}
+PLAGES = {
+    "age":     (0, 120),
+    "tension": (60, 300),
+    "hba1c":   (2.0, 20.0),
+}
+\end{minted}
+
+Les valeurs hors plage sont \textbf{presque toujours} des erreurs de
+saisie -- soit une faute de frappe (450 au lieu de 145), soit une
+confusion d'unit\'e (5{,}5 mmol/L de glyc\'emie lu comme 5{,}5 mg/dL).
+
+\begin{clinique}
+Le cas des unit\'es m\'erite une mention sp\'eciale. La glyc\'emie en
+mg/dL et mmol/L sont \`a un facteur 18 pr\`es : 100 mg/dL $\approx$ 5{,}5
+mmol/L. Sans colonne d'unit\'e explicite, vous ne pouvez pas distinguer
+\og 7 \fg{} pour une glyc\'emie a jeun
+\og normale en mmol/L \fg{} de \og pathologique en mg/dL \fg{}. La
+v\'erit\'e absolue : \textbf{exigez une colonne unit\'e d\`es la collecte}.
+\end{clinique}
+
+\subsection{Tendance centrale et dispersion}
+
+\textbf{Moyenne ou m\'ediane ?} R\`egle pragmatique : si une valeur
+extr\^eme d\'eplace la moyenne de plus de quelques pourcents, rapportez
+la \textbf{m\'ediane}. La m\'ediane est robuste : une valeur aberrante \`a
+340 mg/dL au milieu de glyc\'emies de 90-110 ne la d\'eplace presque
+pas.
+
+\textbf{Pour la dispersion}, l'\'ecart-type ($\sigma$) est l'outil par
+d\'efaut pour les distributions sym\'etriques. Pour les distributions
+\emph{asym\'etriques} (dur\'ee de s\'ejour, co\^uts hospitaliers, biologie
+\`a longue queue), l'\textbf{intervalle interquartile (IQR = Q3 -- Q1)}
+est plus honn\^ete.
+
+Le \textbf{coefficient de variation} $CV = \sigma / \mu$ (en \%) est
+sans unit\'e. Utile pour comparer la dispersion relative de variables
+aux unit\'es diff\'erentes :
+\og l'h\'emoglobine varie moins ($CV \approx 5\,\%$) que la
+glyc\'emie ($CV \approx 8\,\%$) chez un m\^eme patient \fg{}.
+
+\subsection{Mesures \'epid\'emiologiques de base}
+
+Quatre mesures couvrent l'essentiel des rapports en sant\'e publique :
+
+\textbf{Pr\'evalence} -- proportion de cas \textbf{existants} \`a un
+instant $t$ :
+\[
+P = \frac{\text{nombre de cas}}{\text{population totale}}.
+\]
+Rapporter toujours avec un \textbf{intervalle de confiance}. Pour une
+proportion proche de $0$ ou $1$, pr\'ef\'erer le \emph{Wilson} ou
+\emph{Agresti-Coull} \`a l'approximation normale (Wald).
+
+\textbf{Taux d'incidence} -- nouveaux cas par personne-temps :
+\[
+IR = \frac{\text{nouveaux cas}}{\text{personnes-ann\'ees suivies}}.
+\]
+Pour des \'ev\'enements rares, le compte suit une loi de Poisson, d'o\`u
+$\mathrm{SE}(IR) = \sqrt{cas} / PA$.
+
+\textbf{Ratio de risque (RR)} et \textbf{ratio de cotes (OR)} \`a partir
+d'un tableau 2$\times$2 :
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+              & Malade$+$ & Malade$-$ \\
+\midrule
+Expos\'e      & $a$       & $b$ \\
+Non expos\'e  & $c$       & $d$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\[
+RR = \frac{a/(a+b)}{c/(c+d)}, \qquad
+OR = \frac{a \cdot d}{b \cdot c}.
+\]
+
+L'OR est l'estim\'e dans les \'etudes \textbf{cas-t\'emoin} ; le RR dans
+les \'etudes de \textbf{cohorte}. Pour de petits effets et issues rares,
+$OR \approx RR$. D\`es que la pr\'evalence d\'epasse $\sim 10\,\%$, l'OR
+\emph{surestime} le RR -- rapportez-le comme OR, pas comme RR.
+
+Les intervalles de confiance pour RR et OR sont calcul\'es sur l'\'echelle
+$\ln$ (la distribution y est approximativement normale), puis
+exponentialis\'es.
+
+\subsection{Pipeline de nettoyage r\'eutilisable}
+
+Le bon r\'eflexe : bundler les \'etapes dans \textbf{une seule fonction},
+sur le mod\`ele entr\'ee $\to$ sortie. Test\'ee une fois, elle s'applique
+\`a tous les jeux de donn\'ees similaires.
+
+\begin{minted}{python}
+def nettoyer(df, plages=PLAGES):
+    df = df.copy()
+    df.columns = df.columns.str.strip().str.lower()
+    df = df.drop_duplicates()
+    for col, (lo, hi) in plages.items():
+        if col in df.columns:
+            df.loc[(df[col] < lo) | (df[col] > hi), col] = np.nan
+    for col in df.select_dtypes(include="number").columns:
+        df[col] = df[col].fillna(df[col].median())
+    return df
+\end{minted}
+
+\subsection{Points cl\'es du Module 2}
+
+\begin{itemize}
+  \item Les trois m\'ecanismes MCAR / MAR / MNAR d\'eterminent ce qu'on
+        peut faire sans biais.
+  \item En DPI, MNAR est la r\`egle : v\'erifier que les lignes
+        compl\`etes et incompl\`etes ont la m\^eme issue.
+  \item M\'ediane par d\'efaut pour le clinique ; IQR pour la dispersion
+        asym\'etrique.
+  \item Pr\'evalence, incidence, RR, OR -- toujours rapporter avec IC.
+  \item Encapsuler le nettoyage dans une fonction.
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% MODULE 3
+% ============================================================
+
+\section{Module 3 -- Visualisation pour donn\'ees de sant\'e}
+
+\subsection{Une figure r\'epond \`a une question}
+
+Avant d'\'ecrire la moindre ligne de code de visualisation, formulez la
+\textbf{question} \`a laquelle la figure r\'epond. \og Distribution de
+l'IMC \fg{} n'est pas une question. \og La distribution de l'IMC
+diff\`ere-t-elle entre les groupes d'\^age ? \fg{} en est une.
+
+Le type de question d\'etermine le type de graphique.
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{ll}
+\toprule
+\bfseries Question & \bfseries Type de graphique \\
+\midrule
+Comment une variable est-elle distribu\'ee ?      & Histogramme, KDE \\
+Comment une variable diff\`ere-t-elle entre groupes ? & Boite \`a moustaches \\
+Comment compare-t-on des comptages ?              & Barres \\
+Comment \'evolue-t-elle dans le temps ?           & Ligne \\
+Deux variables continues sont-elles associ\'ees ? & Nuage de points \\
+Quelles variables sont corr\'el\'ees ?            & Heatmap \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{R\`egles non-n\'egociables}
+
+Toute figure publi\'ee ou pr\'esent\'ee en r\'eunion respecte ces r\`egles
+de base. Les violer trahit un manque de rigueur que vos lecteurs
+remarqueront :
+
+\begin{enumerate}
+  \item \textbf{Les axes portent leur unit\'e.} \og Tension systolique
+        (mmHg) \fg{}, jamais juste \og BP \fg{}.
+  \item \textbf{Les barres commencent \`a z\'ero.} Tronquer l'axe
+        vertical pour amplifier visuellement une diff\'erence est l'un
+        des mensonges visuels les plus document\'es \citep{tufte2001}.
+  \item \textbf{Pas de 3D.} Aucun graphique 3D n'a jamais am\'elior\'e la
+        lisibilit\'e. Ils introduisent des distorsions de perception.
+  \item \textbf{Pas de camemberts au-del\`a de 3 parts.} L'\oe il humain
+        compare mal les angles ; les barres font mieux.
+  \item \textbf{Pas de double axe Y.} Sauf cas exceptionnel, ils
+        sugg\`erent fausse corr\'elation et permettent de manipuler la
+        perception.
+  \item \textbf{Palette accessible aux daltoniens.} Suivez les
+        recommandations de \citet{wong2011points}.
+  \item \textbf{Annoter} la taille d'\'echantillon ($n = 1\,234$) et les
+        \textbf{seuils cliniques} (lignes horizontales / verticales aux
+        cut-offs pertinents).
+\end{enumerate}
+
+\subsection{Histogrammes et estimation de densit\'e}
+
+L'histogramme montre comment une variable continue est r\'epartie. Le
+nombre de classes (\texttt{bins}) compte : trop peu cache la structure,
+trop transforme le graphe en bruit. Une r\`egle empirique :
+$k \approx \sqrt{n}$.
+
+\begin{minted}{python}
+ax.hist(donnees, bins=20, edgecolor="white")
+ax.axvline(126, color="red", ls="--",
+           label="Seuil diabete (126 mg/dL)")
+\end{minted}
+
+Pour comparer plusieurs distributions sur les m\^emes axes, l'estimation
+\emph{kernel density} (KDE) est plus lisible : courbes liss\'ees au lieu
+de barres se chevauchant.
+
+\subsection{Boites \`a moustaches}
+
+Anatomie : la bo\^ite va de $Q_1$ \`a $Q_3$, la barre m\'ediane est le
+$Q_2$, les moustaches s'\'etendent au dernier point dans
+$1{,}5 \times IQR$, les points au-del\`a sont les valeurs aberrantes
+individuelles.
+
+Limite importante : \textbf{les bo\^ites cachent la bimodalit\'e}. Deux
+distributions tr\`es diff\'erentes peuvent produire la m\^eme bo\^ite. En
+cas de doute, superposer un \emph{stripplot} ou montrer l'histogramme en
+parall\`ele.
+
+\subsection{Lignes : tendances temporelles et courbes \'epid\'emiques}
+
+Le patron canonique pour une \'epid\'emie : \textbf{barres journali\`eres}
++ \textbf{moyenne mobile sur 7 jours} en haut, \textbf{courbe cumul\'ee}
+en bas. La barre montre le bruit r\'eel, la ligne le signal liss\'e.
+
+La moyenne mobile sur 7 jours efface la p\'eriodicit\'e hebdomadaire
+(d\'eclarations rep\'erables en bloc le lundi, vacances scolaires, etc.).
+
+\begin{minted}{python}
+epi["mm_7j"] = epi["nouveaux_cas"].rolling(7).mean()
+\end{minted}
+
+\subsection{Nuages de points et associations}
+
+Le scatter plot affiche deux variables continues sur un plan. Pour
+encoder une troisi\`eme variable, deux choix s'offrent : la \textbf{taille
+des points} (bubble chart) ou la \textbf{couleur}. La taille marche bien
+pour des grandeurs sur plusieurs ordres -- la population des pays, par
+exemple.
+
+L'\'echelle \textbf{logarithmique} sur un axe est cruciale d\`es que la
+variable s'\'etale sur 3-4 ordres de grandeur (PIB par habitant, charges
+virales, comptages bact\'eriens). Sans le log, 95 \% des points
+s'agglutinent dans un coin.
+
+\subsection{Le tableau de bord multi-panneaux}
+
+Un tableau de bord est une \textbf{seule figure} avec plusieurs
+panneaux qui r\'epondent ensemble \`a une question g\'en\'erale (\og que
+sait-on de la sant\'e mondiale en 2007 ? \fg{}).
+
+R\`egles compl\'ementaires pour les multi-panneaux :
+
+\begin{enumerate}
+  \item \textbf{Lettrer} les panneaux (A, B, C, D) pour les r\'ef\'erencer
+        dans la l\'egende et le texte.
+  \item \textbf{Garder le m\^eme code couleur} entre panneaux : un
+        continent gard\'e en bleu dans le panneau A doit rester bleu en B.
+  \item \textbf{Hi\'erarchie de l'\oe il} : panneau A en haut \`a gauche
+        re\c{c}oit l'\oe il en premier ; mettez-y l'image la plus
+        importante.
+\end{enumerate}
+
+\subsection{Points cl\'es du Module 3}
+
+\begin{itemize}
+  \item Le type de graphique d\'epend du type de question, pas de
+        l'\'esth\'etique.
+  \item Palette colour-blind-safe par d\'efaut (Wong 2011).
+  \item Annoter unit\'es, $n$, seuils cliniques.
+  \item Bo\^ite \`a moustaches : utile pour comparer, dangereuse pour
+        l'unimodalit\'e.
+  \item Tableau de bord = une question, plusieurs panneaux compl\'ementaires.
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% MODULE 4
+% ============================================================
+
+\section{Module 4 -- Tests d'hypoth\`eses}
+
+\subsection{La logique d'un test}
+
+Un test d'hypoth\`ese est une \emph{preuve par contradiction
+probabiliste} :
+
+\begin{enumerate}
+  \item On suppose la \textbf{nulle $H_0$ vraie} (pas d'effet).
+  \item On calcule une statistique de test \`a partir des donn\'ees.
+  \item On se demande : \emph{si $H_0$ \'etait vraie, ces donn\'ees
+        seraient-elles inhabituelles ?} Cette probabilit\'e est la
+        \textbf{p-value}.
+  \item Si la p-value est $< \alpha$ (souvent 0,05), on \textbf{rejette
+        $H_0$}.
+\end{enumerate}
+
+\subsection{Ce qu'une p-value n'est pas}
+
+Aucune confusion n'a co\^ut\'e plus cher \`a la recherche en sant\'e que
+les interpr\'etations erron\'ees de la p-value. La d\'eclaration officielle
+de l'American Statistical Association \citep{wasserstein2016asa} en
+\'enum\`ere les plus dommageables. R\'ep\'etons les essentielles :
+
+\begin{itemize}
+  \item Ce n'est \textbf{pas} la probabilit\'e que $H_0$ soit vraie.
+  \item Ce n'est \textbf{pas} la probabilit\'e que le r\'esultat soit
+        d\^u au hasard.
+  \item Elle ne mesure \textbf{pas} la taille d'un effet.
+  \item Un test significatif sur un grand $n$ peut correspondre \`a un
+        effet \textbf{cliniquement n\'egligeable}.
+\end{itemize}
+
+\begin{attention}
+La r\`egle d'or : \textbf{toujours rapporter une p-value avec une taille
+d'effet et un intervalle de confiance}. Sur 100\,000 patients, un essai
+peut d\'etecter une diff\'erence moyenne de 0,5 mmHg avec
+$p < 10^{-6}$. Statistiquement significatif, cliniquement non pertinent.
+\end{attention}
+
+\subsection{Test t : un, deux, ou pairs}
+
+\textbf{Test t \`a un \'echantillon}. La moyenne d'un \'echantillon
+diff\`ere-t-elle d'une valeur de r\'ef\'erence connue ?
+Exemple : le cholest\'erol moyen dans notre clinique diff\`ere-t-il de la
+moyenne nationale de 200 mg/dL ?
+
+\textbf{Test t \`a deux \'echantillons ind\'ependants}. Deux groupes
+ind\'ependants diff\`erent-ils ? Exemple : la tension dans le groupe
+trait\'e diff\`ere-t-elle de celle du placebo ?
+
+Conditions : ind\'ependance, normalit\'e dans chaque groupe (assoupli par
+le TCL pour $n \gtrsim 30$), \textbf{\'egalit\'e des variances}. Cette
+derni\`ere se rel\^ache avec la \textbf{correction de Welch}
+(\texttt{equal\_var=False}), qui est le \textbf{d\'efaut moderne
+recommand\'e}. Pratique : toujours mettre \texttt{equal\_var=False}
+\citep{ruxton2006unequal}.
+
+\textbf{Test t appari\'e}. Les m\^emes patients mesur\'es avant et apr\`es
+une intervention. Le test utilise les \textbf{diff\'erences
+intra-patient}, \'eliminant la variabilit\'e inter-patient et augmentant la
+puissance.
+
+\begin{minted}{python}
+from scipy import stats
+t, p = stats.ttest_ind(traitement, controle, equal_var=False)
+\end{minted}
+
+\subsection{Test du chi-deux d'ind\'ependance}
+
+Pour deux variables \textbf{cat\'egorielles}, le chi-deux compare les
+comptages observ\'es aux comptages attendus sous ind\'ependance :
+\[
+\chi^2 = \sum_{ij} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}.
+\]
+
+Condition : chaque effectif attendu doit \^etre $\geq 5$. Sinon utiliser
+le \textbf{test exact de Fisher} (\texttt{stats.fisher\_exact}).
+
+\subsection{L'alternative non param\'etrique : Mann-Whitney U}
+
+Quand la variable est asym\'etrique (dur\'ee de s\'ejour, co\^uts) ou que
+$n$ est petit, le test t sur l'\'echelle brute peut induire en erreur.
+Mann-Whitney U compare les \textbf{rangs} : il teste si une distribution
+domine stochastiquement l'autre.
+
+\begin{notebox}
+Comparer Mann-Whitney U et un test t apr\`es transformation log :
+souvent les deux donnent des conclusions similaires sur les donn\'ees
+asym\'etriques. La transformation log a l'avantage de rendre les
+coefficients de r\'egression interpr\'etables (en pourcentage de
+changement).
+\end{notebox}
+
+\subsection{Correction pour tests multiples}
+
+Si vous testez \textbf{20 hypoth\`eses ind\'ependantes au seuil 0{,}05
+sous $H_0$}, vous attendez en moyenne \textbf{un faux positif par
+hasard}. Sur 1\,000 tests sans effet r\'eel, ~50 sont \og significatifs \fg{}
+\`a $p < 0{,}05$. C'est l'\emph{erreur familiale}.
+
+Deux familles de corrections :
+
+\textbf{Bonferroni} (contr\^ole le \emph{family-wise error rate}) :
+multiplier chaque p par $m$ (ou comparer \`a $\alpha / m$). Tr\`es
+conservateur ; appropri\'e quand m\^eme \textbf{un} faux positif est
+inacceptable (essais cliniques, d\'ecisions r\'eglementaires).
+
+\textbf{Benjamini-Hochberg FDR} \citep{benjamini1995controlling} :
+contr\^ole la proportion attendue de faux positifs parmi les positifs
+d\'eclar\'es. Standard en g\'enomique et en analyses exploratoires.
+
+\begin{minted}{python}
+from statsmodels.stats.multitest import multipletests
+_, p_corr, _, _ = multipletests(pvals, method="fdr_bh")
+\end{minted}
+
+\subsection{Taille d'effet}
+
+Le d de Cohen :
+\[
+d = \frac{\bar{x}_1 - \bar{x}_2}{s_{pooled}}.
+\]
+
+Rep\`eres indicatifs \citep{cohen1988statistical} :
+
+\begin{center}
+\small
+\begin{tabular}{ll}
+\toprule
+$|d|$ & Interpr\'etation \\
+\midrule
+$< 0{,}2$  & N\'egligeable \\
+$0{,}2$ - $0{,}5$ & Petit \\
+$0{,}5$ - $0{,}8$ & Moyen \\
+$\geq 0{,}8$ & Large \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Ces rep\`eres ont \'et\'e \'etablis dans le domaine des sciences sociales
+et doivent \^etre interpr\'et\'es avec prudence en clinique : une
+diff\'erence \og petite \fg{} sur la mortalit\'e cardiovasculaire peut
+\^etre tr\`es importante au niveau populationnel.
+
+\subsection{Points cl\'es du Module 4}
+
+\begin{itemize}
+  \item p-value $\neq$ probabilit\'e que $H_0$ soit vraie.
+  \item Toujours rapporter taille d'effet \emph{et} IC \`a c\^ot\'e de la
+        p-value.
+  \item Welch (\texttt{equal\_var=False}) par d\'efaut pour le test t \`a
+        deux \'echantillons.
+  \item Mann-Whitney U pour les distributions asym\'etriques.
+  \item Tests multiples : Bonferroni pour ne tol\'erer aucun FP ;
+        BH-FDR pour les screenings.
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% MODULE 5
+% ============================================================
+
+\section{Module 5 -- R\'egression}
+
+\subsection{De la corr\'elation \`a la pr\'ediction}
+
+La r\'egression est l'outil le plus utilis\'e en recherche clinique
+contemporaine. Elle r\'epond \`a \textbf{deux questions distinctes} qu'il
+faut savoir s\'eparer.
+
+\textbf{Inf\'erentielle} : quels facteurs sont associ\'es \`a une issue,
+en ajustant pour les autres ? Exemple : l'IMC est-il associ\'e \`a la
+tension, ind\'ependamment de l'\^age et du sexe ? L'outil de
+pr\'edilection est \texttt{statsmodels}, qui donne coefficients,
+IC 95\,\%, p-values, $R^2$.
+
+\textbf{Pr\'edictive} : pour un nouveau patient, quelle est la
+probabilit\'e d'issue ? Quel est son risque \`a 10 ans ? L'outil de
+pr\'edilection est \texttt{scikit-learn}, qui donne pr\'edictions et
+m\'etriques de performance.
+
+\begin{notebox}
+\texttt{statsmodels} et \texttt{scikit-learn} ne sont \textbf{pas
+redondants}. Le m\^eme mod\`ele (r\'egression lin\'eaire ou logistique) ne
+vous renverra pas la m\^eme chose : \texttt{statsmodels} pour
+interpr\'eter, \texttt{scikit-learn} pour pr\'edire. Apprenez \`a
+utiliser les deux.
+\end{notebox}
+
+\subsection{R\'egression lin\'eaire simple et multiple}
+
+Le mod\`ele lin\'eaire :
+\[
+y_i = \beta_0 + \beta_1 x_{1i} + \beta_2 x_{2i} + \cdots + \varepsilon_i,
+\quad
+\varepsilon_i \sim \mathcal{N}(0, \sigma^2).
+\]
+
+Chaque coefficient $\beta_k$ s'interpr\`ete comme le \textbf{changement
+attendu de $y$ pour une augmentation de une unit\'e de $x_k$, en
+maintenant les autres pr\'edicteurs constants}. C'est la cl\'e de
+l'ajustement pour facteur de confusion.
+
+\subsection{Facteur de confusion : brute vs ajust\'ee}
+
+Un facteur de confusion est associ\'e \`a l'\textbf{exposition} et \`a
+l'\textbf{issue}, sans \^etre sur le chemin causal entre les deux. Si on
+l'ignore, l'estimation brute est biais\'ee.
+
+Exemple-\'ecole : le caf\'e semble \^etre un facteur de risque
+cardiovasculaire dans une analyse brute. Mais une fois qu'on ajuste pour
+le tabagisme, le coefficient du caf\'e s'\'evanouit. Le tabagisme \'etait
+le \emph{vrai} facteur, et il \'etait associ\'e \`a la consommation de
+caf\'e -- d'o\`u l'illusion.
+
+La r\'egression multiple ajuste \emph{simultan\'ement} pour tous les
+confondants observ\'es. Elle ne corrige \textbf{pas} les confondants
+inobservs\'es : pour cela il faut des m\'ethodes causales avanc\'ees
+(variables instrumentales, score de propension, \emph{difference-in-
+differences}).
+
+\subsection{V\'erifier les hypoth\`eses}
+
+Quatre conditions pour des inf\'erences valides :
+
+\begin{enumerate}
+  \item \textbf{Lin\'earit\'e} -- la relation entre $x_k$ et $y$ est
+        lin\'eaire. Diagnostic : graphique r\'esidus vs pr\'edits.
+  \item \textbf{Ind\'ependance} -- les observations sont ind\'ependantes
+        (faux si donn\'ees longitudinales : utiliser un mod\`ele mixte).
+  \item \textbf{Homosc\'edasticit\'e} -- la variance des r\'esidus est
+        constante. Un nuage en entonnoir est le drapeau rouge.
+  \item \textbf{Normalit\'e des r\'esidus} -- diagnostic QQ-plot. Pas
+        besoin d'\^etre parfait pour $n$ grand (TCL).
+\end{enumerate}
+
+\subsection{R\'egression logistique pour les issues binaires}
+
+Quand l'issue est oui/non, l'OLS pr\'edit des valeurs en dehors de
+$[0, 1]$ -- non utilisable. La logistique mod\'elise la
+\textbf{probabilit\'e} :
+\[
+\Pr(y = 1 \mid x) = \sigma(\beta_0 + \beta_1 x_1 + \cdots),
+\quad
+\sigma(z) = \frac{1}{1 + e^{-z}}.
+\]
+
+Les coefficients sont des \textbf{log-odds}. Pour les transformer en
+\textbf{odds ratios} interpr\'etables : $OR = e^{\beta}$. Un OR de 1{,}04
+par mg/dL de glyc\'emie signifie \og chaque mg/dL multiplie les cotes de
+diab\`ete par 1{,}04 \fg{}. Sur une plage de 30 mg/dL, l'effet compos\'e
+est $1{,}04^{30} \approx 3$ -- substantiel.
+
+\subsection{\'Evaluation : matrice de confusion et les quatre taux}
+
+Sur un \'echantillon test, comparer pr\'edictions et v\'erit\'e dans une
+matrice $2 \times 2$ :
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+                       & Pr\'edit + & Pr\'edit -- \\
+\midrule
+R\'eel +               & VP         & FN \\
+R\'eel --              & FP         & VN \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Les quatre m\'etriques cl\'es :
+
+\begin{itemize}
+  \item \textbf{Sensibilit\'e} = $VP / (VP+FN)$. Capacit\'e \`a
+        \textbf{d\'etecter} les malades. Cruciale pour les outils de
+        \emph{rule-out} (\og si test n\'egatif, je sais que ce n'est pas
+        \c{c}a \fg{}).
+  \item \textbf{Sp\'ecificit\'e} = $VN / (VN+FP)$. Capacit\'e \`a
+        \textbf{exclure} les non-malades. Cruciale pour les outils de
+        \emph{rule-in}.
+  \item \textbf{VPP} (valeur pr\'edictive positive) = $VP / (VP+FP)$.
+        Quand le test est positif, quelle est la probabilit\'e d'\^etre
+        vraiment malade.
+  \item \textbf{VPN} = $VN / (VN+FN)$. Quand le test est n\'egatif,
+        quelle est la probabilit\'e d'\^etre vraiment sain.
+\end{itemize}
+
+\begin{clinique}
+Sensibilit\'e et sp\'ecificit\'e d\'ependent uniquement du \textbf{test}.
+VPP et VPN d\'ependent aussi de la \textbf{pr\'evalence dans la
+population test\'ee}. Le m\^eme test, appliqu\'e en population
+g\'en\'erale (faible pr\'evalence) puis aux urgences (forte
+pr\'evalence), donne des VPP / VPN tr\`es diff\'erents. C'est pourquoi
+les recommandations de d\'epistage d\'ependent du contexte
+\'epid\'emiologique local.
+\end{clinique}
+
+\subsection{Points cl\'es du Module 5}
+
+\begin{itemize}
+  \item \texttt{statsmodels} pour l'inf\'erence ; \texttt{scikit-learn}
+        pour la pr\'ediction.
+  \item Coefficient = effet net \og toutes choses \'egales par
+        ailleurs \fg{}, parmi les variables observ\'ees.
+  \item OR = $e^{\beta}$ pour la logistique.
+  \item Toujours ajuster pour les confondants \textbf{observ\'es}.
+  \item Sensibilit\'e / sp\'ecificit\'e d\'ependent du test ; VPP / VPN
+        d\'ependent de la pr\'evalence.
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% MODULE 6
+% ============================================================
+
+\section{Module 6 -- Machine learning pour la pr\'ediction clinique}
+
+\subsection{Quand ne pas utiliser le ML}
+
+Le machine learning est s\'eduisant. Il est aussi \textbf{surutilis\'e}.
+Trois situations o\`u il est inappropri\'e :
+
+\textbf{Petits jeux de donn\'ees ($n < 200$).} Les arbres et les for\^ets
+surajustent. La r\'egression logistique avec quelques pr\'edicteurs
+choisis cliniquement est plus fiable et g\'en\'eralise mieux.
+
+\textbf{Validation r\'eglementaire.} La FDA, l'EMA, l'AFSSAPS et la
+plupart des agences exigent des mod\`eles \textbf{interpr\'etables}. Un
+mod\`ele bo\^ite-noire ne passera pas l'\'evaluation. La r\'egression
+logistique avec quelques pr\'edicteurs bien justifi\'es est le standard
+de fait.
+
+\textbf{Une r\`egle simple marche d\'ej\`a.} \og Glyc\'emie $> 126$ mg/dL
+\fg{} identifie l'essentiel des diab\'etiques. \og INR $> 4$ \fg{}
+identifie le surdosage en AVK. Si une r\`egle a une bonne sensibilit\'e,
+elle est plus simple, plus auditable et plus enseignable qu'un random
+forest.
+
+\begin{notebox}
+Une revue syst\'ematique r\'ecente \citep{christodoulou2019systematic} a
+montr\'e que sur 71 \'etudes comparant ML \`a la r\'egression logistique
+en pr\'ediction clinique, \textbf{aucun b\'en\'efice consistent en
+performance n'a \'et\'e d\'emontr\'e} pour le ML. La r\'egression
+logistique reste un baseline tr\`es difficile \`a battre.
+\end{notebox}
+
+\subsection{Train / test stratifi\'e}
+
+Toujours \textbf{stratifier} sur l'issue. Sans stratification, le jeu
+test peut avoir une pr\'evalence tr\`es diff\'erente du jeu
+d'entra\^inement et les m\'etriques deviennent instables.
+
+\begin{minted}{python}
+from sklearn.model_selection import train_test_split
+X_tr, X_te, y_tr, y_te = train_test_split(
+    X, y, test_size=0.3,
+    random_state=42, stratify=y
+)
+\end{minted}
+
+\subsection{Validation crois\'ee $k$-folds}
+
+Pour les petits jeux, le test unique est bruyant. La \textbf{validation
+crois\'ee} divise les donn\'ees en $k$ plis, entra\^ine sur $k-1$, teste
+sur le restant, et moyenne les $k$ scores obtenus.
+
+Cinq plis est le d\'efaut classique. Dix plis donne des estimations
+moins biais\'ees mais plus bruyantes. Pour les outcomes rares (incidence
+$< 5\,\%$), utiliser une \textbf{validation crois\'ee stratifi\'ee}
+(\texttt{StratifiedKFold}) qui pr\'eserve la pr\'evalence dans chaque
+pli.
+
+\subsection{Arbres et for\^ets al\'eatoires}
+
+Un \emph{arbre de d\'ecision} est une s\'equence de questions oui/non
+aboutissant \`a une feuille avec une classe pr\'edite. Sa force : la
+\textbf{lisibilit\'e clinique}. Un clinicien peut suivre l'arbre et
+expliquer la pr\'ediction au lit du patient.
+
+Sa faiblesse : sans contrainte de profondeur, l'arbre m\'emorise les
+donn\'ees d'entra\^inement et g\'en\'eralise mal. \textbf{Toujours fixer}
+\texttt{max\_depth}.
+
+Une \emph{for\^et al\'eatoire} combine des centaines d'arbres
+entra\^in\'es sur des \'echantillons \emph{bootstrap} avec des
+sous-ensembles al\'eatoires de variables, puis moyenne leurs
+pr\'edictions. La randomisation d\'ecorr\`ele les arbres et r\'eduit la
+variance.
+
+Trade-off : meilleures pr\'edictions, mais on perd la lisibilit\'e
+d'\og un arbre \fg{} pointable.
+
+\subsection{Courbe ROC et AUC}
+
+La courbe ROC trace la \textbf{sensibilit\'e} contre $1 -
+\textbf{sp\'ecificit\'e}$ quand on fait varier le seuil de d\'ecision de
+0 \`a 1. L'\textbf{AUC} (Area Under Curve) r\'esume tout en un nombre.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+AUC & Interpr\'etation \\
+\midrule
+$0{,}5$              & Pas mieux qu'un tirage \\
+$0{,}7 - 0{,}8$      & Acceptable \\
+$0{,}8 - 0{,}9$      & Excellent \\
+$> 0{,}9$            & Exceptionnel (rare en clinique r\'eelle) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{attention}
+L'AUC seule ne suffit pas. Un mod\`ele peut avoir une excellente AUC
+\textbf{et \^etre inutile} si ses probabilit\'es sont mal calibr\'ees,
+ou s'il pr\'esente un biais entre sous-groupes. \textbf{Toujours}
+compl\'eter l'AUC par une courbe de calibration et un audit d'\'equit\'e.
+\end{attention}
+
+\subsection{Calibration : les probabilit\'es sont-elles dignes de confiance ?}
+
+Une bonne AUC n'implique \textbf{pas} de bonnes probabilit\'es. Un
+mod\`ele \textbf{bien calibr\'e} produit des probabilit\'es qui
+correspondent aux fr\'equences observ\'ees : si vous pr\'edisez 30 \% de
+risque \`a 10 ans, environ 30 \% des patients d\'eveloppent
+effectivement la maladie.
+
+On v\'erifie avec :
+
+\begin{itemize}
+  \item \textbf{Courbe de calibration} -- probabilit\'e moyenne pr\'edite
+        vs proportion observ\'ee, par d\'ecile de risque. Une bonne
+        calibration s'approche de la diagonale.
+  \item \textbf{Score de Brier} -- erreur quadratique moyenne entre
+        probabilit\'es pr\'edites et issues 0/1. Plus bas = mieux.
+\end{itemize}
+
+\subsection{Audit d'\'equit\'e}
+
+V\'erifier que le mod\`ele performe \textbf{de mani\`ere comparable}
+entre groupes (sexe, \^age, ethnie, comorbidit\'e). Un \'ecart de
+plusieurs points d'AUC entre groupes est un signal d'alerte.
+
+\citet{obermeyer2019dissecting} ont d\'emontr\'e qu'un algorithme
+largement d\'eploy\'e aux \'Etats-Unis sous-allouait syst\'ematiquement
+les soins aux patients afro-am\'ericains -- non par dessein, mais parce
+que la d\'epense pass\'ee servait de proxy au besoin futur, et les
+patients afro-am\'ericains d\'epensaient moins \`a niveau de morbidit\'e
+\'egal. L'audit d'\'equit\'e est un \textbf{contr\^ole minimal} avant tout
+d\'eploiement.
+
+\subsection{Crit\`eres pour d\'eployer un mod\`ele}
+
+Avant de mettre un mod\`ele en production clinique :
+
+\begin{enumerate}
+  \item \textbf{Validation externe} sur un jeu ind\'ependant (autre
+        h\^opital, autre p\'eriode). La performance baisse souvent de
+        plusieurs points d'AUC -- attendez-vous-y.
+  \item \textbf{Audit d'\'equit\'e} d\'ej\`a discut\'e.
+  \item \textbf{Calibration} explicite, avec recalibration si
+        n\'ecessaire.
+  \item \textbf{D\'efinition du seuil de d\'ecision} co-construite avec
+        les cliniciens et li\'ee \`a une action concr\`ete.
+  \item \textbf{Monitoring} en production pour d\'etecter le drift.
+  \item \textbf{Documentation TRIPOD-AI} \citep{collins2024tripodai}.
+\end{enumerate}
+
+\subsection{Points cl\'es du Module 6}
+
+\begin{itemize}
+  \item Le ML n'est pas toujours le bon outil ; la logistique reste un
+        baseline difficile \`a battre.
+  \item Stratifier le train/test ; valider en CV $k$-folds.
+  \item AUC est n\'ecessaire mais pas suffisant : ajouter calibration
+        et audit d'\'equit\'e.
+  \item Validation externe avant tout d\'eploiement clinique.
+  \item Documenter selon TRIPOD-AI.
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% POUR ALLER PLUS LOIN
+% ============================================================
+
+\section{Pour aller plus loin}
+
+Cette version 6 heures se concentre sur l'\'epine dorsale analytique.
+La version 30 heures couvre trois sujets non abord\'es ici :
+
+\textbf{Analyse temporelle approfondie.} D\'ecomposition saisonni\`ere
+des s\'eries de cas, mod\'elisation ARIMA, lissage exponentiel, courbes
+\'epid\'emiques avec retards de d\'eclaration. Voir
+\texttt{code/notebooks/ch09\_geospatial\_temporel.ipynb}.
+
+\textbf{Analyse spatiale.} GeoPandas, projections, choropleths,
+auto-corr\'elation spatiale, hotspot analysis avec les indices de Moran
+et Getis-Ord. Voir le m\^eme chapitre.
+
+\textbf{Projet capstone.} Analyse compl\`ete end-to-end sur un jeu r\'eel,
+r\'edaction d'un rapport et soutenance orale. Voir
+\texttt{code/notebooks/ch10\_projet\_final.ipynb}.
+
+Ressources additionnelles incontournables :
+
+\begin{itemize}
+  \item \textbf{An Introduction to Statistical Learning} (James, Witten,
+        Hastie, Tibshirani) -- gratuit en ligne :
+        \url{https://www.statlearning.com/}.
+  \item \textbf{Python Data Science Handbook} (Jake VanderPlas) --
+        gratuit en ligne :
+        \url{https://jakevdp.github.io/PythonDataScienceHandbook/}.
+  \item \textbf{Regression Modeling Strategies} (Frank Harrell) -- la
+        bible de la r\'egression en biostatistique.
+  \item \textbf{TRIPOD-AI Statement} pour le rapportage de mod\`eles de
+        pr\'ediction en sant\'e : \url{https://www.tripod-statement.org/}.
+\end{itemize}
+
+\newpage
+
+% ============================================================
+% ANNEXE : AIDE-MEMOIRE
+% ============================================================
+
+\section*{Annexe -- Aide-m\'emoire des snippets cl\'es}
+\addcontentsline{toc}{section}{Annexe -- Aide-m\'emoire}
+
+\subsection*{Charger un fichier}
+\begin{minted}{python}
+df = pd.read_csv("fichier.csv")
+df = pd.read_csv("fichier.tsv", sep="\t")
+df = pd.read_excel("fichier.xlsx", sheet_name=0)
+\end{minted}
+
+\subsection*{Inspecter}
+\begin{minted}{python}
+df.head(); df.shape; df.dtypes; df.describe()
+df["col"].value_counts(); df["col"].nunique()
+df.isnull().sum()
+\end{minted}
+
+\subsection*{Filtrer / trier / grouper}
+\begin{minted}{python}
+df[df["col"] > 5]
+df[(df["a"] > 1) & (df["b"] == "X")]
+df.sort_values("col", ascending=False)
+df.nlargest(10, "col")
+df.groupby("cat")["x"].agg(["mean", "median"])
+\end{minted}
+
+\subsection*{Cr\'eer une colonne}
+\begin{minted}{python}
+df["nouvelle"] = df["a"] * df["b"]
+df["categ"] = pd.cut(df["x"], bins=[0, 1, 2], labels=["L", "H"])
+\end{minted}
+
+\subsection*{Nettoyer}
+\begin{minted}{python}
+df = df.drop_duplicates()
+df = df.dropna(subset=["col"])
+df["col"] = df["col"].fillna(df["col"].median())
+df.loc[df["col"] < 0, "col"] = np.nan
+\end{minted}
+
+\subsection*{Visualiser (matplotlib + seaborn)}
+\begin{minted}{python}
+fig, ax = plt.subplots(figsize=(8, 5))
+ax.hist(s, bins=30); ax.set_xlabel("..."); ax.set_ylabel("...")
+sns.boxplot(data=df, x="cat", y="val", ax=ax)
+ax.axvline(seuil, color="red", ls="--")
+plt.tight_layout(); plt.show()
+\end{minted}
+
+\subsection*{Tests}
+\begin{minted}{python}
+from scipy import stats
+stats.ttest_ind(a, b, equal_var=False)        # Welch
+stats.ttest_rel(avant, apres)                  # apparie
+stats.chi2_contingency(table)                  # chi2
+stats.mannwhitneyu(g1, g2, alternative="two-sided")
+\end{minted}
+
+\subsection*{R\'egression}
+\begin{minted}{python}
+import statsmodels.api as sm
+X = sm.add_constant(df[predicteurs])
+ols = sm.OLS(df["y"], X).fit()
+logit = sm.Logit(df["y_bin"], X).fit(disp=False)
+np.exp(logit.params)                           # OR
+\end{minted}
+
+\subsection*{Machine learning}
+\begin{minted}{python}
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import roc_auc_score, confusion_matrix
+
+X_tr, X_te, y_tr, y_te = train_test_split(
+    X, y, test_size=0.3, random_state=42, stratify=y)
+rf = RandomForestClassifier(n_estimators=200, max_depth=6,
+                            random_state=42).fit(X_tr, y_tr)
+roc_auc_score(y_te, rf.predict_proba(X_te)[:, 1])
+\end{minted}
+
+\newpage
+
+% ============================================================
+% BIBLIOGRAPHIE
+% ============================================================
+
+\section*{Bibliographie}
+\addcontentsline{toc}{section}{Bibliographie}
+
+\renewcommand{\refname}{}
+
+\begin{thebibliography}{99}
+
+\bibitem[Benjamini \& Hochberg, 1995]{benjamini1995controlling}
+Benjamini, Y. \& Hochberg, Y. (1995).
+Controlling the false discovery rate: a practical and powerful approach
+to multiple testing.
+\emph{Journal of the Royal Statistical Society B}, 57(1), 289-300.
+
+\bibitem[Christodoulou et al., 2019]{christodoulou2019systematic}
+Christodoulou, E. et al. (2019).
+A systematic review shows no performance benefit of machine learning
+over logistic regression for clinical prediction models.
+\emph{Journal of Clinical Epidemiology}, 110, 12-22.
+
+\bibitem[Cohen, 1988]{cohen1988statistical}
+Cohen, J. (1988).
+\emph{Statistical Power Analysis for the Behavioral Sciences}, 2e ed.
+Lawrence Erlbaum.
+
+\bibitem[Collins et al., 2024]{collins2024tripodai}
+Collins, G. S. et al. (2024).
+TRIPOD+AI statement: updated guidance for reporting clinical prediction
+models that use regression or machine learning methods.
+\emph{BMJ}, 385, e078378.
+
+\bibitem[Obermeyer et al., 2019]{obermeyer2019dissecting}
+Obermeyer, Z., Powers, B., Vogeli, C., \& Mullainathan, S. (2019).
+Dissecting racial bias in an algorithm used to manage the health of
+populations.
+\emph{Science}, 366(6464), 447-453.
+
+\bibitem[Rubin, 1976]{rubin1976inference}
+Rubin, D. B. (1976).
+Inference and missing data.
+\emph{Biometrika}, 63(3), 581-592.
+
+\bibitem[Ruxton, 2006]{ruxton2006unequal}
+Ruxton, G. D. (2006).
+The unequal variance t-test is an underused alternative to Student's
+t-test and the Mann-Whitney U test.
+\emph{Behavioral Ecology}, 17(4), 688-690.
+
+\bibitem[Tufte, 2001]{tufte2001}
+Tufte, E. R. (2001).
+\emph{The Visual Display of Quantitative Information}, 2e ed.
+Graphics Press.
+
+\bibitem[Wasserstein \& Lazar, 2016]{wasserstein2016asa}
+Wasserstein, R. L. \& Lazar, N. A. (2016).
+The ASA statement on p-values: context, process, and purpose.
+\emph{The American Statistician}, 70(2), 129-133.
+
+\bibitem[Weiskopf \& Weng, 2013]{weiskopf2013methods}
+Weiskopf, N. G. \& Weng, C. (2013).
+Methods and dimensions of electronic health record data quality
+assessment.
+\emph{Journal of the American Medical Informatics Association}, 20(1),
+144-151.
+
+\bibitem[Wong, 2011]{wong2011points}
+Wong, B. (2011).
+Color blindness.
+\emph{Nature Methods}, 8(6), 441.
+
+\end{thebibliography}
+
+\end{document}
