@@ -528,86 +528,6 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Analyse de Données avec Python",
-    "section": "",
-    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans pré-requis en programmation.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#pour-professionnels-de-la-santé",
-    "href": "index.html#pour-professionnels-de-la-santé",
-    "title": "Analyse de Données avec Python",
-    "section": "",
-    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans pré-requis en programmation.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#à-propos-du-cours",
-    "href": "index.html#à-propos-du-cours",
-    "title": "Analyse de Données avec Python",
-    "section": "À propos du cours",
-    "text": "À propos du cours\nCe cours s’adresse aux professionnels de santé qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nQue vous travailliez sur la surveillance épidémiologique (VIH, paludisme, tuberculose, choléra), la santé environnementale (pollution de l’air, qualité de l’eau, exposition au climat), l’évaluation des risques sanitaires, les programmes d’élimination de maladies, la recherche clinique, ou la santé publique programmatique au sens large — les outils analytiques sont les mêmes : Python, pandas, matplotlib, scipy, scikit-learn, statsmodels.\nAucune expérience de programmation n’est requise pour démarrer le Module 1. Des notions de base en statistique (moyenne, intervalle de confiance) aident pour les Modules 4 à 6 mais ne sont pas obligatoires.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#en-un-coup-dœil",
-    "href": "index.html#en-un-coup-dœil",
-    "title": "Analyse de Données avec Python",
-    "section": "En un coup d’œil",
-    "text": "En un coup d’œil\n\n\nNiveau\nDébutant complet. Aucune ligne de Python requise au démarrage.\n\n\nDurée\nSix heures réparties en six modules d’une heure (atelier d’une journée, trois demi-journées, ou rythme libre).\n\n\nOutils\nPython 3.10+ · Jupyter · Google Colab · notebooks bilingues code + commentaires en français.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#les-six-modules",
-    "href": "index.html#les-six-modules",
-    "title": "Analyse de Données avec Python",
-    "section": "Les six modules",
-    "text": "Les six modules\n\n\n\n MODULE 1\n\n Python et Pandas\nVariables, listes, dictionnaires, fonctions, boucles. Charger un CSV public, l’inspecter. Filtrer, trier, grouper avec pandas.\nDonnées : Gapminder · Prérequis : aucun\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 2\n\n Nettoyage et descriptif\nValeurs manquantes (MCAR/MAR/MNAR), pipeline de nettoyage réutilisable, mesures épidémiologiques : prévalence, incidence, RR, OR avec IC.\nDonnées : Gapminder · Prérequis : Module 1\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 3\n\n Visualisation\nHistogramme, boîte à moustaches, barres, ligne, scatter, heatmap. Palette accessible aux daltoniens. Tableau de bord 4 panneaux.\nDonnées : Gapminder + simulations · Prérequis : Module 1\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 4\n\n Tests d’hypothèses\nt-test (un / deux échantillons / apparié), χ², Mann-Whitney U. Taille d’effet, IC, correction pour tests multiples (Bonferroni, FDR).\nDonnées : Framingham · Prérequis : Modules 1, 2\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 5\n\n Régression\nRégression linéaire simple et multiple. Confounding, ajustement. Régression logistique et odds ratios. Sensibilité, spécificité, VPP, VPN.\nDonnées : Pima Indians Diabetes · Prérequis : Modules 1, 2, 4\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 6\n\n Machine learning clinique\nTrain/test stratifié, CV 5-folds. Arbres et forêts aléatoires. ROC + AUC, calibration, audit d’équité par sexe.\nDonnées : UCI Heart Disease · Prérequis : Modules 1, 2, 5\n\n\n\nOpen In Colab",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#démarrage-rapide",
-    "href": "index.html#démarrage-rapide",
-    "title": "Analyse de Données avec Python",
-    "section": "Démarrage rapide",
-    "text": "Démarrage rapide\n\nOption A — Google ColabOption B — Jupyter en local\n\n\nAucune installation. Cliquez sur un badge Open In Colab ci-dessus (ou ouvrez d’abord le sommaire interactif) puis exécutez cellule par cellule avec Maj + Entrée.\nLes données se chargent depuis l’URL publique automatiquement — aucune configuration locale.\n\n\ngit clone https://github.com/gabayae/-python-sante.git python-sante\ncd python-sante\npip install -r requirements.txt\njupyter notebook\nLe navigateur ouvre une interface — naviguez dans notebooks_vierges/ et double-cliquez sur le module à étudier.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#notes-de-cours-en-pdf",
-    "href": "index.html#notes-de-cours-en-pdf",
-    "title": "Analyse de Données avec Python",
-    "section": "Notes de cours en PDF",
-    "text": "Notes de cours en PDF\nLes notes de cours en PDF (26 pages) développent la matière théorique et méthodologique de chaque module, avec des extraits de code illustratifs et des références bibliographiques. À utiliser en parallèle des notebooks pour le fond conceptuel.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
-    "objectID": "index.html#pour-aller-plus-loin",
-    "href": "index.html#pour-aller-plus-loin",
-    "title": "Analyse de Données avec Python",
-    "section": "Pour aller plus loin",
-    "text": "Pour aller plus loin\nTrois sujets ne sont pas couverts par cette version condensée. Ils font partie de la version 30 h du cours :\n\nAnalyse temporelle approfondie — décomposition saisonnière, ARIMA, retards de déclaration.\nAnalyse spatiale — geopandas, choroplèthes, indices de Moran et Getis-Ord.\nProjet capstone — analyse end-to-end + rapport + soutenance.\n\nVoir la Section 7 des notes PDF pour les références bibliographiques associées.",
-    "crumbs": [
-      "Accueil"
-    ]
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "À propos du cours",
@@ -715,6 +635,86 @@
     "crumbs": [
       "Accueil",
       "À propos"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Analyse de Données avec Python",
+    "section": "",
+    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans pré-requis en programmation.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#pour-professionnels-de-la-santé",
+    "href": "index.html#pour-professionnels-de-la-santé",
+    "title": "Analyse de Données avec Python",
+    "section": "",
+    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans pré-requis en programmation.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#à-propos-du-cours",
+    "href": "index.html#à-propos-du-cours",
+    "title": "Analyse de Données avec Python",
+    "section": "À propos du cours",
+    "text": "À propos du cours\nCe cours s’adresse aux professionnels de santé qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nQue vous travailliez sur la surveillance épidémiologique (VIH, paludisme, tuberculose, choléra), la santé environnementale (pollution de l’air, qualité de l’eau, exposition au climat), l’évaluation des risques sanitaires, les programmes d’élimination de maladies, la recherche clinique, ou la santé publique programmatique au sens large — les outils analytiques sont les mêmes : Python, pandas, matplotlib, scipy, scikit-learn, statsmodels.\nAucune expérience de programmation n’est requise pour démarrer le Module 1. Des notions de base en statistique (moyenne, intervalle de confiance) aident pour les Modules 4 à 6 mais ne sont pas obligatoires.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#en-un-coup-dœil",
+    "href": "index.html#en-un-coup-dœil",
+    "title": "Analyse de Données avec Python",
+    "section": "En un coup d’œil",
+    "text": "En un coup d’œil\n\n\nNiveau\nDébutant complet. Aucune ligne de Python requise au démarrage.\n\n\nDurée\nSix heures réparties en six modules d’une heure (atelier d’une journée, trois demi-journées, ou rythme libre).\n\n\nOutils\nPython 3.10+ · Jupyter · Google Colab · notebooks bilingues code + commentaires en français.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#les-six-modules",
+    "href": "index.html#les-six-modules",
+    "title": "Analyse de Données avec Python",
+    "section": "Les six modules",
+    "text": "Les six modules\n\n\n\n MODULE 1\n\n Python et Pandas\nVariables, listes, dictionnaires, fonctions, boucles. Charger un CSV public, l’inspecter. Filtrer, trier, grouper avec pandas.\nDonnées : Gapminder · Prérequis : aucun\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 2\n\n Nettoyage et descriptif\nValeurs manquantes (MCAR/MAR/MNAR), pipeline de nettoyage réutilisable, mesures épidémiologiques : prévalence, incidence, RR, OR avec IC.\nDonnées : Gapminder · Prérequis : Module 1\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 3\n\n Visualisation\nHistogramme, boîte à moustaches, barres, ligne, scatter, heatmap. Palette accessible aux daltoniens. Tableau de bord 4 panneaux.\nDonnées : Gapminder + simulations · Prérequis : Module 1\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 4\n\n Tests d’hypothèses\nt-test (un / deux échantillons / apparié), χ², Mann-Whitney U. Taille d’effet, IC, correction pour tests multiples (Bonferroni, FDR).\nDonnées : Framingham · Prérequis : Modules 1, 2\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 5\n\n Régression\nRégression linéaire simple et multiple. Confounding, ajustement. Régression logistique et odds ratios. Sensibilité, spécificité, VPP, VPN.\nDonnées : Pima Indians Diabetes · Prérequis : Modules 1, 2, 4\n\n\n\nOpen In Colab\n\n\n\n\n\n\n\n MODULE 6\n\n Machine learning clinique\nTrain/test stratifié, CV 5-folds. Arbres et forêts aléatoires. ROC + AUC, calibration, audit d’équité par sexe.\nDonnées : UCI Heart Disease · Prérequis : Modules 1, 2, 5\n\n\n\nOpen In Colab",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#démarrage-rapide",
+    "href": "index.html#démarrage-rapide",
+    "title": "Analyse de Données avec Python",
+    "section": "Démarrage rapide",
+    "text": "Démarrage rapide\n\nOption A — Google ColabOption B — Jupyter en local\n\n\nAucune installation. Cliquez sur un badge Open In Colab ci-dessus (ou ouvrez d’abord le sommaire interactif) puis exécutez cellule par cellule avec Maj + Entrée.\nLes données se chargent depuis l’URL publique automatiquement — aucune configuration locale.\n\n\ngit clone https://github.com/gabayae/-python-sante.git python-sante\ncd python-sante\npip install -r requirements.txt\njupyter notebook\nLe navigateur ouvre une interface — naviguez dans notebooks_vierges/ et double-cliquez sur le module à étudier.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#notes-de-cours-en-pdf",
+    "href": "index.html#notes-de-cours-en-pdf",
+    "title": "Analyse de Données avec Python",
+    "section": "Notes de cours en PDF",
+    "text": "Notes de cours en PDF\nLes notes de cours en PDF (26 pages) développent la matière théorique et méthodologique de chaque module, avec des extraits de code illustratifs et des références bibliographiques. À utiliser en parallèle des notebooks pour le fond conceptuel.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#pour-aller-plus-loin",
+    "href": "index.html#pour-aller-plus-loin",
+    "title": "Analyse de Données avec Python",
+    "section": "Pour aller plus loin",
+    "text": "Pour aller plus loin\nTrois sujets ne sont pas couverts par cette version condensée. Ils font partie de la version 30 h du cours :\n\nAnalyse temporelle approfondie — décomposition saisonnière, ARIMA, retards de déclaration.\nAnalyse spatiale — geopandas, choroplèthes, indices de Moran et Getis-Ord.\nProjet capstone — analyse end-to-end + rapport + soutenance.\n\nVoir la Section 7 des notes PDF pour les références bibliographiques associées.",
+    "crumbs": [
+      "Accueil"
     ]
   },
   {
