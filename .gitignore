@@ -36,12 +36,16 @@ Thumbs.db
 # (utilisees uniquement pour regenerer les .ipynb depuis Python)
 _build/
 
-# Quarto build artifacts (le dossier docs/ est commit pour GitHub Pages)
+# Quarto build artifacts
+# Le site est build automatiquement par GitHub Actions et publie sur la
+# branche gh-pages (voir .github/workflows/quarto-publish.yml). Aucun
+# fichier rendu n'est commit sur main.
+docs/
 .quarto/
+_freeze/
 *_files/
 *.html
-!docs/**/*.html
-# Note : on garde docs/ commit pour Pages, mais .quarto/ (cache) est ignore.
+!index.html              # exception : si jamais on a un index.html source
 
 /.quarto/
 **/*.quarto_ipynb

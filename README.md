@@ -9,6 +9,12 @@
 </p>
 
 <p align="center">
+  <a href="https://gabayae.github.io/-python-sante/"><img src="https://img.shields.io/badge/Site-Live-009E73?style=for-the-badge&logo=quarto&logoColor=white" alt="Site live"/></a>
+  <a href="https://github.com/gabayae/-python-sante/actions/workflows/quarto-publish.yml"><img src="https://github.com/gabayae/-python-sante/actions/workflows/quarto-publish.yml/badge.svg" alt="Build status"/></a>
+  <a href="https://github.com/gabayae/-python-sante/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-CC--BY--SA%204.0-lightgrey?style=flat-square" alt="License CC-BY-SA 4.0"/></a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Langue-Fran%C3%A7ais-0072B2?style=flat-square" alt="Langue"/>
   <img src="https://img.shields.io/badge/Niveau-D%C3%A9butant-009E73?style=flat-square" alt="Niveau"/>
   <img src="https://img.shields.io/badge/Dur%C3%A9e-6h-D55E00?style=flat-square" alt="Durée"/>
@@ -22,6 +28,11 @@
   ou trois demi-journées (3 × 2 h).<br/>
   <b>Public</b> : professionnels de santé, épidémiologistes, étudiants
   en santé publique, sans pré-requis en programmation.
+</p>
+
+<p align="center">
+  <b>Site web complet</b> :
+  <a href="https://gabayae.github.io/-python-sante/">https://gabayae.github.io/-python-sante/</a>
 </p>
 
 ---
