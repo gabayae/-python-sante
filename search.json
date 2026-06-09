@@ -532,7 +532,7 @@
     "href": "index.html",
     "title": "Analyse de Données avec Python",
     "section": "",
-    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé, épidémiologistes et étudiants en santé publique sans pré-requis en programmation.",
+    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans pré-requis en programmation.",
     "crumbs": [
       "Accueil"
     ]
@@ -542,7 +542,17 @@
     "href": "index.html#pour-professionnels-de-la-santé",
     "title": "Analyse de Données avec Python",
     "section": "",
-    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé, épidémiologistes et étudiants en santé publique sans pré-requis en programmation.",
+    "text": "Six modules d’une heure — du Python de base au machine learning clinique, pensé pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans pré-requis en programmation.",
+    "crumbs": [
+      "Accueil"
+    ]
+  },
+  {
+    "objectID": "index.html#à-propos-du-cours",
+    "href": "index.html#à-propos-du-cours",
+    "title": "Analyse de Données avec Python",
+    "section": "À propos du cours",
+    "text": "À propos du cours\nCe cours s’adresse aux professionnels de santé qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nQue vous travailliez sur la surveillance épidémiologique (VIH, paludisme, tuberculose, choléra), la santé environnementale (pollution de l’air, qualité de l’eau, exposition au climat), l’évaluation des risques sanitaires, les programmes d’élimination de maladies, la recherche clinique, ou la santé publique programmatique au sens large — les outils analytiques sont les mêmes : Python, pandas, matplotlib, scipy, scikit-learn, statsmodels.\nAucune expérience de programmation n’est requise pour démarrer le Module 1. Des notions de base en statistique (moyenne, intervalle de confiance) aident pour les Modules 4 à 6 mais ne sont pas obligatoires.",
     "crumbs": [
       "Accueil"
     ]
@@ -602,7 +612,7 @@
     "href": "about.html",
     "title": "À propos du cours",
     "section": "",
-    "text": "Ce cours est conçu pour les professionnels de santé (médecins, soignants, sage-femmes, pharmaciens), les épidémiologistes et les étudiants en santé publique qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nLa version 6 h se concentre sur l’épine dorsale analytique :\n\nPython et Pandas pour la santé\nNettoyage et statistique descriptive\nVisualisation pour données de santé\nTests d’hypothèses\nRégression (linéaire + logistique)\nMachine learning clinique",
+    "text": "Ce cours est conçu pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nLa version 6 h se concentre sur l’épine dorsale analytique :\n\nPython et Pandas pour la santé\nNettoyage et statistique descriptive\nVisualisation pour données de santé\nTests d’hypothèses\nRégression (linéaire + logistique)\nMachine learning clinique",
     "crumbs": [
       "Accueil",
       "À propos"
@@ -613,7 +623,7 @@
     "href": "about.html#objectif",
     "title": "À propos du cours",
     "section": "",
-    "text": "Ce cours est conçu pour les professionnels de santé (médecins, soignants, sage-femmes, pharmaciens), les épidémiologistes et les étudiants en santé publique qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nLa version 6 h se concentre sur l’épine dorsale analytique :\n\nPython et Pandas pour la santé\nNettoyage et statistique descriptive\nVisualisation pour données de santé\nTests d’hypothèses\nRégression (linéaire + logistique)\nMachine learning clinique",
+    "text": "Ce cours est conçu pour les professionnels de santé qui veulent analyser leurs données eux-mêmes, sans avoir à sous-traiter chaque question à un statisticien.\nLa version 6 h se concentre sur l’épine dorsale analytique :\n\nPython et Pandas pour la santé\nNettoyage et statistique descriptive\nVisualisation pour données de santé\nTests d’hypothèses\nRégression (linéaire + logistique)\nMachine learning clinique",
     "crumbs": [
       "Accueil",
       "À propos"
@@ -624,7 +634,7 @@
     "href": "about.html#pour-qui",
     "title": "À propos du cours",
     "section": "Pour qui ?",
-    "text": "Pour qui ?\nAucune expérience de programmation n’est requise pour démarrer le Module 1. Des notions de base en statistique (moyenne, intervalle de confiance) aident pour les Modules 4 à 6 mais ne sont pas obligatoires.",
+    "text": "Pour qui ?\nL’audience est volontairement large. Le cours s’adresse autant aux cliniciens qu’aux personnes qui travaillent sur :\n\nSurveillance épidémiologique — VIH, paludisme, tuberculose, choléra, dengue, COVID-19, programmes nationaux de surveillance.\nSanté environnementale — pollution de l’air, qualité de l’eau, exposition au climat, sécurité alimentaire.\nÉvaluation des risques sanitaires — analyse de risque, études cas-témoin, cohortes professionnelles.\nProgrammes d’élimination — paludisme, lèpre, dracunculose, filariose lymphatique, schistosomiase.\nRecherche clinique et essais — analyses descriptives, tests, régression, suivi de cohortes.\nSanté publique programmatique — couverture vaccinale, santé maternelle et infantile, planification familiale, nutrition.\nÉconomie de la santé et systèmes de santé — analyse de coûts, équité d’accès, qualité des soins.\n\nLes outils analytiques sont les mêmes dans tous ces domaines : Python, pandas, matplotlib, scipy, scikit-learn, statsmodels.\nAucune expérience de programmation n’est requise pour démarrer le Module 1. Des notions de base en statistique (moyenne, intervalle de confiance) aident pour les Modules 4 à 6 mais ne sont pas obligatoires.",
     "crumbs": [
       "Accueil",
       "À propos"
