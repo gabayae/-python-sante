@@ -1,0 +1,81 @@
+---
+title: ""
+toc: false
+page-layout: full
+sidebar: false
+---
+
+::: {.hero-banner style="text-align: center; padding: 5.5rem 2rem;"}
+
+# 404
+
+## Page introuvable
+
+L'URL que vous cherchez n'existe pas — ou n'existe plus.
+Pas de panique, voici où aller.
+
+:::
+
+<br/>
+
+::: {.grid .gap-3}
+
+::: {.g-col-12 .g-col-md-4}
+::: {.module-card style="text-align: center;"}
+[ACCUEIL]{.module-number}
+
+#### [<i class="bi bi-house-fill"></i> Retour à la page d'accueil](index.qmd)
+
+Le sommaire visuel des six modules, le démarrage rapide et toutes les
+ressources du cours.
+
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.module-card style="text-align: center;"}
+[NOTES]{.module-number}
+
+#### [<i class="bi bi-file-earmark-pdf"></i> Notes de cours (PDF)](notes/notes_6h.pdf)
+
+26 pages en français — théorie, méthodologie, snippets de code, références
+bibliographiques pour aller plus loin.
+
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.module-card style="text-align: center;"}
+[À PROPOS]{.module-number}
+
+#### [<i class="bi bi-info-circle"></i> À propos du cours](about.qmd)
+
+Public visé, format pédagogique, jeux de données, citation, licence,
+instructeur.
+
+:::
+:::
+
+:::
+
+<br/>
+
+::: {.callout-note collapse="false"}
+
+#### Comment êtes-vous arrivé ici ?
+
+- **Vous avez tapé l'URL à la main** — vérifiez l'orthographe (les noms de
+  modules sont du type `notebooks_executes/module_01_python_pandas.html`).
+- **Vous avez cliqué sur un lien** — il y a peut-être une coquille quelque
+  part dans le site. [Ouvrir une issue](https://github.com/gabayae/-python-sante/issues/new)
+  serait grandement apprécié.
+- **Vous cherchez la version 30 h** — elle est distribuée séparément,
+  voir la section [Pour aller plus loin](index.qmd#pour-aller-plus-loin).
+
+:::
+
+<br/>
+
+::: {style="text-align: center; color: #87796a; font-size: 0.9rem; margin-top: 2rem;"}
+Code de statut HTTP 404 · Document not found
+:::

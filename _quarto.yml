@@ -10,6 +10,7 @@ project:
   render:
     - "index.qmd"
     - "about.qmd"
+    - "404.qmd"
     - "notebooks_executes/index.ipynb"
     - "notebooks_executes/module_01_python_pandas.ipynb"
     - "notebooks_executes/module_02_nettoyage_descriptif.ipynb"
@@ -17,6 +18,8 @@ project:
     - "notebooks_executes/module_04_tests_hypotheses.ipynb"
     - "notebooks_executes/module_05_regression.ipynb"
     - "notebooks_executes/module_06_ml_clinique.ipynb"
+  resources:
+    - "og-image.png"
 
 # ----- Ne JAMAIS re-executer les notebooks ; on utilise les sorties deja la
 execute:
@@ -32,6 +35,22 @@ website:
   page-navigation: true
   back-to-top-navigation: true
   favicon: favicon.svg
+
+  # --- Open Graph (Facebook, LinkedIn, WhatsApp, Slack, etc.) ---
+  open-graph:
+    locale: fr_FR
+    image: og-image.png
+    image-width: 1200
+    image-height: 630
+    image-alt: "Cours : Analyse de Données avec Python pour Professionnels de la Santé"
+
+  # --- Twitter / X card large ---
+  twitter-card:
+    image: og-image.png
+    image-width: 1200
+    image-height: 630
+    image-alt: "Cours : Analyse de Données avec Python pour Professionnels de la Santé"
+    card-style: summary_large_image
 
   navbar:
     background: primary
@@ -124,6 +143,9 @@ format:
     page-layout: full
     notebook-links: global
     notebook-view: true
+    # JSON-LD structured data (schema.org Course) pour rich results Google
+    include-in-header:
+      - _includes/schema.html
 
 # Boutons « Open in Colab » sur chaque page de notebook
 # (Quarto les genere automatiquement quand le repo-url est defini)
