@@ -12,6 +12,143 @@ d'autres facilitateurs).
 
 ---
 
+## Décision stratégique sur le curriculum
+
+> **À trancher AVANT d'ajouter de nouveaux modules.**
+
+### Le diagnostic
+
+Le matériel actuel couvre superbement la **biostatistique computationnelle**
+(nettoyage, descriptif, IC, tests, régression ajustée, ML calibré) — soit
+exactement ce qu'il faut pour rédiger un papier scientifique en santé.
+
+Mais pour du **renforcement de capacités en science des données**, il
+manque trois compétences cruciales du quotidien du data scientist :
+
+1. **Travailler sur des données réelles cassées.** Joindre plusieurs
+   sources (4 fichiers Excel, 1 export ODBC), parser des dates en formats
+   mixtes, réconcilier des IDs qui changent selon le système source. C'est
+   60-80 % du temps d'un data scientist.
+2. **Communiquer une analyse.** Produire un rapport reproductible
+   (Quarto / PDF / HTML), embarquer figures + tableaux + texte, exporter
+   dans un format lisible par le directeur de district, le PNLP, l'OMS.
+3. **Reproductibilité opérationnelle.** Au-delà des graines aléatoires :
+   versionner son code (Git), organiser un projet en dossiers, lancer une
+   analyse par ligne de commande. Pour qu'un collègue reprenne l'analyse
+   6 mois plus tard.
+
+### Trois options à arbitrer
+
+#### Option A — Recadrer le titre (5 min, conservateur)
+
+Renommer le cours **« Biostatistique computationnelle avec Python pour la
+santé »**. Plus honnête, plus précis, plus défendable devant un comité
+scientifique. Le contenu actuel devient parfaitement aligné avec son
+nom — il n'y a plus de promesse non tenue.
+
+**Coût** : 5 min (édition de quelques fichiers).
+**Bénéfice** : crédibilité immédiate, pas d'ajout de maintenance.
+**Limite** : n'aide pas les apprenants qui ont besoin de la couche
+« data scientist » pour leur poste réel.
+
+#### Option B — Étendre à 7-8 heures (recommandé, ~2-3 h de travail)
+
+Ajouter deux nouveaux modules :
+
+- **Module 7 — Données réelles : jointures, dates, IDs** (1 h)
+- **Module 8 — Communication et reporting Quarto** (1 h)
+
+Le cours devient « formation 8 heures » et couvre l'épine dorsale data
+science de bout en bout.
+
+**Coût** : ~2-3 h de rédaction par module + tests + intégration.
+**Bénéfice** : matériel qui forme vraiment des data scientists en santé.
+**Limite** : plus long à animer ; certains formats (atelier d'une
+journée) deviennent serrés.
+
+#### Option C — Réallouer dans les 6 heures (radical, ~2 h de travail)
+
+Compresser **Module 4 (tests d'hypothèses) à 45 min** et **Module 6 (ML)
+à 45 min**, ce qui libère 30 min × 2 = 1 heure pour un **Module 7
+condensé** combinant *données réelles* + *reporting* en une seule heure.
+
+**Coût** : ~2 h (refonte des modules existants + nouveau module).
+**Bénéfice** : tient en 6 h, couvre l'essentiel data science.
+**Limite** : Module 4 et 6 perdent en profondeur ; un Module 7 condensé
+sur deux sujets est forcément superficiel.
+
+### Recommandation
+
+**Option B est ma préférence pour du capacity-building DS sérieux.**
+Les six heures actuelles sont déjà denses ; vouloir ajouter du data
+engineering et du reporting dans la même enveloppe (Option C) sacrifie la
+qualité des modules existants. Mieux vaut assumer un format 8 h.
+
+Si la contrainte 6 h est non négociable (financement, format imposé par
+un bailleur), Option C est défendable. Option A est la solution la
+plus prudente.
+
+---
+
+## Nouveaux modules à concevoir si Option B ou C retenue
+
+### Module 7 — Données réelles : jointures, dates, IDs (~1 h)
+
+**Effort** : 2-3 h de rédaction + tests.
+
+**Objectifs pédagogiques (Bloom)** :
+- *Appliquer* `pd.merge` avec les quatre types de jointure (inner, left,
+  right, outer) sur des cas cliniques.
+- *Analyser* les implications d'une jointure (combien de lignes
+  perdues ? doublons créés ? IDs orphelins ?).
+- *Évaluer* la qualité d'une intégration multi-sources.
+
+**Contenu suggéré** :
+- Charger 3-4 fichiers hétérogènes (CSV, Excel, TSV).
+- `pd.merge` : inner / left / right / outer avec exemples cliniques.
+- Détection de duplicats post-merge (`df.duplicated`).
+- Parsing de dates en formats mixtes (`pd.to_datetime` avec
+  `format="mixed"`, `errors="coerce"`).
+- Standardisation d'IDs (strip, casefold, leading zeros, fuzzy matching
+  basique avec `rapidfuzz`).
+- Validation post-intégration : effectifs attendus, plages plausibles,
+  cohérence inter-fichier.
+- Cas pratique : reconstituer un dossier patient complet à partir de 3
+  sources (registre démographique + résultats labo + résultats imagerie).
+
+**Données suggérées** : créer un jeu pédagogique multi-fichier avec
+volontairement des incohérences (IDs avec espaces, dates JJ-MM vs
+MM-JJ, encodages différents).
+
+### Module 8 — Communication et reporting Quarto (~1 h)
+
+**Effort** : 2 h de rédaction.
+
+**Objectifs pédagogiques (Bloom)** :
+- *Comprendre* le modèle de reporting reproductible : un seul document
+  qui contient code + texte + sorties.
+- *Appliquer* Quarto pour produire un rapport PDF + HTML.
+- *Créer* un rapport paramétré qui peut être généré pour N régions /
+  périodes différentes.
+
+**Contenu suggéré** :
+- Pourquoi un rapport reproductible ? (versus PowerPoint copié-collé).
+- Syntaxe Quarto basique : YAML frontmatter, blocs de code exécutables,
+  texte Markdown.
+- Embarquer figures matplotlib/seaborn générées par le code.
+- Embarquer tableaux pandas formatés avec `pd.DataFrame.to_html()` /
+  Quarto `gt` ou similaire.
+- Paramétrage : variable `region` ou `annee` injectée depuis la ligne de
+  commande (`quarto render rapport.qmd -P region:Adamaoua`).
+- Exporter en PDF (LaTeX) et HTML (autonome).
+- Cas pratique : transformer l'analyse Module 6 (heart disease prediction)
+  en rapport de 3 pages pour un comité technique.
+
+**Bonus** : intro à Streamlit ou Quarto dashboards pour les cas où un
+rapport statique ne suffit pas.
+
+---
+
 ## Priorité haute — critique pour reconnaissance institutionnelle
 
 ### 1. Guide du formateur (`formateur.qmd`)
