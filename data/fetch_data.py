@@ -1,6 +1,6 @@
-"""Telecharge (ou rafraichit) les jeux de donnees utilises dans les modules.
+"""Télécharge (ou rafraîchit) les jeux de données utilisés dans les modules.
 
-A executer une seule fois, en local. En Colab, ce n'est pas necessaire :
+À exécuter une seule fois, en local. En Colab, ce n'est pas nécessaire :
 les notebooks tombent automatiquement sur l'URL si le cache local est absent.
 """
 
@@ -55,7 +55,7 @@ def main() -> int:
             ok += 1
         except Exception as exc:  # noqa: BLE001
             print(f"  ECHEC {name}: {exc}")
-    print(f"Termine. {ok}/{len(SOURCES)} jeux de donnees disponibles.")
+    print(f"Terminé. {ok}/{len(SOURCES)} jeux de données disponibles.")
     return 0 if ok == len(SOURCES) else 1
 
 
